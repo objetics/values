@@ -6,11 +6,8 @@
 package volgyerdo.information;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 import volgyerdo.commons.collection.CollectionUtils;
@@ -20,7 +17,7 @@ import volgyerdo.commons.primitive.ArrayUtils;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class SpectrumInformation3 {
+public class SpectrumInformation4 {
 
     public static double information(Object object) {
         byte[] array = ArrayUtils.toByteArray(object);
@@ -64,41 +61,28 @@ public class SpectrumInformation3 {
     }
 
     public static double information(List values) {
-        double minimumInfo = 0;
-        Set atomicSet = new HashSet<>(values);
+        if(values.size() <= 1){
+            return 0;
+        }
+        double minimumInfo = Double.POSITIVE_INFINITY;
         int N = values.size();
-        int n = atomicSet.size();
-        if (n > 1) {
-            for (int r = 1; r <= N / 2; r++) {
-                List<List> parts = CollectionUtils.breakApart(values, r);
-                Map<List, Double> p = new HashMap<>();
-                for(List part : parts){
-                    Double x = p.get(part);
-                    if(x == null){
-                        p.put(part, 1.0);
-                    } else{
-                        p.put(part, x + 1.0);
-                    }
-                }
-                for(Entry<List, Double> e : p.entrySet()){
-                    p.put(e.getKey(), e.getValue() / N);
-                }
-                double actualInfo = 0;
-                for(List part : parts){
-                    actualInfo -= Math.log(p.get(part)) / Math.log(2);
-                }
-                if(actualInfo == 0 && parts.size() > 0 && parts.get(0).size() > 0){
-                    actualInfo = information(parts.get(0));
-                }
-                if (minimumInfo == 0 || actualInfo < minimumInfo) {
-                    minimumInfo = actualInfo;
-                }
+        for (int r = 1; r <= N / 2; r++) {
+            List<List> parts = CollectionUtils.breakApart(values, r, false);
+            Set<List> range = new HashSet(parts);
+            double actualInfo = 0;
+            for (List element : range) {
+                actualInfo += ShannonInformation.information(element);
+            }
+            actualInfo += ShannonInformation.information(parts);
+            actualInfo *= values.size() / (double)(parts.size() * r);
+            if (actualInfo < minimumInfo) {
+                minimumInfo = actualInfo;
             }
         }
         return minimumInfo;
     }
 
-    private SpectrumInformation3() {
+    private SpectrumInformation4() {
     }
 
 }

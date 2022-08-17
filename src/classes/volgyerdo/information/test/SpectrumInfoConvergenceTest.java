@@ -8,8 +8,6 @@ package volgyerdo.information.test;
 import java.text.DecimalFormat;
 import volgyerdo.information.ShannonInformation;
 import volgyerdo.information.SpectrumInformation;
-import volgyerdo.information.SpectrumInformation1;
-import volgyerdo.information.SpectrumInformation2;
 
 /**
  *

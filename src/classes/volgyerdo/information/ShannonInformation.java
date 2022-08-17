@@ -5,6 +5,9 @@
  */
 package volgyerdo.information;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import volgyerdo.commons.primitive.ArrayUtils;
 
 /**
@@ -52,6 +55,24 @@ public class ShannonInformation {
 
     public static double information(String values) {
         return information(values.toCharArray());
+    }
+    
+    public static double information(Collection values) {
+        Map<Object, Integer> map = new HashMap<>();
+        for (Object x : values) {
+            Integer frequency = map.get(x);
+            if (frequency == null) {
+                map.put(x, 1);
+            } else {
+                map.put(x, frequency + 1);
+            }
+        }
+        double entropy = 0;
+        for (Object x : values) {
+            double frequency = ((double) map.get(x)) / values.size(); 
+            entropy -= Math.log(frequency) / Math.log(2);
+        }
+        return entropy;
     }
 
     private ShannonInformation() {

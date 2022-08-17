@@ -61,25 +61,27 @@ public class SpectrumInformation {
     }
 
     public static double information(List values) {
+        if (values.size() <= 1) {
+            return 0;
+        }
         double minimumInfo = 0;
         double absoluteMax = 0;
         Set atomicSet = new HashSet<>(values);
         int N = values.size();
         int n = atomicSet.size();
-        if (n > 1) {
-            double atomicInfo = ShannonEntropy.entropy(values);
-            absoluteMax = maxInformation(N, n, 1);
-            for (int r = 1; r <= N / 2; r++) {
-                List<List> parts = CollectionUtils.breakApart(values, r);
-                double maxInfo = maxInformation(N, n, r);
-                double actualInfo = ShannonEntropy.entropy(parts) * parts.size();
-                actualInfo = actualInfo / maxInfo * absoluteMax;
-                if (actualInfo == 0) {
-                    actualInfo = atomicInfo * r;
-                }
-                if (minimumInfo == 0 || actualInfo < minimumInfo) {
-                    minimumInfo = actualInfo;
-                }
+        double atomicInfo = ShannonEntropy.entropy(values);
+        absoluteMax = maxInformation(N, n, 1);
+        for (int r = 1; r <= N / 2; r++) {
+            List<List> parts = CollectionUtils.breakApart(values, r, false);
+            double maxInfo = maxInformation(N, n, r);
+            double actualInfo = ShannonEntropy.entropy(parts) * parts.size();
+            actualInfo = actualInfo / maxInfo * absoluteMax;
+            if (actualInfo == 0) {
+                actualInfo = atomicInfo * r;
+            }
+            actualInfo *= values.size() / (double) (parts.size() * r);
+            if (minimumInfo == 0 || actualInfo < minimumInfo) {
+                minimumInfo = actualInfo;
             }
         }
         return minimumInfo;
