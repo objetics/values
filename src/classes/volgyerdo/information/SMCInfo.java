@@ -14,10 +14,11 @@ import volgyerdo.commons.collection.CollectionUtils;
 import volgyerdo.commons.primitive.ArrayUtils;
 
 /**
- *
+ * Shannon Minimal Composition Information
+ * 
  * @author Volgyerdo Nonprofit Kft.
  */
-public class SpectrumInformation4 {
+public class SMCInfo {
 
     public static double information(Object object) {
         byte[] array = ArrayUtils.toByteArray(object);
@@ -71,9 +72,9 @@ public class SpectrumInformation4 {
             Set<List> range = new HashSet(parts);
             double actualInfo = 0;
             for (List element : range) {
-                actualInfo += ShannonInformation.information(element);
+                actualInfo += ShannonInfo.information(element);
             }
-            actualInfo += ShannonInformation.information(parts);
+            actualInfo += ShannonInfo.information(parts);
             actualInfo *= values.size() / (double)(parts.size() * r);
             if (actualInfo < minimumInfo) {
                 minimumInfo = actualInfo;
@@ -82,7 +83,7 @@ public class SpectrumInformation4 {
         return minimumInfo;
     }
 
-    private SpectrumInformation4() {
+    private SMCInfo() {
     }
 
 }

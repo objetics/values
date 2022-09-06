@@ -11,13 +11,13 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import javax.imageio.ImageIO;
 import volgyerdo.commons.primitive.PrimitiveUtils;
-import volgyerdo.information.ShannonInformation;
+import volgyerdo.information.ShannonInfo;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class SpectrumInfoPhotoTest {
+public class MultiscaleInfoPhotoTest {
 
     private static DecimalFormat format = new DecimalFormat("0");
     private static int r = 7;
@@ -30,7 +30,7 @@ public class SpectrumInfoPhotoTest {
 
     private static void coloredPhotoInfo(String image, String resultImage) {
         try {
-            BufferedImage source = ImageIO.read(new File(SpectrumInfoPhotoTest.class.getResource(image).getFile()));
+            BufferedImage source = ImageIO.read(new File(MultiscaleInfoPhotoTest.class.getResource(image).getFile()));
             BufferedImage result = new BufferedImage(source.getWidth(), source.getHeight(), BufferedImage.TYPE_INT_RGB);
             int[][] red = new int[r * 2][r * 2];
             int[][] green = new int[r * 2][r * 2];
@@ -45,9 +45,9 @@ public class SpectrumInfoPhotoTest {
                             blue[i + r][j + r] = (rgb) & 0x000000FF;
                         }
                     }
-                    int red1 = PrimitiveUtils.toInt((ShannonInformation.information(red) - 1538.) / maxInfo * 255.);
-                    int green1 = PrimitiveUtils.toInt((ShannonInformation.information(green) - 1538.) / maxInfo * 255.);
-                    int blue1 = PrimitiveUtils.toInt((ShannonInformation.information(blue) - 1538.) / maxInfo * 255.);
+                    int red1 = PrimitiveUtils.toInt((ShannonInfo.information(red) - 1538.) / maxInfo * 255.);
+                    int green1 = PrimitiveUtils.toInt((ShannonInfo.information(green) - 1538.) / maxInfo * 255.);
+                    int blue1 = PrimitiveUtils.toInt((ShannonInfo.information(blue) - 1538.) / maxInfo * 255.);
                     int rgb1 = (red1 << 16) | (green1 << 8) | blue1;
                     result.setRGB(x, y, rgb1);
                 }
@@ -62,7 +62,7 @@ public class SpectrumInfoPhotoTest {
         try {
             double min = Double.MAX_VALUE;
             double max = -Double.MAX_EXPONENT;
-            BufferedImage source = ImageIO.read(new File(SpectrumInfoPhotoTest.class.getResource(image).getFile()));
+            BufferedImage source = ImageIO.read(new File(MultiscaleInfoPhotoTest.class.getResource(image).getFile()));
             BufferedImage result = new BufferedImage(source.getWidth(), source.getHeight(), BufferedImage.TYPE_INT_RGB);
             int[][] gray = new int[r * 2][r * 2];
             for (int x = r; x < source.getWidth() - r; x++) {
@@ -76,7 +76,7 @@ public class SpectrumInfoPhotoTest {
                             gray[i + r][j + r] = (red + green + blue) / 3;
                         }
                     }
-                    double grayInfo = (ShannonInformation.information(gray) - 1538.) / maxInfo * 255.;
+                    double grayInfo = (ShannonInfo.information(gray) - 1538.) / maxInfo * 255.;
                     if (grayInfo < min) {
                         min = grayInfo;
                     }

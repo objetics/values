@@ -6,7 +6,7 @@
 package volgyerdo.information.test;
 
 import volgyerdo.commons.string.StringUtils;
-import volgyerdo.information.SpectrumInformation;
+import volgyerdo.information.SFSMInfo;
 
 /**
  *
@@ -19,9 +19,9 @@ public class CompareArrays {
         for (int i = 0; i < 10000; i++) {
             String X = StringUtils.randomString(100, "01");
             String Y = StringUtils.randomString(100, "01");
-            double xInfo = SpectrumInformation.information(X);
-            double yInfo = SpectrumInformation.information(Y);
-            double xyInfo = SpectrumInformation.information(X + Y);
+            double xInfo = SFSMInfo.information(X);
+            double yInfo = SFSMInfo.information(Y);
+            double xyInfo = SFSMInfo.information(X + Y);
             double diff = Math.abs((xInfo + yInfo) - xyInfo);
             if (diff < minDiff) {
                 minDiff = diff;

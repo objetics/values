@@ -14,7 +14,7 @@ import volgyerdo.commons.primitive.ArrayUtils;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class ShannonInformation {
+public class ShannonInfo {
 
     public static double information(Object object) {
         byte[] array = ArrayUtils.toByteArray(object);
@@ -75,7 +75,7 @@ public class ShannonInformation {
         return entropy;
     }
 
-    private ShannonInformation() {
+    private ShannonInfo() {
     }
 
 }

@@ -6,7 +6,7 @@
 package volgyerdo.information.test;
 
 import volgyerdo.information.ShannonEntropy;
-import volgyerdo.information.SpectrumInformation;
+import volgyerdo.information.SFSMInfo;
 
 /**
  *

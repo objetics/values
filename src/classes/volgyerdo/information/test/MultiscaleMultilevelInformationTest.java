@@ -6,15 +6,17 @@
 package volgyerdo.information.test;
 
 import java.text.DecimalFormat;
-import volgyerdo.information.SpectrumInformation;
+import volgyerdo.information.SMCInfo;
+import volgyerdo.information.SFSMInfo;
+import volgyerdo.information.ShannonInfo;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class SpectrumInformationMultilevelTest {
+public class MultiscaleMultilevelInformationTest {
 
-    private static DecimalFormat format = new DecimalFormat("0.0000");
+    private static DecimalFormat format = new DecimalFormat("0");
 
     public static void main(String[] args) {
 
@@ -29,7 +31,10 @@ public class SpectrumInformationMultilevelTest {
     }
 
     private static void information(String note, String value) {
-        System.out.println(note + ": " + format.format(SpectrumInformation.information(value)));
+        System.out.println(note 
+                + ": " + format.format(ShannonInfo.information(value))
+                + ", " + format.format(SFSMInfo.information(value))
+                + ", " + format.format(SMCInfo.information(value)));
     }
 
 }

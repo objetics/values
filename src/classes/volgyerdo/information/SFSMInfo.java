@@ -14,10 +14,11 @@ import volgyerdo.commons.collection.CollectionUtils;
 import volgyerdo.commons.primitive.ArrayUtils;
 
 /**
+ * Shannon Full Scale Minimum
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class SpectrumInformation {
+public class SFSMInfo {
 
     public static double information(Object object) {
         byte[] array = ArrayUtils.toByteArray(object);
@@ -67,15 +68,18 @@ public class SpectrumInformation {
         double minimumInfo = 0;
         double absoluteMax = 0;
         Set atomicSet = new HashSet<>(values);
-        int N = values.size();
         int n = atomicSet.size();
+        if (n == 1) {
+            return 0;
+        }
+        int N = values.size();
         double atomicInfo = ShannonEntropy.entropy(values);
         absoluteMax = maxInformation(N, n, 1);
         for (int r = 1; r <= N / 2; r++) {
             List<List> parts = CollectionUtils.breakApart(values, r, false);
             double maxInfo = maxInformation(N, n, r);
             double actualInfo = ShannonEntropy.entropy(parts) * parts.size();
-            actualInfo = actualInfo / maxInfo * absoluteMax;
+            actualInfo = maxInfo == 0 ? 0 : actualInfo / maxInfo * absoluteMax;
             if (actualInfo == 0) {
                 actualInfo = atomicInfo * r;
             }
@@ -95,7 +99,7 @@ public class SpectrumInformation {
         }
     }
 
-    private SpectrumInformation() {
+    private SFSMInfo() {
     }
 
 }

@@ -6,14 +6,14 @@
 package volgyerdo.information.test;
 
 import java.text.DecimalFormat;
-import volgyerdo.information.ShannonInformation;
-import volgyerdo.information.SpectrumInformation;
+import volgyerdo.information.ShannonInfo;
+import volgyerdo.information.SFSMInfo;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class SpectrumInfoTransformationTest {
+public class MultiscaleInfoTransformationTest {
 
     private static DecimalFormat format = new DecimalFormat("0");
 
@@ -79,17 +79,15 @@ public class SpectrumInfoTransformationTest {
     }
 
     private static void information(String note, String list) {
-        System.out.println(
-                note + ";"
-                + format.format(ShannonInformation.information(list)) + ";"
-                + format.format(SpectrumInformation.information(list)));
+        System.out.println(note + ";"
+                + format.format(ShannonInfo.information(list)) + ";"
+                + format.format(SFSMInfo.information(list)));
     }
     
     private static void information(String note, Object list) {
-        System.out.println(
-                note + ";"
-                + format.format(ShannonInformation.information(list)) + ";"
-                + format.format(SpectrumInformation.information(list)));
+        System.out.println(note + ";"
+                + format.format(ShannonInfo.information(list)) + ";"
+                + format.format(SFSMInfo.information(list)));
     }
 
 }

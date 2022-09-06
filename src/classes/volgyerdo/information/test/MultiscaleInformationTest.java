@@ -6,34 +6,37 @@
 package volgyerdo.information.test;
 
 import java.text.DecimalFormat;
-import volgyerdo.information.ShannonInformation;
-import volgyerdo.information.SpectrumInformation;
-import volgyerdo.information.SpectrumInformation4;
+import volgyerdo.commons.string.StringUtils;
+import volgyerdo.information.ShannonInfo;
+import volgyerdo.information.SFSMInfo;
+import volgyerdo.information.SMCInfo;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class SpectrumInformationTest {
+public class MultiscaleInformationTest {
 
     private static DecimalFormat format = new DecimalFormat("0");
 
     public static void main(String[] args) {
-        
+
         information("A", "1001");
         information("B", "1010");
 
+        information("Monotone string", "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+
         information("Random string", "111111000000111111000000111111000000");
         information("Random string", "101010101010101010101010101010101010");
-        
+
         information("Random string", "CGCACTAAATTCCAGCCGCCACGGGGCTAACAGCTAGGTGGCGACACGCACCCTGGTATAGAGGGGCATCAGGCGGACTAGTCTTTATCTAAGGATGTGGCGGACCGGGATAGGTTCGGGGCTCGACACATGTTATCCTCGCTACCGTGCAGGGGTAACCGAGCCGTTCATGATGTCCCGATCAGTCAGATATAGCGGACTCATGCCTCAGGCAGACGGGCTGTGAAATTTGGGATGGCGGAGCTCGCTCCAGGCGGTTTAAGAAGGCTCCCTCAAGTGGTAAGCTAGTGATACGGAGCCGGTAGAATGACCCCCGACAACCCGGGCATGCATTGGTCTTGTCTTTTATAACGATGCCCCCGGAGTCGCATCTTAATGAACTCTATTTTCCATCAAATATGCCTTACAAAATGGTATTTCCAAATGGCGTCAGACCGAAAGCGTTCCTCGCGTCCAACGATAGTTAGACACAGCTCTGTTTCAATAACGATTGGCACGCCGGGTGTAATTGAACAATCTCAGGCCACCGCTTAATAATAATAGACAGGTGTAGCCTTGGCGTGAGCATGTTCACATTCAAGGTTCGGTGTAGACGATTCTGGGGCACCAACCCTGAGGTGCGGGGTGTGCTGTACGGGTACTAACCCCTTCTATAATTTCCATGCTGGCGGGAGACTCAGTGCAGAGAACCATATGCGCCGATAGTAGGGGGTTTCGATAATCGAGAACCGTCAGTAACACTTATCGTTGGAGGTTTTAGTTAATGTGCCATGAGAGGCGGTCGACCGCCAGTCAGAGACTGCCAGCATCGCTACGTCGGAGACGATGGTAGGGGGGTTTGCCACGTGGAAGGTGACCGGTAGCTAGTCCTTCGCAAAACGTTGCGCAACCGCAACTTCGGGATATGAAACTGGCTGACAGAAGCCTACTCTCTTAGATCTGTCGATGGCGCCGCTATGGATCTCGTTCTTACCATTGCTCTAGATCCCCTGGTGCTCAG");
-        
+
         information("Random bits", "0010101111001001");
 
         information("Repetitive bits", "1010101010101010");
 
         information("Half equal bits", "1111111100000000");
-        
+
         information("One bits", "1111111111111111");
 
         information("Random DNS", "cagtttctagctatattagcgggcacgactccactgcgcctatgcggaagcttgatcaaattttgaccagatcttaggtaacctgaacaagtcagttcgtaggcgtcgattggccgacgggtgcgaagaaaaaagtgatcgttgtccaacatctctagtacccaccgttgtgatgtacgttatacggacacgagcatatt");
@@ -69,22 +72,19 @@ public class SpectrumInformationTest {
         information("Összes karakter x 3", "0123456789öüóqwertzuiopőúasdfghjkléáűíyxcvbnm,.-§'+!%/=()ÖÜÓQWERTZUIOPŐÚASDFGHJKLÉÁŰÍYXCVBNM?:_¬~>*÷×$ß¤łŁ|Ä¶ŧ–€Í0123456789öüóqwertzuiopőúasdfghjkléáűíyxcvbnm,.-§'+!%/=()ÖÜÓQWERTZUIOPŐÚASDFGHJKLÉÁŰÍYXCVBNM?:_¬~>*÷×$ß¤łŁ|Ä¶ŧ–€Í0123456789öüóqwertzuiopőúasdfghjkléáűíyxcvbnm,.-§'+!%/=()ÖÜÓQWERTZUIOPŐÚASDFGHJKLÉÁŰÍYXCVBNM?:_¬~>*÷×$ß¤łŁ|Ä¶ŧ–€Í");
 
         information("1-9 x 3", "123456789123456789123456789");
-        
+
         information("A", "123456789123456789123456789");
-        
+
         information("B", "223456789123456789123456789");
-        
+
         information("1", "1");
     }
 
     private static void information(String note, String value) {
-        System.out.println(note + "[" + value.length() + "]:    " 
-                + format.format(SpectrumInformation.information(value))+ " - " 
-                + format.format(SpectrumInformation4.information(value))+ " (max: " +
-                format.format(ShannonInformation.information(value))+ ")" 
-//                + format.format(SpectrumInformation1.information(value))+ ";" 
-//                + format.format(SpectrumInformation2.information(value))
-        );
+        System.out.println(note + "[" + value.length() + "]: [" + StringUtils.maximizeString(value, 200, true) + "]\n"
+                + "    Shannon: " + format.format(ShannonInfo.information(value)) + "\n"
+                + "    SFSM: " + format.format(SFSMInfo.information(value)) + "\n"
+                + "    SMC: " + format.format(SMCInfo.information(value)) + "\n");
     }
 
 }
