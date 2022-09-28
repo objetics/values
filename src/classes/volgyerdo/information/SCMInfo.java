@@ -14,11 +14,11 @@ import volgyerdo.commons.collection.CollectionUtils;
 import volgyerdo.commons.primitive.ArrayUtils;
 
 /**
- * Shannon Minimal Composition Information
- * 
+ * Shannon Composition Minimum Information
+ *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class SMCInfo {
+public class SCMInfo {
 
     public static double information(Object object) {
         byte[] array = ArrayUtils.toByteArray(object);
@@ -62,20 +62,27 @@ public class SMCInfo {
     }
 
     public static double information(List values) {
-        if(values.size() <= 1){
+        if (values.size() <= 1) {
+            return 0;
+        }
+        Set atomicSet = new HashSet<>(values);
+        int K = atomicSet.size();
+        if (K == 1) {
             return 0;
         }
         double minimumInfo = Double.POSITIVE_INFINITY;
         int N = values.size();
+        double absoluteMax = maxInformation(N, K, 1);
         for (int r = 1; r <= N / 2; r++) {
             List<List> parts = CollectionUtils.breakApart(values, r, false);
+            double maxInfo = maxInformation(N, K, r);
             Set<List> range = new HashSet(parts);
             double actualInfo = 0;
             for (List element : range) {
                 actualInfo += ShannonInfo.information(element);
             }
             actualInfo += ShannonInfo.information(parts);
-            actualInfo *= values.size() / (double)(parts.size() * r);
+            actualInfo = maxInfo == 0 ? 0 : actualInfo / maxInfo * absoluteMax;
             if (actualInfo < minimumInfo) {
                 minimumInfo = actualInfo;
             }
@@ -83,7 +90,13 @@ public class SMCInfo {
         return minimumInfo;
     }
 
-    private SMCInfo() {
+    private static double maxInformation(int N, int K, int r) {
+        int m = N / r;
+        return m * (r * Math.log(Math.min(r, K)) / Math.log(2) 
+                + Math.log(Math.min(m, Math.pow(K, r)))/Math.log(2));
+    }
+
+    private SCMInfo() {
     }
 
 }

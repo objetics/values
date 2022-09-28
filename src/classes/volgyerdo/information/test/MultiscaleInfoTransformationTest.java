@@ -7,7 +7,7 @@ package volgyerdo.information.test;
 
 import java.text.DecimalFormat;
 import volgyerdo.information.ShannonInfo;
-import volgyerdo.information.SFSMInfo;
+import volgyerdo.information.SSMInfo;
 
 /**
  *
@@ -81,13 +81,13 @@ public class MultiscaleInfoTransformationTest {
     private static void information(String note, String list) {
         System.out.println(note + ";"
                 + format.format(ShannonInfo.information(list)) + ";"
-                + format.format(SFSMInfo.information(list)));
+                + format.format(SSMInfo.information(list)));
     }
     
     private static void information(String note, Object list) {
         System.out.println(note + ";"
                 + format.format(ShannonInfo.information(list)) + ";"
-                + format.format(SFSMInfo.information(list)));
+                + format.format(SSMInfo.information(list)));
     }
 
 }

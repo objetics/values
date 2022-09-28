@@ -9,8 +9,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import volgyerdo.commons.string.StringUtils;
-import volgyerdo.information.SMCInfo;
-import volgyerdo.information.SFSMInfo;
+import volgyerdo.information.SCMInfo;
+import volgyerdo.information.SSMInfo;
 import volgyerdo.information.ShannonInfo;
 
 /**
@@ -228,17 +228,17 @@ public class InfoDecompositionTest {
         double separateSMInfo = 0;
         double separateSHMInfo = 0;
         for (String x : X) {
-            System.out.println(x + " > " + format.format(SMCInfo.information(x)));
+            System.out.println(x + " > " + format.format(SCMInfo.information(x)));
             separateShannonInfo += ShannonInfo.information(x);
-            separateSMInfo += SFSMInfo.information(x);
-            separateSHMInfo += SMCInfo.information(x);
+            separateSMInfo += SSMInfo.information(x);
+            separateSHMInfo += SCMInfo.information(x);
         }
 
         System.out.println(concatenatedX);
 
         double concatenatedShannonInfo = ShannonInfo.information(concatenatedX);
-        double concatenatedSMInfo = SFSMInfo.information(concatenatedX);
-        double concatenatedSHMInfo = SMCInfo.information(concatenatedX);
+        double concatenatedSMInfo = SSMInfo.information(concatenatedX);
+        double concatenatedSHMInfo = SCMInfo.information(concatenatedX);
 
         System.out.println();
         System.out.println(message + ":");

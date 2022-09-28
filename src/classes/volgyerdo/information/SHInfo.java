@@ -6,19 +6,17 @@
 package volgyerdo.information;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import volgyerdo.commons.collection.CollectionUtils;
 import volgyerdo.commons.primitive.ArrayUtils;
 
 /**
- * Shannon Full Scale Minimum
+ * Shannon Hierarchy Information
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class SFSMInfo {
+public class SHInfo {
 
     public static double information(Object object) {
         byte[] array = ArrayUtils.toByteArray(object);
@@ -65,41 +63,15 @@ public class SFSMInfo {
         if (values.size() <= 1) {
             return 0;
         }
-        double minimumInfo = 0;
-        double absoluteMax = 0;
-        Set atomicSet = new HashSet<>(values);
-        int n = atomicSet.size();
-        if (n == 1) {
-            return 0;
-        }
         int N = values.size();
-        double atomicInfo = ShannonEntropy.entropy(values);
-        absoluteMax = maxInformation(N, n, 1);
-        for (int r = 1; r <= N / 2; r++) {
-            List<List> parts = CollectionUtils.breakApart(values, r, false);
-            double maxInfo = maxInformation(N, n, r);
-            double actualInfo = ShannonEntropy.entropy(parts) * parts.size();
-            actualInfo = maxInfo == 0 ? 0 : actualInfo / maxInfo * absoluteMax;
-            if (actualInfo == 0) {
-                actualInfo = atomicInfo * r;
-            }
-            actualInfo *= values.size() / (double) (parts.size() * r);
-            if (minimumInfo == 0 || actualInfo < minimumInfo) {
-                minimumInfo = actualInfo;
-            }
-        }
-        return minimumInfo;
+        int r = N / 2;
+        List<List> parts = CollectionUtils.breakApart(values, r, false);
+        double info = ShannonInfo.information(parts) + information(parts.get(0)) + information(parts.get(1));
+//        info *= values.size() / (double) (parts.size() * r);
+        return info;
     }
 
-    private static double maxInformation(int N, int n, int r) {
-        if (Math.pow(n, r) <= N / r) {
-            return N * Math.log(n) / Math.log(2);
-        } else {
-            return (N / r) * Math.log(N / r) / Math.log(2);
-        }
-    }
-
-    private SFSMInfo() {
+    private SHInfo() {
     }
 
 }
