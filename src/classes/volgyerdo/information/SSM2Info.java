@@ -18,7 +18,7 @@ import volgyerdo.commons.primitive.ArrayUtils;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class SSMInfo {
+public class SSM2Info {
 
     public static double information(Object object) {
         byte[] array = ArrayUtils.toByteArray(object);
@@ -70,7 +70,7 @@ public class SSMInfo {
         Set atomicSet = new HashSet<>(values);
         int K = atomicSet.size();
         if (K == 1) {
-            return 0;
+            return Math.log(values.size()) / Math.log(2);
         }
         int N = values.size();
         double atomicInfo = ShannonEntropy.entropy(values);
@@ -82,7 +82,7 @@ public class SSMInfo {
             double actualInfo = ShannonInfo.information(parts);
             actualInfo = maxInfo == 0 ? 0 : actualInfo / maxInfo * absoluteMax;
             if (actualInfo == 0) {
-                actualInfo = atomicInfo * r;
+                actualInfo = atomicInfo * r + Math.log(values.size() / r) / Math.log(2);
             }
             if (minimumInfo == 0 || actualInfo < minimumInfo) {
                 minimumInfo = actualInfo;
@@ -100,7 +100,7 @@ public class SSMInfo {
         }
     }
 
-    private SSMInfo() {
+    private SSM2Info() {
     }
 
 }
