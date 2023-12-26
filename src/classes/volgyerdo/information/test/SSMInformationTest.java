@@ -8,7 +8,7 @@ package volgyerdo.information.test;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import volgyerdo.information.MaxInfo;
-import volgyerdo.information.SSMInfo;
+import volgyerdo.information.SSM1Info;
 import volgyerdo.information.ShannonInfo;
 
 /**
@@ -21,13 +21,15 @@ public class SSMInformationTest {
 
     public static void main(String[] args) throws IOException {
 
-        information("X_0", "000000000000000000000000000000000000000000000000");
-        
-        information("X_A", "001101101010111001110010001001000100001000010000");
+        information("X_X", "CTA");
 
-        information("X_B", "101010101010101010101010101010101010101010101010");
-
-        information("X_C", "111111110000000011111111000000001111111100000000");
+//        information("X_0", "000000000000000000000000000000000000000000000000");
+//        
+//        information("X_A", "001101101010111001110010001001000100001000010000");
+//
+//        information("X_B", "101010101010101010101010101010101010101010101010");
+//
+//        information("X_C", "111111110000000011111111000000001111111100000000");
 //
 //        information("X_D", "The sky is blue. The sky is blue. The sky is blue. The sky is blue. The sky is blue. The sky is blue.");
 //
@@ -60,16 +62,13 @@ public class SSMInformationTest {
 //                "/media/Kutatás/Információmérés/Publikációk/Mintázatok/ECG signal.dat").toPath()));
 //
 //        information("X_L", "ABCDFIEDBBAAAABEHJJGEEDBDGMSPLHFBACFKMRPLGDCABDGJMMHHEBBBFHIJNJGFDBFKQPMKFEBDOXTNKFDBDMUUSNKJHGDCAABCFGGHGEBBAAAABCFHGEDCAAABCFHKKKHEBBHRVPNJFDBCGJPTQLLJGDBAEJQQNKHIFCBFLVRPKGCBBAAEIJJJIDCBABFLNMJGEEBBAADGJIJHGCAAABHIQMJFECACGJKMKFDBABFMRQNKHECBFOTRRLJEBAFSZYUOHEDBCGMNNNIJFECBDMUUSPIFBBDLTRSMHECBCIMQPPJGECBAACHHIKGDCAAAC");
-
 //        information("X_M", Files.readAllBytes(new File(
 //                "/media/Kutatás/Információmérés/Publikációk/Mintázatok/Seismogram.dat").toPath()));
-
 //        information("X_N", Files.readAllBytes(new File(
 //                "/media/Kutatás/Információmérés/Publikációk/Mintázatok/Speech.wav").toPath()));
 //
 //        information("X_O", Files.readAllBytes(new File(
 //                "/media/Kutatás/Információmérés/Publikációk/Mintázatok/lena.raw").toPath()));
-
     }
 
     private static void information(String note, byte[] value) {
@@ -83,16 +82,18 @@ public class SSMInformationTest {
 
     private static void information(String note, String value) {
         double is = ShannonInfo.information(value);
-        double ssm = SSMInfo.information(value);
+        double ssm = SSM1Info.information(value);
         double max = MaxInfo.information(value);
         System.out.println(note + ";"
-                + format.format(value.length()) + ";"
-                + format.format(max) + ";"
-                + format.format(is) + ";"
-                + format.format(is/max*100) + ";"
-                + format.format(ssm) + ";"
-                + format.format(ssm/max*100)
-        );
+                + format.format(ssm));
+//        System.out.println(note + ";"
+//                + format.format(value.length()) + ";"
+//                + format.format(max) + ";"
+//                + format.format(is) + ";"
+//                + format.format(is / max * 100) + ";"
+//                + format.format(ssm) + ";"
+//                + format.format(ssm / max * 100)
+//        );
     }
 
 }

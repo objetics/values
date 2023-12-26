@@ -18,7 +18,7 @@ import volgyerdo.commons.primitive.ArrayUtils;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class SSM2Info {
+public class SSM1Info {
 
     public static double information(Object object) {
         byte[] array = ArrayUtils.toByteArray(object);
@@ -100,7 +100,7 @@ public class SSM2Info {
         }
     }
 
-    private SSM2Info() {
+    private SSM1Info() {
     }
 
 }
