@@ -11,11 +11,13 @@ package volgyerdo.information;
  */
 import java.util.PriorityQueue;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class HuffmanInfo {
+public class HuffmanInfo implements Info{
 
-    public static long information(String text) {
+    @Override
+    public double info(String text) {
         if (text == null || text.length() < 1) {
             return 0;
         }
@@ -29,7 +31,7 @@ public class HuffmanInfo {
         return info;
     }
 
-    private static void buildCodeTable(Map<Character, Integer> codeTable, Node node, StringBuilder sb) {
+    private void buildCodeTable(Map<Character, Integer> codeTable, Node node, StringBuilder sb) {
         if (node != null) {
             if (node.left == null && node.right == null) {
                 codeTable.put(node.ch, sb.length());
@@ -44,7 +46,7 @@ public class HuffmanInfo {
         }
     }
 
-    private static Node buildHuffmanTree(String text) {
+    private  Node buildHuffmanTree(String text) {
         Map<Character, Integer> freq = new HashMap<>();
         for (char ch : text.toCharArray()) {
             freq.put(ch, freq.getOrDefault(ch, 0) + 1);
@@ -70,7 +72,57 @@ public class HuffmanInfo {
         return pq.poll();
     }
 
-    private static class Node {
+    @Override
+    public double info(Object object) {
+        return 0;
+    }
+
+    @Override
+    public double info(boolean[] values) {
+        return 0;
+    }
+
+    @Override
+    public double info(byte[] values) {
+        return 0;
+    }
+
+    @Override
+    public double info(short[] values) {
+        return 0;
+    }
+
+    @Override
+    public double info(int[] values) {
+        return 0;
+    }
+
+    @Override
+    public double info(float[] values) {
+        return 0;
+    }
+
+    @Override
+    public double info(double[] values) {
+        return 0;
+    }
+
+    @Override
+    public double info(char[] values) {
+        return 0;
+    }
+
+    @Override
+    public double info(String[] values) {
+        return 0;
+    }
+
+    @Override
+    public double info(List values) {
+        return 0;
+    }
+
+    private  class Node {
 
         char ch;
         int frequency;
@@ -89,9 +141,10 @@ public class HuffmanInfo {
         }
     }
 
-    public static void main(String[] args) {
+    public  static void main(String[] args) {
+        HuffmanInfo huffman = new HuffmanInfo();
         String text = "Igen, a Huffman-kódolás különlegessége, hogy optimális a változó hosszúságú kódok szempontjából, amikor számos különböző karakter van jelen a szövegben. Azonban, ha a szöveg csak egyetlen karaktert tartalmaz, akkor a Huffman-kódolás nem fogja csökkenteni a kódolt szöveg méretét.";
-        long info = information(text);
+        long info = (long)huffman.info(text);
         System.out.println("Original: " + text.length() + " * " + 8 + " = " + (text.length() * 8));
         System.out.println("Encoded: " + info);
     }

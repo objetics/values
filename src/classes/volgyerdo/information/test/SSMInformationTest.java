@@ -7,6 +7,7 @@ package volgyerdo.information.test;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import volgyerdo.information.Info;
 import volgyerdo.information.MaxInfo;
 import volgyerdo.information.SSM1Info;
 import volgyerdo.information.ShannonInfo;
@@ -18,6 +19,10 @@ import volgyerdo.information.ShannonInfo;
 public class SSMInformationTest {
 
     private static DecimalFormat format = new DecimalFormat("0");
+    
+    private static ShannonInfo shannon = new ShannonInfo();
+    
+    private static Info maxInfo = new MaxInfo();
 
     public static void main(String[] args) throws IOException {
 
@@ -81,9 +86,11 @@ public class SSMInformationTest {
     }
 
     private static void information(String note, String value) {
-        double is = ShannonInfo.information(value);
-        double ssm = SSM1Info.information(value);
-        double max = MaxInfo.information(value);
+        Info SSM = new SSM1Info();
+        
+        double is = shannon.info(value);
+        double ssm = SSM.info(value);
+        double max = maxInfo.info(value);
         System.out.println(note + ";"
                 + format.format(ssm));
 //        System.out.println(note + ";"

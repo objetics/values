@@ -5,7 +5,8 @@
  */
 package volgyerdo.information.test;
 
-import volgyerdo.information.CompressionInformation;
+import volgyerdo.information.CompressionInfo;
+import volgyerdo.information.Info;
 import volgyerdo.information.SSMInfo;
 
 /**
@@ -13,40 +14,44 @@ import volgyerdo.information.SSMInfo;
  * @author Volgyerdo Nonprofit Kft.
  */
 public class InformationTest {
+    
+    private static Info SSM = new SSMInfo();
+    
+    private static Info compression = new CompressionInfo();
 
     public static void main(String[] args) {
         String s;
         
         s = "abcdefghijklmnop";
-        System.out.println(s + " (Shannon): " + SSMInfo.information(s));
-        System.out.println(s + " (Compression): " + CompressionInformation.information(s));
+        System.out.println(s + " (Shannon): " + SSM.info(s));
+        System.out.println(s + " (Compression): " + compression.info(s));
         
         s = "Hello, World!";
-        System.out.println(s + " (Shannon): " + SSMInfo.information(s));
-        System.out.println(s + " (Compression): " + CompressionInformation.information(s));
+        System.out.println(s + " (Shannon): " + SSM.info(s));
+        System.out.println(s + " (Compression): " + compression.info(s));
         
         s = "hello world";
-        System.out.println(s + " (Shannon): " + SSMInfo.information(s));
-        System.out.println(s + " (Compression): " + CompressionInformation.information(s));
+        System.out.println(s + " (Shannon): " + SSM.info(s));
+        System.out.println(s + " (Compression): " + compression.info(s));
         
         s = "123123123123";
-        System.out.println(s + " (Shannon): " + SSMInfo.information(s));
-        System.out.println(s + " (Compression): " + CompressionInformation.information(s));
+        System.out.println(s + " (Shannon): " + SSM.info(s));
+        System.out.println(s + " (Compression): " + compression.info(s));
         
         s = "aaaa";
-        System.out.println(s + " (Shannon): " + SSMInfo.information(s));
-        System.out.println(s + " (Compression): " + CompressionInformation.information(s));
+        System.out.println(s + " (Shannon): " + SSM.info(s));
+        System.out.println(s + " (Compression): " + compression.info(s));
         
         s = "vdsf4gfdbőhfdtzurődbhsdh678nméáüő20ac,áűüöoghgt4328öójgbewfdsa";
-        System.out.println(s + " (Shannon): " + SSMInfo.information(s));
-        System.out.println(s + " (Compression): " + CompressionInformation.information(s));
+        System.out.println(s + " (Shannon): " + SSM.info(s));
+        System.out.println(s + " (Compression): " + compression.info(s));
         
         String[] array = new String[]{"vdsf4", "gfdbőh", "fdt", "zurő", "dbhsdh6", "78nméáüő20", "ac,áűüöog", "hgt43", "28", "öójg", "bewfdsa"};
         double sInfo = 0;
         double cInfo = 0;
         for(String str : array){
-            sInfo += SSMInfo.information(str);
-            cInfo += CompressionInformation.information(str);
+            sInfo += SSM.info(str);
+            cInfo += compression.info(str);
         }
         System.out.println("Array1" + " (Shannon): " + sInfo);
         System.out.println("Array2" + " (Compression): " + cInfo);
@@ -56,28 +61,28 @@ public class InformationTest {
         for(int i = 0; i < s.length(); i++){
             str = str + String.format("%8s", Integer.toBinaryString(s.charAt(i) & 0xFF)).replace(' ', '0');
         }
-        System.out.println(str + " (Shannon): " + SSMInfo.information(str));
-        System.out.println(str + " (Compression): " + CompressionInformation.information(str));
+        System.out.println(str + " (Shannon): " + SSM.info(str));
+        System.out.println(str + " (Compression): " + compression.info(str));
         
         s = "ababababababababababababababababababababababababababababababab";
-        System.out.println(s + " (Shannon): " + SSMInfo.information(s));
-        System.out.println(s + " (Compression): " + CompressionInformation.information(s));
+        System.out.println(s + " (Shannon): " + SSM.info(s));
+        System.out.println(s + " (Compression): " + compression.info(s));
         
         s = "11111111111111111111111000000000000000000000000000000000000000";
-        System.out.println(s + " (Shannon): " + SSMInfo.information(s));
-        System.out.println(s + " (Compression): " + CompressionInformation.information(s));
+        System.out.println(s + " (Shannon): " + SSM.info(s));
+        System.out.println(s + " (Compression): " + compression.info(s));
         
         s = "znTEcarbCXUll8O7vQwiTP5kdGM6bYDWmQK7ze40i9cbglnI6KIgsOM4Bndmsp";
-        System.out.println(s + " (Shannon): " + SSMInfo.information(s));
-        System.out.println(s + " (Compression): " + CompressionInformation.information(s));
+        System.out.println(s + " (Shannon): " + SSM.info(s));
+        System.out.println(s + " (Compression): " + compression.info(s));
         
         s = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-        System.out.println(s + " (Shannon): " + SSMInfo.information(s));
-        System.out.println(s + " (Compression): " + CompressionInformation.information(s));
+        System.out.println(s + " (Shannon): " + SSM.info(s));
+        System.out.println(s + " (Compression): " + compression.info(s));
         
         s = "Répa, retek mogyoró, korán reggel ritkán rikkant a rigó!";
-        System.out.println(s + " (Shannon): " + SSMInfo.information(s));
-        System.out.println(s + " (Compression): " + CompressionInformation.information(s));
+        System.out.println(s + " (Shannon): " + SSM.info(s));
+        System.out.println(s + " (Compression): " + compression.info(s));
         
         s = "In the near-equilibrium regime, with the input of B maintained at a reduced level, the\n" +
 "homogeneous steady state condition is stable. Equations i) and iv) predominate such that A →\n" +
@@ -151,8 +156,8 @@ public class InformationTest {
 "b). The transition from conduction to convection is marked by increased thermal dissipation.\n" +
 "Hence, in this particular example the change from one mode to the other is itself governed by the\n" +
 "dispersion principle.";
-        System.out.println("Log English text" + " (Shannon): " + SSMInfo.information(s));
-        System.out.println("Log English text" + " (Compression): " + CompressionInformation.information(s));
+        System.out.println("Log English text" + " (Shannon): " + SSM.info(s));
+        System.out.println("Log English text" + " (Compression): " + compression.info(s));
         
     }
 

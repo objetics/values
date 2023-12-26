@@ -22,6 +22,8 @@ public class MultiscaleInfoPhotoTest {
     private static DecimalFormat format = new DecimalFormat("0");
     private static int r = 7;
     private static int maxInfo = (2 * r - 1) * (2 * r - 1) * 8;
+    
+    private static ShannonInfo shannon = new ShannonInfo();
 
     public static void main(String[] args) {
         coloredPhotoInfo("map.jpg", "map-info.jpg");
@@ -45,9 +47,9 @@ public class MultiscaleInfoPhotoTest {
                             blue[i + r][j + r] = (rgb) & 0x000000FF;
                         }
                     }
-                    int red1 = PrimitiveUtils.toInt((ShannonInfo.information(red) - 1538.) / maxInfo * 255.);
-                    int green1 = PrimitiveUtils.toInt((ShannonInfo.information(green) - 1538.) / maxInfo * 255.);
-                    int blue1 = PrimitiveUtils.toInt((ShannonInfo.information(blue) - 1538.) / maxInfo * 255.);
+                    int red1 = PrimitiveUtils.toInt((shannon.info(red) - 1538.) / maxInfo * 255.);
+                    int green1 = PrimitiveUtils.toInt((shannon.info(green) - 1538.) / maxInfo * 255.);
+                    int blue1 = PrimitiveUtils.toInt((shannon.info(blue) - 1538.) / maxInfo * 255.);
                     int rgb1 = (red1 << 16) | (green1 << 8) | blue1;
                     result.setRGB(x, y, rgb1);
                 }
@@ -76,7 +78,7 @@ public class MultiscaleInfoPhotoTest {
                             gray[i + r][j + r] = (red + green + blue) / 3;
                         }
                     }
-                    double grayInfo = (ShannonInfo.information(gray) - 1538.) / maxInfo * 255.;
+                    double grayInfo = (shannon.info(gray) - 1538.) / maxInfo * 255.;
                     if (grayInfo < min) {
                         min = grayInfo;
                     }

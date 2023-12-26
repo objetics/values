@@ -6,6 +6,7 @@
 package volgyerdo.information.test;
 
 import java.text.DecimalFormat;
+import volgyerdo.information.Info;
 import volgyerdo.information.ShannonInfo;
 import volgyerdo.information.SSMInfo;
 
@@ -16,6 +17,10 @@ import volgyerdo.information.SSMInfo;
 public class MultiscaleInfoConvergenceTest1 {
 
     private static DecimalFormat format = new DecimalFormat("0");
+    
+    private static ShannonInfo shannon = new ShannonInfo();
+    
+    private static Info SSM = new SSMInfo();
 
     public static void main(String[] args) {
 
@@ -57,8 +62,8 @@ public class MultiscaleInfoConvergenceTest1 {
     }
 
     private static void information(String value) {
-        System.out.println(format.format(ShannonInfo.information(value)) + ";"
-                + format.format(SSMInfo.information(value)) 
+        System.out.println(format.format(shannon.info(value)) + ";"
+                + format.format(SSM.info(value)) 
 //                        + ";"
 //                + format.format(SpectrumInformation1.information(value)) + ";"
 //                + format.format(SpectrumInformation2.information(value))

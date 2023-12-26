@@ -6,6 +6,7 @@
 package volgyerdo.information.test;
 
 import java.text.DecimalFormat;
+import volgyerdo.information.Info;
 import volgyerdo.information.SCMInfo;
 import volgyerdo.information.SSMInfo;
 import volgyerdo.information.ShannonInfo;
@@ -17,6 +18,12 @@ import volgyerdo.information.ShannonInfo;
 public class MultiscaleMultilevelInformationTest {
 
     private static DecimalFormat format = new DecimalFormat("0");
+    
+    private static ShannonInfo shannon = new ShannonInfo();
+    
+    private static Info SSM = new SSMInfo();
+    
+    private static SCMInfo SCM = new SCMInfo();
 
     public static void main(String[] args) {
 
@@ -32,9 +39,9 @@ public class MultiscaleMultilevelInformationTest {
 
     private static void information(String note, String value) {
         System.out.println(note 
-                + ": " + format.format(ShannonInfo.information(value))
-                + ", " + format.format(SSMInfo.information(value))
-                + ", " + format.format(SCMInfo.information(value)));
+                + ": " + format.format(shannon.info(value))
+                + ", " + format.format(SSM.info(value))
+                + ", " + format.format(SCM.info(value)));
     }
 
 }

@@ -7,6 +7,7 @@ package volgyerdo.information;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import volgyerdo.commons.collection.CollectionUtils;
 import volgyerdo.commons.primitive.ArrayUtils;
@@ -15,50 +16,55 @@ import volgyerdo.commons.primitive.ArrayUtils;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class ShannonInfo1 {
+public class ShannonInfo1 implements Info {
 
-    public static double information(Object object) {
+    public double info(Object object) {
         byte[] array = ArrayUtils.toByteArray(object);
         return Math.ceil(ShannonEntropy.entropy(array) * array.length);
     }
-    
-    public static double information(boolean[] values) {
-        return Math.ceil(ShannonEntropy.entropy(values) * values.length);
-    }
-    
-    public static double information(byte[] values) {
+
+    public double info(boolean[] values) {
         return Math.ceil(ShannonEntropy.entropy(values) * values.length);
     }
 
-    public static double information(short[] values) {
+    public double info(byte[] values) {
         return Math.ceil(ShannonEntropy.entropy(values) * values.length);
     }
 
-    public static double information(int[] values) {
+    public double info(short[] values) {
         return Math.ceil(ShannonEntropy.entropy(values) * values.length);
     }
 
-    public static double information(float[] values) {
+    public double info(int[] values) {
         return Math.ceil(ShannonEntropy.entropy(values) * values.length);
     }
 
-    public static double information(double[] values) {
+    public double info(float[] values) {
         return Math.ceil(ShannonEntropy.entropy(values) * values.length);
     }
 
-    public static double information(char[] values) {
+    public double info(double[] values) {
         return Math.ceil(ShannonEntropy.entropy(values) * values.length);
     }
 
-    public static double information(String[] values) {
+    public double info(char[] values) {
         return Math.ceil(ShannonEntropy.entropy(values) * values.length);
     }
 
-    public static double information(String values) {
-        return information(CollectionUtils.convertStringToCharList(values));
+    public double info(String[] values) {
+        return Math.ceil(ShannonEntropy.entropy(values) * values.length);
     }
-    
-    public static double information(Collection values) {
+
+    public double info(String values) {
+        return info(CollectionUtils.convertStringToCharList(values));
+    }
+
+    @Override
+    public double info(List values) {
+        return 0;
+    }
+
+    public double info(Collection values) {
         Map<Object, Integer> map = new HashMap<>();
         for (Object x : values) {
             Integer frequency = map.get(x);
@@ -68,18 +74,15 @@ public class ShannonInfo1 {
                 map.put(x, frequency + 1);
             }
         }
-        if(map.size() == 1){
+        if (map.size() == 1) {
             return Math.ceil(Math.log(values.size()) / Math.log(2));
         }
-        double information = 0;
+        double info = 0;
         for (Object x : values) {
-            double frequency = ((double) map.get(x)) / values.size(); 
-            information -= Math.log(frequency) / Math.log(2);
+            double frequency = ((double) map.get(x)) / values.size();
+            info -= Math.log(frequency) / Math.log(2);
         }
-        return Math.ceil(information);
-    }
-
-    private ShannonInfo1() {
+        return Math.ceil(info);
     }
 
 }

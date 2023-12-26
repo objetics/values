@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import volgyerdo.commons.string.StringUtils;
+import volgyerdo.information.Info;
 import volgyerdo.information.SCMInfo;
 import volgyerdo.information.SSMInfo;
 import volgyerdo.information.ShannonInfo;
@@ -20,6 +21,10 @@ import volgyerdo.information.ShannonInfo;
 public class InfoDecompositionTest {
 
     private static DecimalFormat format = new DecimalFormat("0");
+    
+    private static ShannonInfo shannon = new ShannonInfo();
+    
+    private static SCMInfo SCM = new SCMInfo();
 
     public static void main(String[] args) {
 
@@ -227,18 +232,19 @@ public class InfoDecompositionTest {
         double separateShannonInfo = 0;
         double separateSMInfo = 0;
         double separateSHMInfo = 0;
+        Info SSM = new SSMInfo();
         for (String x : X) {
-            System.out.println(x + " > " + format.format(SCMInfo.information(x)));
-            separateShannonInfo += ShannonInfo.information(x);
-            separateSMInfo += SSMInfo.information(x);
-            separateSHMInfo += SCMInfo.information(x);
+            System.out.println(x + " > " + format.format(SCM.info(x)));
+            separateShannonInfo += shannon.info(x);
+            separateSMInfo += SSM.info(x);
+            separateSHMInfo += SCM.info(x);
         }
 
         System.out.println(concatenatedX);
 
-        double concatenatedShannonInfo = ShannonInfo.information(concatenatedX);
-        double concatenatedSMInfo = SSMInfo.information(concatenatedX);
-        double concatenatedSHMInfo = SCMInfo.information(concatenatedX);
+        double concatenatedShannonInfo = shannon.info(concatenatedX);
+        double concatenatedSMInfo = SSM.info(concatenatedX);
+        double concatenatedSHMInfo = SCM.info(concatenatedX);
 
         System.out.println();
         System.out.println(message + ":");

@@ -5,13 +5,18 @@
  */
 package volgyerdo.information;
 
+import java.util.List;
+
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class RunLength {
+public class RunLengthInfo implements Info{
+    
+    private final ShannonInfo shannon = new ShannonInfo();
 
-    public static double information(String input) {
+    @Override
+    public  double info(String input) {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (int i = 0; i < input.length(); i++) {
@@ -42,15 +47,66 @@ public class RunLength {
             }
         }
 
-        return ShannonInfo.information(stringBuilder.toString());
+        return shannon.info(stringBuilder.toString());
     }
 
     // Tesztelés
-    public static void main(String[] args) {
+    public  void main(String[] args) {
         String input = "aaaasasdaa\\abbbbbaaaa";
-        double encoded = information(input);
+        double encoded = info(input);
         System.out.println("Eredeti szöveg: " + input);
         System.out.println("Tömörített szöveg: " + (long)encoded);
+    }
+
+    @Override
+    public double info(Object object) {
+        return 0;
+    }
+
+    @Override
+    public double info(boolean[] values) {
+        return 0;
+    }
+
+    @Override
+    public double info(byte[] values) {
+        return 0;
+    }
+
+    @Override
+    public double info(short[] values) {
+        return 0;
+    }
+
+    @Override
+    public double info(int[] values) {
+        return 0;
+    }
+
+    @Override
+    public double info(float[] values) {
+        return 0;
+    }
+
+    @Override
+    public double info(double[] values) {
+        return 0;
+    }
+
+    @Override
+    public double info(char[] values) {
+        return 0;
+    }
+
+    @Override
+    public double info(String[] values) {
+        return 0;
+    }
+
+
+    @Override
+    public double info(List values) {
+        return 0;
     }
 }
 

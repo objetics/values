@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.text.DecimalFormat;
 import volgyerdo.commons.string.StringUtils;
+import volgyerdo.information.Info;
 import volgyerdo.information.SSMInfo;
 
 /**
@@ -19,6 +20,7 @@ import volgyerdo.information.SSMInfo;
 public class MultiscaleInformationTest {
 
     private static DecimalFormat format = new DecimalFormat("0");
+    private static Info SSM = new SSMInfo();
 
     public static void main(String[] args) throws IOException {
 //
@@ -115,7 +117,7 @@ public class MultiscaleInformationTest {
     private static void information(String note, String value) {
         System.out.println(note + "[" + value.length() + "]: [" + StringUtils.maximizeString(value, 200, true) + "]\n"
 //                + "    Shannon: " + format.format(ShannonInfo.information(value)) + "\n"
-                + "    SSM: " + format.format(SSMInfo.information(value)) + "\n"
+                + "    SSM: " + format.format(SSM.info(value)) + "\n"
 //                + "    SCM: " + format.format(SCMInfo.information(value)) + "\n"
         //                + "    SH: " + format.format(SHInfo.information(value)) + "\n"
         );
