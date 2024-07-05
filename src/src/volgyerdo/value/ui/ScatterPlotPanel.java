@@ -11,6 +11,7 @@ package volgyerdo.value.ui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Point2D;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -23,9 +24,9 @@ public class ScatterPlotPanel extends JPanel {
     private boolean dataSeriesSet = false;
     private int margin = 50;
 
-    private double zoomFactor = 1.0;
     private double offsetX = 0, offsetY = 0;
     private int panStep = 10;
+    private int labelPadding = 25;
 
     private int prevX, prevY;
 
@@ -33,7 +34,7 @@ public class ScatterPlotPanel extends JPanel {
     private Color axisColor = Color.BLACK;
     private Color textColor = Color.BLACK;
     private Color gridColor = new Color(200, 200, 200, 200);
-    
+
     public ScatterPlotPanel() {
         this.dataSeriesList = new ArrayList<>();
         addComponentListener(new ComponentAdapter() {
@@ -152,6 +153,21 @@ public class ScatterPlotPanel extends JPanel {
                 prevY = e.getY();
                 repaint();
             }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                if (e.getX() > margin + labelPadding && e.getX() < getWidth() - margin
+                        && e.getY() > margin && e.getY() < getHeight() - margin - labelPadding) {
+                    if (getCursor().getType() != Cursor.HAND_CURSOR) {
+                        setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    }
+                } else {
+                    if (getCursor().getType() != Cursor.DEFAULT_CURSOR) {
+                        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    }
+                }
+            }
+
         });
         addMouseWheelListener(new MouseWheelListener() {
             @Override
@@ -177,69 +193,35 @@ public class ScatterPlotPanel extends JPanel {
             return;
         }
 
-        minX = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point::getX).min().orElse(0);
-        maxX = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point::getX).max().orElse(0);
-        minY = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point::getY).min().orElse(0);
-        maxY = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point::getY).max().orElse(0);
+        minX = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D.Double::getX).min().orElse(0);
+        maxX = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D.Double::getX).max().orElse(0);
+        minY = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D.Double::getY).min().orElse(0);
+        maxY = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D.Double::getY).max().orElse(0);
 
-        double xRange = (maxX - minX) * zoomFactor;
-        double yRange = (maxY - minY) * zoomFactor;
+        double xRange = (maxX - minX);
+        double yRange = (maxY - minY);
 
-        int padding = margin;
-        int labelPadding = 25;
-        
-        scaleX = ((double) getWidth() - 2 * padding - labelPadding) / xRange;
-        scaleY = ((double) getHeight() - 2 * padding - labelPadding) / yRange;
+        scaleX = ((double) getWidth() - 2 * margin - labelPadding) / xRange;
+        scaleY = ((double) getHeight() - 2 * margin - labelPadding) / yRange;
     }
 
     private void zoomIn(int mouseX, int mouseY) {
-        double newZoomFactor = zoomFactor / 1.1;
-        adjustOffsetsForZoom(mouseX, mouseY, newZoomFactor / zoomFactor);
-        zoomFactor = newZoomFactor;
-        calculateScale();
+        scaleX *= 1.1;
+        scaleY *= 1.1;
+        offsetX += ((getWidth() - 2 * margin - labelPadding) * 0.1 * mouseX / getWidth()) / scaleX;
+        offsetY -= ((getHeight() - 2 * margin - labelPadding) * 0.1 * mouseY / getHeight()) / scaleY;
         repaint();
     }
 
     private void zoomOut(int mouseX, int mouseY) {
-        double newZoomFactor = zoomFactor * 1.1;
-        adjustOffsetsForZoom(mouseX, mouseY, newZoomFactor / zoomFactor);
-        zoomFactor = newZoomFactor;
-        calculateScale();
+        scaleX /= 1.1;
+        scaleY /= 1.1;
+        offsetX -= ((getWidth() - 2 * margin - labelPadding) * 0.1 * mouseX / getWidth()) / scaleX;
+        offsetY += ((getHeight() - 2 * margin - labelPadding) * 0.05 * mouseY / getHeight()) / scaleY;
         repaint();
-    }
-    
-    private void calculateScale() {
-//        if (dataSeriesList == null || dataSeriesList.isEmpty()) {
-//            return;
-//        }
-//
-//        minX = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point::getX).min().orElse(0);
-//        maxX = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point::getX).max().orElse(0);
-//        minY = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point::getY).min().orElse(0);
-//        maxY = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point::getY).max().orElse(0);
-//
-//        double xRange = (maxX - minX) * zoomFactor;
-//
-//        int padding = margin;
-//        int labelPadding = 25;
-//        scaleX = ((double) getWidth() - 2 * padding - labelPadding) / xRange;
-    }
-
-    private void adjustOffsetsForZoom(int mouseX, int mouseY, double zoomScale) {
-        // Convert mouseX and mouseY from screen coordinates to graph coordinates
-        double graphX = (mouseX - margin - getWidth() / 2.0) / scaleX + offsetX;
-        double graphY = (getHeight() / 2.0 - mouseY + margin) / scaleY + offsetY;
-
-        // Adjust the offsets to keep the zoom centered on the cursor position
-        offsetX += (graphX - offsetX) * (1 - zoomScale);
-        offsetY += (graphY - offsetY) * (1 - zoomScale);
-
-        // Convert the offsetY to consider the inversion of the y-axis in screen coordinates
-        offsetY = offsetY * zoomScale;
     }
 
     private void resetView() {
-        zoomFactor = 1.0;
         offsetX = 0;
         offsetY = 0;
         calculateMinMaxAndScale();
@@ -279,7 +261,7 @@ public class ScatterPlotPanel extends JPanel {
 
         int padding = margin;
         int labelPadding = 25;
-        
+
         int pointWidth = 6;
         int divisionPixelSize = 50; // Fixed pixel size for each division
 
@@ -339,7 +321,7 @@ public class ScatterPlotPanel extends JPanel {
             if (series.isConnected()) {
                 Integer lastX = null, lastY = null;
                 g.setColor(series.getColor());
-                for (Point point : series.getPoints()) {
+                for (Point2D.Double point : series.getPoints()) {
                     int x = (int) ((point.getX() - minX - offsetX) * scaleX + padding + labelPadding);
                     int y = (int) ((maxY - point.getY() + offsetY) * scaleY + padding);
                     if (x >= padding + labelPadding && x <= getWidth() - padding && y >= padding && y <= getHeight() - padding - labelPadding) {
@@ -356,7 +338,7 @@ public class ScatterPlotPanel extends JPanel {
                 }
             } else {
                 g.setColor(series.getColor());
-                for (Point point : series.getPoints()) {
+                for (Point2D.Double point : series.getPoints()) {
                     int x = (int) ((point.getX() - minX - offsetX) * scaleX + padding + labelPadding);
                     int y = (int) ((maxY - point.getY() + offsetY) * scaleY + padding);
                     if (x >= padding + labelPadding && x <= getWidth() - padding && y >= padding && y <= getHeight() - padding - labelPadding) {
@@ -407,9 +389,9 @@ public class ScatterPlotPanel extends JPanel {
             frame.setVisible(true);
 
             List<DataSeries> dataSeriesList = List.of(
-                    new DataSeries("Series 1", List.of(new Point(0, 0), new Point(1, 2), new Point(2, 4)), Color.RED, true)
-//                    new DataSeries("Series 2", List.of(new Point(2, 1), new Point(3, 2), new Point(4, 3)), Color.BLUE),
-//                    new DataSeries("Series 3", List.of(new Point(1, 2), new Point(2, 3), new Point(3, 4)), Color.GREEN)
+                    new DataSeries("Series 1", List.of(new Point2D.Double(-1, -2), new Point2D.Double(0, 0), new Point2D.Double(1, 2), new Point2D.Double(2, 4)), Color.RED, true),
+                    new DataSeries("Series 2", List.of(new Point2D.Double(2, 1), new Point2D.Double(3, 2), new Point2D.Double(4, 3)), Color.BLUE, true),
+                    new DataSeries("Series 3", List.of(new Point2D.Double(1, 2), new Point2D.Double(2, 3), new Point2D.Double(3, 4)), Color.GREEN, true)
             );
             scatterPlotPanel.setDataSeries(dataSeriesList);
         });
@@ -419,15 +401,15 @@ public class ScatterPlotPanel extends JPanel {
 class DataSeries {
 
     private String name;
-    private List<Point> points;
+    private List<Point2D.Double> points;
     private Color color;
     private boolean connected;
 
-    public DataSeries(String name, List<Point> points, Color color) {
+    public DataSeries(String name, List<Point2D.Double> points, Color color) {
         this(name, points, color, false);
     }
 
-    public DataSeries(String name, List<Point> points, Color color, boolean connected) {
+    public DataSeries(String name, List<Point2D.Double> points, Color color, boolean connected) {
         this.name = name;
         this.points = points;
         this.color = color;
@@ -438,7 +420,7 @@ class DataSeries {
         return name;
     }
 
-    public List<Point> getPoints() {
+    public List<Point2D.Double> getPoints() {
         return points;
     }
 
