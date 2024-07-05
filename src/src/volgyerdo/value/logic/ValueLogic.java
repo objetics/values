@@ -7,6 +7,20 @@ package volgyerdo.value.logic;
 import java.util.ArrayList;
 import java.util.List;
 import volgyerdo.value.method.AssemblyIndex;
+import volgyerdo.value.method.AssemblyInfo;
+import volgyerdo.value.method.CompressionInfo;
+import volgyerdo.value.method.HuffmanInfo;
+import volgyerdo.value.method.MaxEntropy;
+import volgyerdo.value.method.MaxInfo;
+import volgyerdo.value.method.RLEInfo;
+import volgyerdo.value.method.RLEInfo1;
+import volgyerdo.value.method.SCMInfo;
+import volgyerdo.value.method.SHInfo;
+import volgyerdo.value.method.SSM1Info;
+import volgyerdo.value.method.SSMInfo;
+import volgyerdo.value.method.Shannon1Info;
+import volgyerdo.value.method.ShannonEntropy;
+import volgyerdo.value.method.ShannonInfo;
 import volgyerdo.value.structure.Value;
 
 /**
@@ -19,7 +33,20 @@ public class ValueLogic {
     
     static{
         VALUES.add(new AssemblyIndex());
-        
+        VALUES.add(new AssemblyInfo());
+        VALUES.add(new CompressionInfo());
+        VALUES.add(new HuffmanInfo());
+        VALUES.add(new MaxEntropy());
+        VALUES.add(new MaxInfo());
+        VALUES.add(new RLEInfo());
+        VALUES.add(new RLEInfo1());
+        VALUES.add(new SCMInfo());
+        VALUES.add(new SHInfo());
+        VALUES.add(new SSM1Info());
+        VALUES.add(new SSMInfo());
+        VALUES.add(new Shannon1Info());
+        VALUES.add(new ShannonEntropy());
+        VALUES.add(new ShannonInfo());
     }
     
 }

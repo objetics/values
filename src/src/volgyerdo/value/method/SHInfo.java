@@ -91,7 +91,4 @@ public class SHInfo implements Value{
         return info;
     }
 
-    private SHInfo() {
-    }
-
 }
