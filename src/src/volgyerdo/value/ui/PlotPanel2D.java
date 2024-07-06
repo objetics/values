@@ -15,27 +15,27 @@ import java.awt.geom.Point2D;
 import java.util.List;
 import java.util.ArrayList;
 
-public class ScatterPlotPanel extends JPanel {
-
+public class PlotPanel2D extends JPanel {
+    
     private List<DataSeries> dataSeriesList;
     private double minX, maxX, minY, maxY;
     private double scaleX;
     private double scaleY;
     private boolean dataSeriesSet = false;
     private int margin = 50;
-
+    
     private double offsetX = 0, offsetY = 0;
     private int panStep = 10;
     private int labelPadding = 25;
-
+    
     private int prevX, prevY;
-
+    
     private Color bgColor = Color.WHITE;
     private Color axisColor = Color.BLACK;
     private Color textColor = Color.BLACK;
     private Color gridColor = new Color(200, 200, 200, 200);
-
-    public ScatterPlotPanel() {
+    
+    public PlotPanel2D() {
         this.dataSeriesList = new ArrayList<>();
         addComponentListener(new ComponentAdapter() {
             @Override
@@ -46,39 +46,39 @@ public class ScatterPlotPanel extends JPanel {
                 }
             }
         });
-
+        
         JPanel buttonPanel = new JPanel();
         JButton zoomInButton = new JButton("Zoom In");
         JButton zoomOutButton = new JButton("Zoom Out");
         JButton resetButton = new JButton("Reset");
-
+        
         zoomInButton.setToolTipText("Zoom in (Shortcut: +)");
         zoomOutButton.setToolTipText("Zoom out (Shortcut: -)");
         resetButton.setToolTipText("Reset view (Shortcut: R)");
-
+        
         zoomInButton.addActionListener(e -> {
             zoomIn(getWidth() / 2, getHeight() / 2);
         });
-
+        
         zoomOutButton.addActionListener(e -> {
             zoomOut(getWidth() / 2, getHeight() / 2);
         });
-
+        
         resetButton.addActionListener(e -> {
             resetView();
         });
-
+        
         buttonPanel.add(zoomInButton);
         buttonPanel.add(zoomOutButton);
         buttonPanel.add(resetButton);
-
+        
         setLayout(new BorderLayout());
         add(buttonPanel, BorderLayout.SOUTH);
 
         // Key bindings
         setFocusable(true);
         requestFocusInWindow();
-
+        
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ADD, 0), "zoomIn");
         getActionMap().put("zoomIn", new AbstractAction() {
             @Override
@@ -86,7 +86,7 @@ public class ScatterPlotPanel extends JPanel {
                 zoomIn(getWidth() / 2, getHeight() / 2);
             }
         });
-
+        
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_SUBTRACT, 0), "zoomOut");
         getActionMap().put("zoomOut", new AbstractAction() {
             @Override
@@ -94,7 +94,7 @@ public class ScatterPlotPanel extends JPanel {
                 zoomOut(getWidth() / 2, getHeight() / 2);
             }
         });
-
+        
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), "reset");
         getActionMap().put("reset", new AbstractAction() {
             @Override
@@ -102,7 +102,7 @@ public class ScatterPlotPanel extends JPanel {
                 resetView();
             }
         });
-
+        
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "panUp");
         getActionMap().put("panUp", new AbstractAction() {
             @Override
@@ -110,7 +110,7 @@ public class ScatterPlotPanel extends JPanel {
                 panUp();
             }
         });
-
+        
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "panDown");
         getActionMap().put("panDown", new AbstractAction() {
             @Override
@@ -118,7 +118,7 @@ public class ScatterPlotPanel extends JPanel {
                 panDown();
             }
         });
-
+        
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "panLeft");
         getActionMap().put("panLeft", new AbstractAction() {
             @Override
@@ -126,7 +126,7 @@ public class ScatterPlotPanel extends JPanel {
                 panLeft();
             }
         });
-
+        
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "panRight");
         getActionMap().put("panRight", new AbstractAction() {
             @Override
@@ -134,7 +134,7 @@ public class ScatterPlotPanel extends JPanel {
                 panRight();
             }
         });
-
+        
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -153,7 +153,7 @@ public class ScatterPlotPanel extends JPanel {
                 prevY = e.getY();
                 repaint();
             }
-
+            
             @Override
             public void mouseMoved(MouseEvent e) {
                 if (e.getX() > margin + labelPadding && e.getX() < getWidth() - margin
@@ -167,7 +167,7 @@ public class ScatterPlotPanel extends JPanel {
                     }
                 }
             }
-
+            
         });
         addMouseWheelListener(new MouseWheelListener() {
             @Override
@@ -180,31 +180,33 @@ public class ScatterPlotPanel extends JPanel {
             }
         });
     }
-
+    
     public void setDataSeries(List<DataSeries> dataSeriesList) {
         this.dataSeriesList = dataSeriesList;
         calculateMinMaxAndScale();
+        zoomOut(getWidth() / 2, getHeight() / 2);
         this.dataSeriesSet = true;
         repaint();
     }
-
+    
     private void calculateMinMaxAndScale() {
         if (dataSeriesList == null || dataSeriesList.isEmpty()) {
             return;
         }
-
-        minX = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D.Double::getX).min().orElse(0);
-        maxX = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D.Double::getX).max().orElse(0);
-        minY = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D.Double::getY).min().orElse(0);
-        maxY = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D.Double::getY).max().orElse(0);
-
+        
+        minX = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D::getX).min().orElse(0);
+        maxX = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D::getX).max().orElse(0);
+        minY = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D::getY).min().orElse(0);
+        maxY = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D::getY).max().orElse(0);
+        
         double xRange = (maxX - minX);
         double yRange = (maxY - minY);
-
+        
         scaleX = ((double) getWidth() - 2 * margin - labelPadding) / xRange;
         scaleY = ((double) getHeight() - 2 * margin - labelPadding) / yRange;
+        
     }
-
+    
     private void zoomIn(int mouseX, int mouseY) {
         scaleX *= 1.1;
         scaleY *= 1.1;
@@ -212,7 +214,7 @@ public class ScatterPlotPanel extends JPanel {
         offsetY -= ((getHeight() - 2 * margin - labelPadding) * 0.1 * mouseY / getHeight()) / scaleY;
         repaint();
     }
-
+    
     private void zoomOut(int mouseX, int mouseY) {
         scaleX /= 1.1;
         scaleY /= 1.1;
@@ -220,77 +222,77 @@ public class ScatterPlotPanel extends JPanel {
         offsetY += ((getHeight() - 2 * margin - labelPadding) * 0.05 * mouseY / getHeight()) / scaleY;
         repaint();
     }
-
+    
     private void resetView() {
         offsetX = 0;
         offsetY = 0;
         calculateMinMaxAndScale();
         repaint();
     }
-
+    
     private void panUp() {
         offsetY -= panStep / scaleY;
         repaint();
     }
-
+    
     private void panDown() {
         offsetY += panStep / scaleY;
         repaint();
     }
-
+    
     private void panLeft() {
         offsetX += panStep / scaleX;
         repaint();
     }
-
+    
     private void panRight() {
         offsetX -= panStep / scaleX;
         repaint();
     }
-
+    
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+        
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
+        
         if (!dataSeriesSet || dataSeriesList == null || dataSeriesList.isEmpty()) {
             return;
         }
-
-        int padding = margin;
+        
         int labelPadding = 25;
-
+        
         int pointWidth = 6;
         int divisionPixelSize = 50; // Fixed pixel size for each division
 
-        int chartWidth = getWidth() - 2 * padding - labelPadding;
-        int chartHeight = getHeight() - 2 * padding - labelPadding;
-
+        int chartWidth = getWidth() - 2 * margin - labelPadding;
+        int chartHeight = getHeight() - 2 * margin - labelPadding;
+        
         int numberYDivisions = chartHeight / divisionPixelSize;
         int numberXDivisions = chartWidth / divisionPixelSize;
 
         // Draw white background
         g.setColor(bgColor);
-        g.fillRect(padding + labelPadding, padding, chartWidth, chartHeight);
+        g.fillRect(margin + labelPadding, margin, chartWidth, chartHeight);
         g.setColor(axisColor);
 
         // Draw the axes
-        g.drawLine(padding + labelPadding, getHeight() - padding - labelPadding, padding + labelPadding, padding);
-        g.drawLine(padding + labelPadding, getHeight() - padding - labelPadding, getWidth() - padding, getHeight() - padding - labelPadding);
+        g.drawLine(margin + labelPadding, getHeight() - margin - labelPadding, margin + labelPadding, margin);
+        g.drawLine(margin + labelPadding, getHeight() - margin - labelPadding, getWidth() - margin, getHeight() - margin - labelPadding);
 
         // Draw grid lines and labels for y-axis
         for (int i = 0; i <= numberYDivisions; i++) {
-            int x0 = padding + labelPadding;
-            int x1 = pointWidth + padding + labelPadding;
-            int y0 = getHeight() - (i * divisionPixelSize + padding + labelPadding);
+            int x0 = margin + labelPadding;
+            int x1 = pointWidth + margin + labelPadding;
+            int y0 = getHeight() - (i * divisionPixelSize + margin + labelPadding);
             int y1 = y0;
             if (!dataSeriesList.isEmpty()) {
                 g.setColor(gridColor);
-                g.drawLine(padding + labelPadding + 1 + pointWidth, y0, getWidth() - padding, y1);
+                g.drawLine(margin + labelPadding + 1 + pointWidth, y0, getWidth() - margin, y1);
                 g.setColor(textColor);
-                String yLabel = String.format("%.2f", (minY + offsetY + (maxY - minY) * ((i * divisionPixelSize * 1.0) / chartHeight)));
+                String yLabel = String.format("%.2f",
+                        (minY + (maxY - minY) + offsetY - (getHeight() - 2 * margin - labelPadding) / scaleY + (i * divisionPixelSize) / scaleY));
                 FontMetrics metrics = g.getFontMetrics();
                 int labelWidth = metrics.stringWidth(yLabel);
                 g.drawString(yLabel, x0 - labelWidth - 5, y0 + (metrics.getHeight() / 2) - 3);
@@ -300,65 +302,70 @@ public class ScatterPlotPanel extends JPanel {
 
         // Draw grid lines and labels for x-axis
         for (int i = 0; i <= numberXDivisions; i++) {
-            int y0 = getHeight() - padding - labelPadding;
+            int y0 = getHeight() - margin - labelPadding;
             int y1 = y0 - pointWidth;
-            int x0 = i * divisionPixelSize + padding + labelPadding;
+            int x0 = i * divisionPixelSize + margin + labelPadding;
             int x1 = x0;
             if (!dataSeriesList.isEmpty()) {
                 g.setColor(gridColor);
-                g.drawLine(x0, getHeight() - padding - labelPadding - 1 - pointWidth, x1, padding);
+                g.drawLine(x0, getHeight() - margin - labelPadding - 1 - pointWidth, x1, margin);
                 g.setColor(textColor);
-                String xLabel = String.format("%.2f", (minX + offsetX + (maxX - minX) * ((i * divisionPixelSize * 1.0) / chartWidth)));
+                String xLabel = String.format("%.2f", (minX + offsetX + (i * divisionPixelSize) / scaleX));
                 FontMetrics metrics = g.getFontMetrics();
                 int labelWidth = metrics.stringWidth(xLabel);
                 g.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3);
             }
             g.drawLine(x0, y0, x1, y1);
         }
+        
+        g.setClip(margin + labelPadding, margin, 
+                getWidth() - 2 * margin - labelPadding, 
+                getHeight() - 2 * margin - labelPadding);
 
         // Draw points for each data series
         for (DataSeries series : dataSeriesList) {
             if (series.isConnected()) {
                 Integer lastX = null, lastY = null;
                 g.setColor(series.getColor());
-                for (Point2D.Double point : series.getPoints()) {
-                    int x = (int) ((point.getX() - minX - offsetX) * scaleX + padding + labelPadding);
-                    int y = (int) ((maxY - point.getY() + offsetY) * scaleY + padding);
-                    if (x >= padding + labelPadding && x <= getWidth() - padding && y >= padding && y <= getHeight() - padding - labelPadding) {
-                        g.fillOval(x - pointWidth / 2, y - pointWidth / 2, pointWidth, pointWidth);
-                        if (lastX != null && lastY != null) {
-                            g.drawLine(lastX, lastY, x, y);
-                        }
-                        lastX = x;
-                        lastY = y;
-                    } else {
-                        lastX = null;
-                        lastY = null;
+                for (Point2D point : series.getPoints()) {
+                    int x = (int) ((point.getX() - minX - offsetX) * scaleX + margin + labelPadding);
+                    int y = (int) ((maxY - point.getY() + offsetY) * scaleY + margin);
+                    g.fillOval(x - pointWidth / 2, y - pointWidth / 2, pointWidth, pointWidth);
+                    if (lastX != null && lastY != null && (isOnDiagram(x, y) || isOnDiagram(lastX, lastY))) {
+                        g.drawLine(lastX, lastY, x, y);
                     }
+                    lastX = x;
+                    lastY = y;
                 }
             } else {
                 g.setColor(series.getColor());
-                for (Point2D.Double point : series.getPoints()) {
-                    int x = (int) ((point.getX() - minX - offsetX) * scaleX + padding + labelPadding);
-                    int y = (int) ((maxY - point.getY() + offsetY) * scaleY + padding);
-                    if (x >= padding + labelPadding && x <= getWidth() - padding && y >= padding && y <= getHeight() - padding - labelPadding) {
+                for (Point2D point : series.getPoints()) {
+                    int x = (int) ((point.getX() - minX - offsetX) * scaleX + margin + labelPadding);
+                    int y = (int) ((maxY - point.getY() + offsetY) * scaleY + margin);
+                    if (isOnDiagram(x, y)) {
                         g.fillOval(x - pointWidth / 2, y - pointWidth / 2, pointWidth, pointWidth);
                     }
                 }
             }
         }
+        
+        g.setClip(null);
 
         // Draw legend
-        drawLegend(g, padding);
+        drawLegend(g, margin);
     }
-
+    
+    private boolean isOnDiagram(int x, int y) {
+        return x >= margin + labelPadding && x <= getWidth() - margin && y >= margin && y <= getHeight() - margin - labelPadding;
+    }
+    
     private void drawLegend(Graphics g, int padding) {
         int labelWidth = 0;
         for (DataSeries series : dataSeriesList) {
             labelWidth = (int) Math.max(labelWidth, g.getFontMetrics().getStringBounds(series.getName(), g).getWidth());
         }
         labelWidth += 40;
-
+        
         int legendX = getWidth() - padding - labelWidth;
         int legendY = padding;
         int legendHeight = 10 + dataSeriesList.size() * 20;
@@ -366,7 +373,7 @@ public class ScatterPlotPanel extends JPanel {
         g.fillRect(legendX, legendY, labelWidth, legendHeight);
         g.setColor(axisColor);
         g.drawRect(legendX, legendY, labelWidth, legendHeight);
-
+        
         int legendEntryY = legendY + 20;
         for (DataSeries series : dataSeriesList) {
             g.setColor(series.getColor());
@@ -376,22 +383,22 @@ public class ScatterPlotPanel extends JPanel {
             legendEntryY += 20;
         }
     }
-
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Scatter Plot Panel");
-            ScatterPlotPanel scatterPlotPanel = new ScatterPlotPanel();
+            PlotPanel2D scatterPlotPanel = new PlotPanel2D();
             scatterPlotPanel.setPreferredSize(new Dimension(800, 600));
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.getContentPane().add(scatterPlotPanel);
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
-
+            
             List<DataSeries> dataSeriesList = List.of(
-                    new DataSeries("Series 1", List.of(new Point2D.Double(-1, -2), new Point2D.Double(0, 0), new Point2D.Double(1, 2), new Point2D.Double(2, 4)), Color.RED, true),
-                    new DataSeries("Series 2", List.of(new Point2D.Double(2, 1), new Point2D.Double(3, 2), new Point2D.Double(4, 3)), Color.BLUE, true),
-                    new DataSeries("Series 3", List.of(new Point2D.Double(1, 2), new Point2D.Double(2, 3), new Point2D.Double(3, 4)), Color.GREEN, true)
+                    new DataSeries("Series 1", List.of(new Point2D.Float(-1, -2), new Point2D.Float(0, 0), new Point2D.Float(1, 2), new Point2D.Double(2, 4)), Color.RED, true),
+                    new DataSeries("Series 2", List.of(new Point2D.Float(2, 1), new Point2D.Float(3, 2), new Point2D.Float(4, 3)), Color.BLUE, true),
+                    new DataSeries("Series 3", List.of(new Point2D.Float(1, 2), new Point2D.Float(2, 3), new Point2D.Float(3, 4)), Color.GREEN, true)
             );
             scatterPlotPanel.setDataSeries(dataSeriesList);
         });
@@ -399,41 +406,41 @@ public class ScatterPlotPanel extends JPanel {
 }
 
 class DataSeries {
-
+    
     private String name;
-    private List<Point2D.Double> points;
+    private List<Point2D> points;
     private Color color;
     private boolean connected;
-
-    public DataSeries(String name, List<Point2D.Double> points, Color color) {
+    
+    public DataSeries(String name, List<Point2D> points, Color color) {
         this(name, points, color, false);
     }
-
-    public DataSeries(String name, List<Point2D.Double> points, Color color, boolean connected) {
+    
+    public DataSeries(String name, List<Point2D> points, Color color, boolean connected) {
         this.name = name;
         this.points = points;
         this.color = color;
         this.connected = connected;
     }
-
+    
     public String getName() {
         return name;
     }
-
-    public List<Point2D.Double> getPoints() {
+    
+    public List<Point2D> getPoints() {
         return points;
     }
-
+    
     public Color getColor() {
         return color;
     }
-
+    
     public boolean isConnected() {
         return connected;
     }
-
+    
     public void setConnected(boolean connected) {
         this.connected = connected;
     }
-
+    
 }
