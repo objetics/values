@@ -5,6 +5,7 @@
 package volgyerdo.value.logic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import volgyerdo.value.method.AssemblyIndex;
 import volgyerdo.value.method.AssemblyInfo;
@@ -49,4 +50,7 @@ public class ValueLogic {
         VALUES.add(new ShannonInfo());
     }
     
+    public static List<Value> values(){
+        return new ArrayList<>(VALUES);
+    }
 }

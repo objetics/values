@@ -18,16 +18,18 @@ public class DataSeries {
     private List<Point2D> points;
     private Color color;
     private boolean connected;
+    private boolean bullets;
 
     public DataSeries(String name, List<Point2D> points, Color color) {
-        this(name, points, color, false);
+        this(name, points, color, false, true);
     }
 
-    public DataSeries(String name, List<Point2D> points, Color color, boolean connected) {
+    public DataSeries(String name, List<Point2D> points, Color color, boolean connected, boolean bullets) {
         this.name = name;
         this.points = points;
         this.color = color;
         this.connected = connected;
+        this.bullets = connected ? bullets : true;
     }
 
     public String getName() {
@@ -50,4 +52,9 @@ public class DataSeries {
         this.connected = connected;
     }
 
+    public boolean hasBullets() {
+        return bullets;
+    }
+
+    
 }

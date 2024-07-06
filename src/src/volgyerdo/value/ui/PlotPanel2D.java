@@ -194,7 +194,7 @@ public class PlotPanel2D extends JPanel {
         this.dataSeriesSet = true;
         repaint();
     }
-    
+
     public void addDataSeries(DataSeries dataSeries) {
         this.dataSeriesList.add(dataSeries);
         resetParameters();
@@ -206,6 +206,9 @@ public class PlotPanel2D extends JPanel {
         if (dataSeriesList == null || dataSeriesList.isEmpty()) {
             return;
         }
+        
+        offsetX = 0;
+        offsetY = 0;
 
         minX = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D::getX).min().orElse(0);
         maxX = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D::getX).max().orElse(0);
@@ -337,9 +340,11 @@ public class PlotPanel2D extends JPanel {
                 for (Point2D point : series.getPoints()) {
                     int x = (int) ((point.getX() - minX - offsetX) * scaleX + margin + labelPadding);
                     int y = (int) ((maxY - point.getY() + offsetY) * scaleY + margin);
-                    g.fillOval(x - pointWidth / 2, y - pointWidth / 2, pointWidth, pointWidth);
                     if (lastX != null && lastY != null && (isOnDiagram(x, y) || isOnDiagram(lastX, lastY))) {
                         g.drawLine(lastX, lastY, x, y);
+                    }
+                    if (series.hasBullets()) {
+                        g.fillOval(x - pointWidth / 2, y - pointWidth / 2, pointWidth, pointWidth);
                     }
                     lastX = x;
                     lastY = y;
@@ -391,25 +396,23 @@ public class PlotPanel2D extends JPanel {
         }
     }
 
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> {
-//            JFrame frame = new JFrame("Plot Panel 2D");
-//            PlotPanel2D scatterPlotPanel = new PlotPanel2D();
-//            scatterPlotPanel.setPreferredSize(new Dimension(800, 600));
-//            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//            frame.getContentPane().add(scatterPlotPanel);
-//            frame.pack();
-//            frame.setLocationRelativeTo(null);
-//            frame.setVisible(true);
-//
-//            List<DataSeries> dataSeriesList = List.of(
-//                    new DataSeries("Series 1", List.of(new Point2D.Float(-1, -2), new Point2D.Float(0, 0), new Point2D.Float(1, 2), new Point2D.Double(2, 4)), Color.RED, true),
-//                    new DataSeries("Series 2", List.of(new Point2D.Float(2, 1), new Point2D.Float(3, 2), new Point2D.Float(4, 3)), Color.BLUE, true),
-//                    new DataSeries("Series 3", List.of(new Point2D.Float(1, 2), new Point2D.Float(2, 3), new Point2D.Float(3, 4)), Color.GREEN, true)
-//            );
-//            scatterPlotPanel.setDataSeries(dataSeriesList);
-//        });
-//    }
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Plot Panel 2D");
+            PlotPanel2D scatterPlotPanel = new PlotPanel2D();
+            scatterPlotPanel.setPreferredSize(new Dimension(800, 600));
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.getContentPane().add(scatterPlotPanel);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+
+            List<DataSeries> dataSeriesList = List.of(
+                    new DataSeries("Series 1", List.of(new Point2D.Float(-1, -2), new Point2D.Float(0, 0), new Point2D.Float(1, 2), new Point2D.Double(2, 4)), Color.RED, true, true),
+                    new DataSeries("Series 2", List.of(new Point2D.Float(2, 1), new Point2D.Float(3, 2), new Point2D.Float(4, 3)), Color.BLUE, true, true),
+                    new DataSeries("Series 3", List.of(new Point2D.Float(1, 2), new Point2D.Float(2, 3), new Point2D.Float(3, 4)), Color.GREEN, true, true)
+            );
+            scatterPlotPanel.setDataSeries(dataSeriesList);
+        });
+    }
 }
-
-
