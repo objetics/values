@@ -194,6 +194,13 @@ public class PlotPanel2D extends JPanel {
         this.dataSeriesSet = true;
         repaint();
     }
+    
+    public void addDataSeries(DataSeries dataSeries) {
+        this.dataSeriesList.add(dataSeries);
+        resetParameters();
+        this.dataSeriesSet = true;
+        repaint();
+    }
 
     private void resetParameters() {
         if (dataSeriesList == null || dataSeriesList.isEmpty()) {
@@ -405,42 +412,4 @@ public class PlotPanel2D extends JPanel {
 //    }
 }
 
-class DataSeries {
 
-    private String name;
-    private List<Point2D> points;
-    private Color color;
-    private boolean connected;
-
-    public DataSeries(String name, List<Point2D> points, Color color) {
-        this(name, points, color, false);
-    }
-
-    public DataSeries(String name, List<Point2D> points, Color color, boolean connected) {
-        this.name = name;
-        this.points = points;
-        this.color = color;
-        this.connected = connected;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public List<Point2D> getPoints() {
-        return points;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public boolean isConnected() {
-        return connected;
-    }
-
-    public void setConnected(boolean connected) {
-        this.connected = connected;
-    }
-
-}
