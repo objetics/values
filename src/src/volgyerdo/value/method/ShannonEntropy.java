@@ -173,6 +173,7 @@ public class ShannonEntropy implements Value{
         return entropy;
     }
     
+    @Override
     public double value(Collection values) {
         Map<Object, Integer> map = new HashMap<>();
         for (Object x : values) {

@@ -14,6 +14,8 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.DocumentEvent;
@@ -28,6 +30,19 @@ import volgyerdo.value.structure.Value;
  * @author zsolt
  */
 public class StringAnalyzer extends javax.swing.JPanel {
+
+    static {
+        try {
+            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            // If Nimbus is not available, you can set the GUI to another look and feel.
+        }
+    }
 
     /**
      * Creates new form StringAnalyzer
@@ -77,7 +92,7 @@ public class StringAnalyzer extends javax.swing.JPanel {
             public void mouseClicked(MouseEvent e) {
                 generate();
             }
-        
+
         });
 
         generate();
@@ -117,15 +132,18 @@ public class StringAnalyzer extends javax.swing.JPanel {
                     int p = (int) ((double) text.length() / maxLengthValue * 100);
                     SwingUtilities.invokeLater(() -> progress.setValue(p));
                 }
-                dataSeriesList.add(new DataSeries(value.name(), points, colors.get(i++), true, false));
+                dataSeriesList.add(
+                        new DataSeries(value.name() + (value.version() == 0 ? ""
+                                : (" " + value.version())), points, colors.get(i++), true, false));
             }
             SwingUtilities.invokeLater(() -> {
                 plot.setDataSeries(dataSeriesList);
                 progress.setString("");
+                progress.setValue(0);
             });
         }).start();
     }
-    
+
     public static List<Color> generateDistinctColors(int n) {
         List<Color> colors = new ArrayList<>();
         for (int i = 0; i < n; i++) {
@@ -145,7 +163,7 @@ public class StringAnalyzer extends javax.swing.JPanel {
             if (Math.random() < randomness) {
                 sb.append(charSet.charAt((int) (Math.random() * charSet.length())));
             } else {
-                sb.append(charSet.charAt(i % charSet.length()));
+                sb.append(i == 0 ? charSet.charAt(0) : sb.charAt(i - 1));
             }
         }
         return sb.toString();
@@ -406,6 +424,8 @@ public class StringAnalyzer extends javax.swing.JPanel {
         tabs.addTab("Values", valuesPanel);
 
         west.add(tabs, java.awt.BorderLayout.WEST);
+
+        progress.setStringPainted(true);
         west.add(progress, java.awt.BorderLayout.SOUTH);
 
         add(west, java.awt.BorderLayout.WEST);

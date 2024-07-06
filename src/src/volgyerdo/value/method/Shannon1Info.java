@@ -8,7 +8,6 @@ package volgyerdo.value.method;
 import volgyerdo.value.structure.Value;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import volgyerdo.commons.collection.CollectionUtils;
 import volgyerdo.commons.primitive.ArrayUtils;
@@ -84,10 +83,6 @@ public class Shannon1Info implements Value {
 
     @Override
     public double value(Collection values) {
-        return 0;
-    }
-
-    public double info(Collection values) {
         Map<Object, Integer> map = new HashMap<>();
         for (Object x : values) {
             Integer frequency = map.get(x);

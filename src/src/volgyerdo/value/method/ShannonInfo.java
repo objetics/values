@@ -8,8 +8,8 @@ package volgyerdo.value.method;
 import volgyerdo.value.structure.Value;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import volgyerdo.commons.collection.CollectionUtils;
 import volgyerdo.commons.primitive.ArrayUtils;
 
 /**
@@ -22,7 +22,7 @@ public class ShannonInfo implements Value {
     
     @Override
     public String name() {
-        return "Shannon info";
+        return "Shannon information";
     }
     
     @Override
@@ -73,7 +73,7 @@ public class ShannonInfo implements Value {
 
     @Override
     public double value(String values) {
-        return value(values.toCharArray());
+        return value(CollectionUtils.convertStringToCharList(values));
     }
 
     @Override
