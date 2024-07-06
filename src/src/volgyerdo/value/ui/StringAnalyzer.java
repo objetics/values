@@ -158,6 +158,9 @@ public class StringAnalyzer extends javax.swing.JPanel {
     }
 
     private String generateRandomText(String charSet, int length, double randomness) {
+        if(charSet.isEmpty()){
+            return "";
+        }
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
             if (Math.random() < randomness) {
@@ -359,7 +362,7 @@ public class StringAnalyzer extends javax.swing.JPanel {
         settingsPanel.add(scrollPane, gridBagConstraints);
 
         randomnessLabel.setFont(randomnessLabel.getFont().deriveFont(randomnessLabel.getFont().getSize()+2f));
-        randomnessLabel.setText("Base set");
+        randomnessLabel.setText("Randomness");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;

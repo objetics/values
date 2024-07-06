@@ -45,17 +45,6 @@ public class AssemblyInfo implements Value{
         return infoRecursive(s1, set) + infoRecursive(s2, set) + 1;
     }
 
-    public  void main(String[] args) {
-        
-        print("11111");
-        print("111111");
-        print("1111111");
-    }
-
-    private  void print(String s) {
-        System.out.println(s + ": " + ((int)value(s)));
-    }
-
     @Override
     public double value(Object object) {
         return 0;

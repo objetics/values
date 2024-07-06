@@ -18,11 +18,11 @@ import volgyerdo.commons.primitive.ArrayUtils;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class MaxInfo implements Value{
+public class MinInfo implements Value{
     
     @Override
     public String name() {
-        return "Maximum information";
+        return "Minimum information";
     }
     
     @Override
@@ -78,16 +78,7 @@ public class MaxInfo implements Value{
 
     @Override
     public  double value(Collection values) {
-        if (values.size() <= 1) {
-            return 0;
-        }
-        Set atomicSet = new HashSet<>(values);
-        int K = atomicSet.size();
-        if (K == 1) {
-            return Math.log(values.size()) / Math.log(2);
-        }
-        int N = values.size();
-        return N * Math.log(K) / Math.log(2);
+        return Math.log(values.size()) / Math.log(2);
     }
 
   
