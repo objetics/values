@@ -7,7 +7,6 @@ package volgyerdo.value.logic;
 import java.util.ArrayList;
 import java.util.List;
 import volgyerdo.value.method.AssemblyIndex;
-import volgyerdo.value.method.AssemblyInfo;
 import volgyerdo.value.method.GZIPInfo;
 import volgyerdo.value.method.HuffmanInfo;
 import volgyerdo.value.method.MaxEntropy;
@@ -34,7 +33,6 @@ public class ValueLogic {
 
     static {
         VALUES.add(new AssemblyIndex());
-        VALUES.add(new AssemblyInfo());
         VALUES.add(new GZIPInfo());
         VALUES.add(new HuffmanInfo());
         VALUES.add(new MaxEntropy());
