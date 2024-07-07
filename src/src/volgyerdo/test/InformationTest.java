@@ -8,7 +8,7 @@ package volgyerdo.test;
 import java.util.ArrayList;
 import java.util.List;
 import volgyerdo.value.method.AssemblyInfo;
-import volgyerdo.value.method.CompressionInfo;
+import volgyerdo.value.method.GZIPInfo;
 import volgyerdo.value.method.SSM1Info;
 import volgyerdo.value.structure.Value;
 
@@ -20,7 +20,7 @@ public class InformationTest {
 
     private static final Value ASSEMBLY = new AssemblyInfo();
     private static final Value SSM = new SSM1Info();
-    private static final Value COMPRESSION = new CompressionInfo();
+    private static final Value COMPRESSION = new GZIPInfo();
     
     private static final List<Double> ASSEMBLY_R = new ArrayList<>();
     private static final List<Double> SSM_R = new ArrayList<>();

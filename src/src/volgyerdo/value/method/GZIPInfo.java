@@ -13,7 +13,7 @@ import volgyerdo.commons.primitive.ArrayUtils;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class CompressionInfo implements Value {
+public class GZIPInfo implements Value {
 
     @Override
     public String name() {
@@ -22,12 +22,12 @@ public class CompressionInfo implements Value {
     
     @Override
     public double value(Object object) {
-        return ArrayUtils.toGZIPByteArray(object).length * 8;
+        return ArrayUtils.toGZIPByteArray(object).length * 8 - 168;
     }
 
     @Override
     public double value(byte[] values) {
-        return ArrayUtils.toGZIP(values).length * 8;
+        return ArrayUtils.toGZIP(values).length * 8 - 168;
     }
 
     @Override

@@ -63,6 +63,11 @@ public class StringAnalyzer extends javax.swing.JPanel {
         values.setRowHeight(30);
 
         maxLength.addChangeListener((ChangeEvent ce) -> {
+            resolution.setValue(Math.max(1, (Integer) maxLength.getValue()/ 500));
+            generate();
+        });
+        
+        resolution.addChangeListener((ChangeEvent ce) -> {
             generate();
         });
 
@@ -104,9 +109,12 @@ public class StringAnalyzer extends javax.swing.JPanel {
         double randomness = (double) randomnessSpinner.getValue();
 
         progress.setString("Generate strings...");
+        
+        int res = (Integer)resolution.getValue();
+        
         StringBuilder stringListBuilder = new StringBuilder();
         List<String> stringList = new ArrayList<>();
-        for (int length = 1; length <= maxLengthValue; length++) {
+        for (int length = 1; length <= maxLengthValue; length+=res) {
             String text = generateRandomText(charSet, length, randomness);
             stringList.add(text);
             int p = (int) ((double) length / maxLengthValue * 100);
@@ -158,7 +166,7 @@ public class StringAnalyzer extends javax.swing.JPanel {
     }
 
     private String generateRandomText(String charSet, int length, double randomness) {
-        if(charSet.isEmpty()){
+        if (charSet.isEmpty()) {
             return "";
         }
         StringBuilder sb = new StringBuilder();
@@ -293,6 +301,8 @@ public class StringAnalyzer extends javax.swing.JPanel {
         settingsPanel = new javax.swing.JPanel();
         maxLengthLabel = new javax.swing.JLabel();
         maxLength = new javax.swing.JSpinner();
+        resolutionLabel = new javax.swing.JLabel();
+        resolution = new javax.swing.JSpinner();
         baseSetLabel = new javax.swing.JLabel();
         scrollPane = new javax.swing.JScrollPane();
         baseSet = new javax.swing.JTextPane();
@@ -326,7 +336,8 @@ public class StringAnalyzer extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(6, 5, 5, 5);
         settingsPanel.add(maxLengthLabel, gridBagConstraints);
 
-        maxLength.setModel(new javax.swing.SpinnerNumberModel(100, 1, 100000, 10));
+        maxLength.setModel(new javax.swing.SpinnerNumberModel(1000, 1, null, 1000));
+        maxLength.setPreferredSize(new java.awt.Dimension(100, 24));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -335,11 +346,31 @@ public class StringAnalyzer extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         settingsPanel.add(maxLength, gridBagConstraints);
 
+        resolutionLabel.setFont(resolutionLabel.getFont().deriveFont(resolutionLabel.getFont().getSize()+2f));
+        resolutionLabel.setText("Resolution");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(6, 5, 5, 5);
+        settingsPanel.add(resolutionLabel, gridBagConstraints);
+
+        resolution.setModel(new javax.swing.SpinnerNumberModel(2, 1, null, 1));
+        resolution.setPreferredSize(new java.awt.Dimension(100, 24));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        settingsPanel.add(resolution, gridBagConstraints);
+
         baseSetLabel.setFont(baseSetLabel.getFont().deriveFont(baseSetLabel.getFont().getSize()+2f));
         baseSetLabel.setText("Base set");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
@@ -354,7 +385,7 @@ public class StringAnalyzer extends javax.swing.JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.5;
@@ -365,14 +396,14 @@ public class StringAnalyzer extends javax.swing.JPanel {
         randomnessLabel.setText("Randomness");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         settingsPanel.add(randomnessLabel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
@@ -384,12 +415,12 @@ public class StringAnalyzer extends javax.swing.JPanel {
         randomnessSpinner.setPreferredSize(new java.awt.Dimension(80, 27));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         settingsPanel.add(randomnessSpinner, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.5;
@@ -446,6 +477,8 @@ public class StringAnalyzer extends javax.swing.JPanel {
     private javax.swing.JLabel randomnessLabel;
     private javax.swing.JSlider randomnessSlider;
     private javax.swing.JSpinner randomnessSpinner;
+    private javax.swing.JSpinner resolution;
+    private javax.swing.JLabel resolutionLabel;
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JPanel settingsPanel;
     private javax.swing.JTextPane strings;
