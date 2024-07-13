@@ -15,68 +15,28 @@ import volgyerdo.commons.primitive.ArrayUtils;
  */
 public class GZIPInfo implements Value {
 
+    private final MaxInfo maxInfo = new MaxInfo();
+    private final MinInfo minInfo = new MinInfo();
+    
     @Override
     public String name() {
         return "GZIP information";
     }
-    
-    @Override
-    public double value(Object object) {
-        return ArrayUtils.toGZIPByteArray(object).length * 8 - 168;
-    }
 
     @Override
     public double value(byte[] values) {
-        return ArrayUtils.toGZIP(values).length * 8 - 168;
-    }
-
-    @Override
-    public double value(short[] values) {
-        return value(ArrayUtils.toByteArray(values));
-    }
-
-    @Override
-    public double value(int[] values) {
-        return value(ArrayUtils.toByteArray(values));
-    }
-
-    @Override
-    public double value(float[] values) {
-        return value(ArrayUtils.toByteArray(values));
-    }
-
-    @Override
-    public double value(double[] values) {
-        return value(ArrayUtils.toByteArray(values));
-    }
-
-    @Override
-    public double value(char[] values) {
-        return value(new String(values).getBytes());
-    }
-
-    @Override
-    public double value(boolean[] values) {
-        return 0;
+        if (values == null || values.length <= 1) {
+            return 0;
+        }
+        return ArrayUtils.toGZIP(values).length * 8;
     }
 
     @Override
     public double value(Collection values) {
-        return 0;
-    }
-
-    @Override
-    public double value(String[] values) {
-        double info = 0;
-        for (String s : values) {
-            info += value(s);
+        if (values == null || values.size() <= 1) {
+            return 0;
         }
-        return info;
-    }
-
-    @Override
-    public double value(String values) {
-        return value(values.getBytes());
+        return ArrayUtils.toGZIPByteArray(values).length * 8;
     }
 
 }

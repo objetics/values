@@ -6,22 +6,19 @@
 package volgyerdo.value.method;
 
 import volgyerdo.value.structure.Value;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import volgyerdo.commons.collection.CollectionUtils;
-import volgyerdo.commons.primitive.ArrayUtils;
 
 /**
  * Shannon Spectrum Minimum
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class SSMInfo implements Value {
-
+public class SSMInfo implements Value{
+    
     private ShannonInfo shannonInfo = new ShannonInfo();
     private final ShannonEntropy shannonEntropy = new ShannonEntropy();
 
@@ -29,58 +26,47 @@ public class SSMInfo implements Value {
     public String name() {
         return "SSM information";
     }
+    
 
-    @Override
-    public double value(Object object) {
-        byte[] array = ArrayUtils.toByteArray(object);
-        return value(array);
-    }
-
-    @Override
-    public double value(boolean[] values) {
-        return value(CollectionUtils.convertBooleanArrayToList(values));
-    }
+//    @Override
+//    public double value(byte[] values) {
+//        return value(CollectionUtils.convertByteArrayToList(values));
+//    }
 
     @Override
     public double value(byte[] values) {
-        return value(CollectionUtils.convertByteArrayToList(values));
-    }
+        if (values == null || values.length <= 1) {
+            return 0;
+        }
+        double minimumInfo = 0;
+        double absoluteMax = 0;
+        Set<Byte> atomicSet = new HashSet<>();
+        for(byte b : values){
+            atomicSet.add(b);
+        }
+        int K = atomicSet.size();
+        if (K == 1) {
+            return Math.log(values.length) / Math.log(2);
+        }
+        int N = values.length;
+        double atomicInfo = shannonEntropy.value(values);
+        absoluteMax = maxInformation(N, K, 1);
 
-    @Override
-    public double value(short[] values) {
-        return value(CollectionUtils.convertShortArrayToList(values));
+        for (int r = 1; r <= N / 2; r++) {
+            List<byte[]> parts = CollectionUtils.breakApart(values, r, false);
+            double maxInfo = maxInformation(N, K, r);
+            double actualInfo = shannonInfo.value(parts);
+            actualInfo = maxInfo == 0 ? 0 : actualInfo / maxInfo * absoluteMax;
+            if (actualInfo == 0) {
+                actualInfo = atomicInfo * r + Math.log(values.length / r) / Math.log(2);
+            }
+            if (minimumInfo == 0 || actualInfo < minimumInfo) {
+                minimumInfo = actualInfo;
+            }
+        }
+        return minimumInfo;
     }
-
-    @Override
-    public double value(int[] values) {
-        return value(CollectionUtils.convertIntArrayToList(values));
-    }
-
-    @Override
-    public double value(float[] values) {
-        return value(CollectionUtils.convertFloatArrayToList(values));
-    }
-
-    @Override
-    public double value(double[] values) {
-        return value(CollectionUtils.convertDoubleArrayToList(values));
-    }
-
-    @Override
-    public double value(char[] values) {
-        return value(CollectionUtils.convertCharArrayToList(values));
-    }
-
-    @Override
-    public double value(String[] values) {
-        return value(Arrays.stream(values).collect(Collectors.toList()));
-    }
-
-    @Override
-    public double value(String values) {
-        return value(CollectionUtils.convertStringToCharList(values));
-    }
-
+    
     @Override
     public double value(Collection values) {
         if (values.size() <= 1) {
@@ -91,7 +77,7 @@ public class SSMInfo implements Value {
         Set atomicSet = new HashSet<>(values);
         int K = atomicSet.size();
         if (K == 1) {
-            return 0;
+            return Math.log(values.size()) / Math.log(2);
         }
         int N = values.size();
         double atomicInfo = shannonEntropy.value(values);
@@ -103,7 +89,7 @@ public class SSMInfo implements Value {
             double actualInfo = shannonInfo.value(parts);
             actualInfo = maxInfo == 0 ? 0 : actualInfo / maxInfo * absoluteMax;
             if (actualInfo == 0) {
-                actualInfo = atomicInfo * r;
+                actualInfo = atomicInfo * r + Math.log(values.size() / r) / Math.log(2);
             }
             if (minimumInfo == 0 || actualInfo < minimumInfo) {
                 minimumInfo = actualInfo;
@@ -120,5 +106,6 @@ public class SSMInfo implements Value {
             return m * Math.log(m) / Math.log(2);
         }
     }
+
 
 }

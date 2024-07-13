@@ -5,7 +5,10 @@
  */
 package volgyerdo.value.method;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import volgyerdo.value.structure.Value;
 
 /**
@@ -22,72 +25,79 @@ public class RLEInfo implements Value {
     }
 
     @Override
-    public double value(String input) {
-        StringBuilder stringBuilder = new StringBuilder();
+    public double value(byte[] input) {
+        if (input == null || input.length <= 1) {
+            return 0;
+        }
+        byte[] rle = new byte[input.length];
+        int pos = 0;
 
-        for (int i = 0; i < input.length(); i++) {
+        for (int i = 0; i < input.length; i++) {
             int count = 1;
-            char currentChar = input.charAt(i);
+            byte current = input[i];
 
-            while (i + 1 < input.length() && currentChar == input.charAt(i + 1) && count < 255) {
-                i++;
+            if (current == '\0') {
+                rle[pos++] = current;
+                rle[pos++] = current;
+                continue;
+            }
+
+            while (i + 1 < input.length && current == input[i + 1] && count < 255) {
+                 i++;
                 count++;
             }
 
-            stringBuilder.append(currentChar);
-            stringBuilder.append(count);
+            if (count > 2) {
+                rle[pos++] = '\0';
+                rle[pos++] = (byte)count;
+                rle[pos++] = current;
+            } else {
+                for (int j = 0; j < count; j++) {
+                    rle[pos++] = current;
+                }
+            }
         }
 
-        return shannon.value(stringBuilder.toString());
+        return shannon.value(Arrays.copyOfRange(rle, 0, pos));
     }
-
-    @Override
-    public double value(Object object) {
-        return 0;
-    }
-
-    @Override
-    public double value(boolean[] values) {
-        return 0;
-    }
-
-    @Override
-    public double value(byte[] values) {
-        return 0;
-    }
-
-    @Override
-    public double value(short[] values) {
-        return 0;
-    }
-
-    @Override
-    public double value(int[] values) {
-        return 0;
-    }
-
-    @Override
-    public double value(float[] values) {
-        return 0;
-    }
-
-    @Override
-    public double value(double[] values) {
-        return 0;
-    }
-
-    @Override
-    public double value(char[] values) {
-        return 0;
-    }
-
-    @Override
-    public double value(String[] values) {
-        return 0;
-    }
+    
 
     @Override
     public double value(Collection values) {
-        return 0;
+        if (values == null || values.size() <= 1) {
+            return 0;
+        }
+        
+        List rle = new ArrayList(values.size());
+        
+        Object[] input = values.toArray();
+
+        for (int i = 0; i < input.length; i++) {
+            int count = 1;
+            Object current = input[i];
+
+            if (current == null) {
+                rle.add(current);
+                rle.add(current);
+                continue;
+            }
+
+            while (i + 1 < input.length && current == input[i + 1] && count < 255) {
+                 i++;
+                count++;
+            }
+
+            if (count > 2) {
+                rle.add(null);
+                rle.add(count);
+                rle.add(current);
+            } else {
+                for (int j = 0; j < count; j++) {
+                    rle.add(current);
+                }
+            }
+        }
+
+        return shannon.value(rle);
     }
 }

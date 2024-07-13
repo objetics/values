@@ -5,14 +5,11 @@
  */
 package volgyerdo.value.method;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import volgyerdo.commons.collection.CollectionUtils;
-import volgyerdo.commons.primitive.ArrayUtils;
 import volgyerdo.value.structure.Value;
 
 /**
@@ -29,49 +26,17 @@ public class SCMInfo implements Value{
         return "SCM information";
     }
     
-    public  double value(Object object) {
-        byte[] array = ArrayUtils.toByteArray(object);
-        return value(array);
-    }
-
-    public  double value(boolean[] values) {
-        return value(CollectionUtils.convertBooleanArrayToList(values));
-    }
-
+    @Override
     public  double value(byte[] values) {
+        if (values == null || values.length <= 1) {
+            return 0;
+        }
         return value(CollectionUtils.convertByteArrayToList(values));
     }
 
-    public  double value(short[] values) {
-        return value(CollectionUtils.convertShortArrayToList(values));
-    }
-
-    public  double value(int[] values) {
-        return value(CollectionUtils.convertIntArrayToList(values));
-    }
-
-    public  double value(float[] values) {
-        return value(CollectionUtils.convertFloatArrayToList(values));
-    }
-
-    public  double value(double[] values) {
-        return value(CollectionUtils.convertDoubleArrayToList(values));
-    }
-
-    public  double value(char[] values) {
-        return value(CollectionUtils.convertCharArrayToList(values));
-    }
-
-    public  double value(String[] values) {
-        return value(Arrays.stream(values).collect(Collectors.toList()));
-    }
-
-    public  double value(String values) {
-        return value(CollectionUtils.convertStringToCharList(values));
-    }
-
+    @Override
     public  double value(Collection values) {
-        if (values.size() <= 1) {
+        if (values == null || values.size() <= 1) {
             return 0;
         }
         Set atomicSet = new HashSet<>(values);

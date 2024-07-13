@@ -23,6 +23,9 @@ public class ShannonEntropy implements Value{
     
     @Override
     public double value(boolean[] values) {
+        if (values == null || values.length <= 1) {
+            return 0;
+        }
         Map<Boolean, Integer> map = new HashMap<>();
         for (boolean x : values) {
             Integer frequency = map.get(x);
@@ -42,6 +45,9 @@ public class ShannonEntropy implements Value{
     
     @Override
     public double value(byte[] values) {
+        if (values == null || values.length <= 1) {
+            return 0;
+        }
         Map<Byte, Integer> map = new HashMap<>();
         for (byte x : values) {
             Integer frequency = map.get(x);
@@ -61,6 +67,9 @@ public class ShannonEntropy implements Value{
     
     @Override
     public double value(short[] values) {
+        if (values == null || values.length <= 1) {
+            return 0;
+        }
         Map<Short, Integer> map = new HashMap<>();
         for (short x : values) {
             Integer frequency = map.get(x);
@@ -80,6 +89,9 @@ public class ShannonEntropy implements Value{
     
     @Override
     public double value(int[] values) {
+        if (values == null || values.length <= 1) {
+            return 0;
+        }
         Map<Integer, Integer> map = new HashMap<>();
         for (int x : values) {
             Integer frequency = map.get(x);
@@ -99,6 +111,9 @@ public class ShannonEntropy implements Value{
     
     @Override
     public double value(float[] values) {
+        if (values == null || values.length <= 1) {
+            return 0;
+        }
         Map<Float, Integer> map = new HashMap<>();
         for (float x : values) {
             Integer frequency = map.get(x);
@@ -118,6 +133,9 @@ public class ShannonEntropy implements Value{
     
     @Override
     public double value(double[] values) {
+        if (values == null || values.length <= 1) {
+            return 0;
+        }
         Map<Double, Integer> map = new HashMap<>();
         for (double x : values) {
             Integer frequency = map.get(x);
@@ -137,6 +155,9 @@ public class ShannonEntropy implements Value{
     
     @Override
     public double value(char[] values) {
+        if (values == null || values.length <= 1) {
+            return 0;
+        }
         Map<Character, Integer> map = new HashMap<>();
         for (char x : values) {
             Integer frequency = map.get(x);
@@ -156,6 +177,9 @@ public class ShannonEntropy implements Value{
     
     @Override
     public double value(String[] values) {
+        if (values == null || values.length <= 1) {
+            return 0;
+        }
         Map<String, Integer> map = new HashMap<>();
         for (String x : values) {
             Integer frequency = map.get(x);
@@ -175,6 +199,9 @@ public class ShannonEntropy implements Value{
     
     @Override
     public double value(Collection values) {
+        if (values == null || values.size() <= 1) {
+            return 0;
+        }
         Map<Object, Integer> map = new HashMap<>();
         for (Object x : values) {
             Integer frequency = map.get(x);
@@ -191,17 +218,5 @@ public class ShannonEntropy implements Value{
         }
         return entropy;
     }
-    
-    @Override
-    public double value(String values) {
-        return value(values.toCharArray());
-    }
-
-    @Override
-    public double value(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-
 
 }

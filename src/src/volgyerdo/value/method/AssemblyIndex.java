@@ -6,6 +6,7 @@ choose License Headers in Project Properties.
  */
 package volgyerdo.value.method;
 
+import java.util.Arrays;
 import java.util.Collection;
 import volgyerdo.value.structure.Value;
 import java.util.HashSet;
@@ -15,94 +16,101 @@ import java.util.Set;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class AssemblyIndex implements Value{
+public class AssemblyIndex implements Value {
 
     @Override
     public String name() {
         return "Assembly index";
     }
-    
+
     @Override
-    public  double value(String s) {
-        if (s == null || s.length() == 0) {
+    public double value(byte[] b) {
+        if (b == null || b.length <= 1) {
             return 0;
         }
-        Set<String> set = new HashSet<>();
-        return infoRecursive(s, set);
+        Set<ByteArrayWrapper> set = new HashSet<>();
+        return infoRecursive(b, set);
     }
 
-    public  double infoRecursive(String s, Set<String> set) {
-        if(s.length() <= 1){
+    private double infoRecursive(byte[] b, Set<ByteArrayWrapper> set) {
+        if (b.length <= 1) {
             return 0;
         }
-        if(set.contains(s)){
+        ByteArrayWrapper wrappedArray = new ByteArrayWrapper(b);
+        if (set.contains(wrappedArray)) {
+            return 0;
+        }
+        set.add(wrappedArray);
+        int half = b.length / 2;
+        byte[] b1 = Arrays.copyOfRange(b, 0, half);
+        byte[] b2 = Arrays.copyOfRange(b, half, b.length);
+        return infoRecursive(b1, set) + infoRecursive(b2, set) + 1;
+    }
+
+    private static class ByteArrayWrapper {
+
+        private final byte[] array;
+
+        public ByteArrayWrapper(byte[] array) {
+            this.array = array;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            ByteArrayWrapper that = (ByteArrayWrapper) obj;
+            return Arrays.equals(array, that.array);
+        }
+
+        @Override
+        public int hashCode() {
+            return Arrays.hashCode(array);
+        }
+    }
+
+    @Override
+    public double value(Collection collection) {
+        if (collection == null || collection.isEmpty()) {
+            return 0;
+        }
+        Set<Collection> set = new HashSet<>();
+        double totalValue = 0;
+        for (Object obj : collection) {
+            if (obj instanceof Collection) {
+                totalValue += infoRecursive((Collection) obj, set);
+            }
+        }
+        return totalValue;
+    }
+
+    public double infoRecursive(Collection s, Set<Collection> set) {
+        if (s.size() <= 1) {
+            return 0;
+        }
+        if (set.contains(s)) {
             return 0;
         }
         set.add(s);
-        int half = s.length() / 2;
-        String s1 = s.substring(0, half);
-        String s2 = s.substring(half);
+        int half = s.size() / 2;
+        Collection s1 = splitCollection(s, 0, half);
+        Collection s2 = splitCollection(s, half, s.size());
         return infoRecursive(s1, set) + infoRecursive(s2, set) + 1;
     }
 
-    public  void main(String[] args) {
-        
-        print("11111");
-        print("111111");
-        print("1111111");
-    }
-
-    private  void print(String s) {
-        System.out.println(s + ": " + ((int)value(s)));
-    }
-
-    @Override
-    public double value(Object object) {
-        return 0;
-    }
-
-    @Override
-    public double value(boolean[] values) {
-        return 0;
-    }
-
-    @Override
-    public double value(byte[] values) {
-        return 0;
-    }
-
-    @Override
-    public double value(short[] values) {
-        return 0;
-    }
-
-    @Override
-    public double value(int[] values) {
-        return 0;
-    }
-
-    @Override
-    public double value(float[] values) {
-        return 0;
-    }
-
-    @Override
-    public double value(double[] values) {
-        return 0;
-    }
-
-    @Override
-    public double value(char[] values) {
-        return 0;
-    }
-
-    @Override
-    public double value(String[] values) {
-        return 0;
-    }
-
-    @Override
-    public double value(Collection values) {
-        return 0;
+    private Collection splitCollection(Collection collection, int start, int end) {
+        int currentIndex = 0;
+        Collection<Object> subCollection = new HashSet<>();
+        for (Object obj : collection) {
+            if (currentIndex >= start && currentIndex < end) {
+                subCollection.add(obj);
+            }
+            currentIndex++;
+        }
+        return subCollection;
     }
 }

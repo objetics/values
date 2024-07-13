@@ -8,7 +8,7 @@ package volgyerdo.test;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import volgyerdo.value.method.MaxInfo;
-import volgyerdo.value.method.SSM1Info;
+import volgyerdo.value.method.SSMInfo;
 import volgyerdo.value.method.ShannonInfo;
 import volgyerdo.value.structure.Value;
 
@@ -86,7 +86,7 @@ public class SSMInformationTest {
     }
 
     private static void information(String note, String value) {
-        Value SSM = new SSM1Info();
+        Value SSM = new SSMInfo();
         
         double is = shannon.value(value);
         double ssm = SSM.value(value);
