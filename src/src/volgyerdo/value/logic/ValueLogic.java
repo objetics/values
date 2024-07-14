@@ -13,6 +13,7 @@ import volgyerdo.value.method.MaxEntropy;
 import volgyerdo.value.method.MaxInfo;
 import volgyerdo.value.method.MinInfo;
 import volgyerdo.value.method.RLEInfo;
+import volgyerdo.value.method.RLEShannonInfo;
 import volgyerdo.value.method.SCMInfo;
 import volgyerdo.value.method.SSMInfo;
 import volgyerdo.value.method.ShannonEntropy;
@@ -39,6 +40,7 @@ public class ValueLogic {
         VALUES.add(new ShannonEntropy());
         VALUES.add(new ShannonInfo());
         VALUES.add(new MinInfo());
+        VALUES.add(new RLEShannonInfo());
         VALUES.sort((o1, o2) -> o1.name().compareTo(o2.name()));
     }
 

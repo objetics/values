@@ -30,7 +30,7 @@ public class ShannonInfo implements Value {
             return 0;
         }
         byte[] array = ArrayUtils.toByteArray(object);
-        return Math.ceil(shannonEntropy.value(array) * array.length);
+        return shannonEntropy.value(array) * array.length;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class ShannonInfo implements Value {
         if (values == null || values.length <= 1) {
             return 0;
         }
-        return Math.ceil(shannonEntropy.value(values) * values.length);
+        return shannonEntropy.value(values) * values.length;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class ShannonInfo implements Value {
         if (values == null || values.length <= 1) {
             return 0;
         }
-        return Math.ceil(shannonEntropy.value(values) * values.length);
+        return shannonEntropy.value(values) * values.length;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ShannonInfo implements Value {
         if (values == null || values.length <= 1) {
             return 0;
         }
-        return Math.ceil(shannonEntropy.value(values) * values.length);
+        return shannonEntropy.value(values) * values.length;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class ShannonInfo implements Value {
         if (values == null || values.length <= 1) {
             return 0;
         }
-        return Math.ceil(shannonEntropy.value(values) * values.length);
+        return shannonEntropy.value(values) * values.length;
     }
 
     @Override
@@ -70,7 +70,7 @@ public class ShannonInfo implements Value {
         if (values == null || values.length <= 1) {
             return 0;
         }
-        return Math.ceil(shannonEntropy.value(values) * values.length);
+        return shannonEntropy.value(values) * values.length;
     }
 
     @Override
@@ -78,7 +78,7 @@ public class ShannonInfo implements Value {
         if (values == null || values.length <= 1) {
             return 0;
         }
-        return Math.ceil(shannonEntropy.value(values) * values.length);
+        return shannonEntropy.value(values) * values.length;
     }
 
     @Override
@@ -86,7 +86,7 @@ public class ShannonInfo implements Value {
         if (values == null || values.length <= 1) {
             return 0;
         }
-        return Math.ceil(shannonEntropy.value(values) * values.length);
+        return shannonEntropy.value(values) * values.length;
     }
 
     @Override
