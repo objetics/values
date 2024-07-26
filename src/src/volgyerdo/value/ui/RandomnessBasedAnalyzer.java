@@ -10,7 +10,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
@@ -29,7 +33,7 @@ import volgyerdo.value.structure.Value;
  *
  * @author zsolt
  */
-public class StringAnalyzer extends javax.swing.JPanel {
+public class RandomnessBasedAnalyzer extends javax.swing.JPanel {
 
     static {
         try {
@@ -47,10 +51,15 @@ public class StringAnalyzer extends javax.swing.JPanel {
     /**
      * Creates new form StringAnalyzer
      */
-    public StringAnalyzer() {
+    public RandomnessBasedAnalyzer() {
         initComponents();
-        randomnessSlider.addChangeListener(e -> randomnessSpinner.setValue(randomnessSlider.getValue() / 100.0));
-        randomnessSpinner.addChangeListener(e -> randomnessSlider.setValue((int) ((double) randomnessSpinner.getValue() * 100)));
+
+        randomnessSlider.addChangeListener((ChangeEvent ce) -> {
+            randomnessSpinner.setValue(randomnessSlider.getValue());
+        });
+        randomnessSpinner.addChangeListener((ChangeEvent ce) -> {
+            randomnessSlider.setValue((int)randomnessSpinner.getValue());
+        });
 
         values.setModel(new ValueTableModel(ValueLogic.values()));
         values.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(50);
@@ -62,14 +71,10 @@ public class StringAnalyzer extends javax.swing.JPanel {
 
         values.setRowHeight(30);
 
-        maxLength.addChangeListener((ChangeEvent ce) -> {
-            resolution.setValue(Math.max(1, (Integer) maxLength.getValue()/ 500));
+        length.addChangeListener((ChangeEvent ce) -> {
             generate();
         });
         
-        resolution.addChangeListener((ChangeEvent ce) -> {
-            generate();
-        });
 
         baseSet.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -104,22 +109,22 @@ public class StringAnalyzer extends javax.swing.JPanel {
     }
 
     private void generate() {
-        int maxLengthValue = (int) maxLength.getValue();
+        int lengthValue = (int) length.getValue();
         String charSet = baseSet.getText();
-        double randomness = (double) randomnessSpinner.getValue();
+        double r = Math.pow(10.0, -((Number)randomnessSpinner.getValue()).doubleValue());
 
         progress.setString("Generate strings...");
         
-        int res = (Integer)resolution.getValue();
-        
         StringBuilder stringListBuilder = new StringBuilder();
-        List<String> stringList = new ArrayList<>();
-        for (int length = 1; length <= maxLengthValue; length+=res) {
-            String text = generateRandomText(charSet, length, randomness);
-            stringList.add(text);
-            int p = (int) ((double) length / maxLengthValue * 100);
-            if (length < 100) {
+        Map<Double, String> stringList = new LinkedHashMap<>();
+        for (double randomness = 0; randomness <=1; randomness+=r) {
+            String text = generateRandomText(charSet, lengthValue, randomness);
+            stringList.put(randomness, text);
+            int p = (int) ((double) randomness * 100);
+            if (lengthValue < 100) {
                 stringListBuilder.append(text).append("\n");
+            } else {
+                stringListBuilder.append(text.substring(0, 93)).append("...").append("\n");
             }
             SwingUtilities.invokeLater(() -> progress.setValue(p));
         }
@@ -134,10 +139,13 @@ public class StringAnalyzer extends javax.swing.JPanel {
             for (Value value : selectedValues) {
                 progress.setString("Generate values: " + value.name() + "...");
                 List<Point2D> points = new ArrayList<>();
-                for (String text : stringList) {
-                    double val = value.value(text);
-                    points.add(new Point2D.Double(text.length(), val));
-                    int p = (int) ((double) text.length() / maxLengthValue * 100);
+                Set<Map.Entry<Double, String>> entrySet = stringList.entrySet();
+                int j = 0;
+                for (Iterator<Map.Entry<Double, String>> iterator = entrySet.iterator();iterator.hasNext();) {
+                    Map.Entry<Double, String> entry = iterator.next();
+                    double val = value.value(entry.getValue());
+                    points.add(new Point2D.Double(entry.getKey(), val));
+                    int p = (int) ((double) j++  / stringList.size() * 100);
                     SwingUtilities.invokeLater(() -> progress.setValue(p));
                 }
                 dataSeriesList.add(
@@ -273,7 +281,7 @@ public class StringAnalyzer extends javax.swing.JPanel {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            StringAnalyzer analyzer = new StringAnalyzer();
+            RandomnessBasedAnalyzer analyzer = new RandomnessBasedAnalyzer();
             JFrame frame = new JFrame();
             frame.setTitle("String Analyzer");
             frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -300,9 +308,7 @@ public class StringAnalyzer extends javax.swing.JPanel {
         tabs = new javax.swing.JTabbedPane();
         settingsPanel = new javax.swing.JPanel();
         maxLengthLabel = new javax.swing.JLabel();
-        maxLength = new javax.swing.JSpinner();
-        resolutionLabel = new javax.swing.JLabel();
-        resolution = new javax.swing.JSpinner();
+        length = new javax.swing.JSpinner();
         baseSetLabel = new javax.swing.JLabel();
         scrollPane = new javax.swing.JScrollPane();
         baseSet = new javax.swing.JTextPane();
@@ -336,41 +342,21 @@ public class StringAnalyzer extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(6, 5, 5, 5);
         settingsPanel.add(maxLengthLabel, gridBagConstraints);
 
-        maxLength.setModel(new javax.swing.SpinnerNumberModel(1000, 1, null, 1000));
-        maxLength.setPreferredSize(new java.awt.Dimension(100, 24));
+        length.setModel(new javax.swing.SpinnerNumberModel(1000, 1, null, 1000));
+        length.setPreferredSize(new java.awt.Dimension(100, 24));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
-        settingsPanel.add(maxLength, gridBagConstraints);
-
-        resolutionLabel.setFont(resolutionLabel.getFont().deriveFont(resolutionLabel.getFont().getSize()+2f));
-        resolutionLabel.setText("Resolution");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(6, 5, 5, 5);
-        settingsPanel.add(resolutionLabel, gridBagConstraints);
-
-        resolution.setModel(new javax.swing.SpinnerNumberModel(2, 1, null, 1));
-        resolution.setPreferredSize(new java.awt.Dimension(100, 24));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
-        settingsPanel.add(resolution, gridBagConstraints);
+        settingsPanel.add(length, gridBagConstraints);
 
         baseSetLabel.setFont(baseSetLabel.getFont().deriveFont(baseSetLabel.getFont().getSize()+2f));
         baseSetLabel.setText("Base set");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
@@ -385,7 +371,7 @@ public class StringAnalyzer extends javax.swing.JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.5;
@@ -393,34 +379,38 @@ public class StringAnalyzer extends javax.swing.JPanel {
         settingsPanel.add(scrollPane, gridBagConstraints);
 
         randomnessLabel.setFont(randomnessLabel.getFont().deriveFont(randomnessLabel.getFont().getSize()+2f));
-        randomnessLabel.setText("Randomness");
+        randomnessLabel.setText("Randomness resolution");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         settingsPanel.add(randomnessLabel, gridBagConstraints);
+
+        randomnessSlider.setMaximum(5);
+        randomnessSlider.setMinimum(1);
+        randomnessSlider.setValue(3);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
         settingsPanel.add(randomnessSlider, gridBagConstraints);
 
         randomnessSpinner.setFont(randomnessSpinner.getFont().deriveFont(randomnessSpinner.getFont().getSize()+2f));
-        randomnessSpinner.setModel(new javax.swing.SpinnerNumberModel(0.5d, 0.0d, 1.0d, 0.1d));
-        randomnessSpinner.setMinimumSize(new java.awt.Dimension(80, 27));
-        randomnessSpinner.setPreferredSize(new java.awt.Dimension(80, 27));
+        randomnessSpinner.setModel(new javax.swing.SpinnerNumberModel(3, 1, 5, 1));
+        randomnessSpinner.setMinimumSize(new java.awt.Dimension(120, 27));
+        randomnessSpinner.setPreferredSize(new java.awt.Dimension(120, 27));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         settingsPanel.add(randomnessSpinner, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.5;
@@ -470,15 +460,13 @@ public class StringAnalyzer extends javax.swing.JPanel {
     private javax.swing.JTextPane baseSet;
     private javax.swing.JLabel baseSetLabel;
     private javax.swing.JLabel filler;
-    private javax.swing.JSpinner maxLength;
+    private javax.swing.JSpinner length;
     private javax.swing.JLabel maxLengthLabel;
     private volgyerdo.value.ui.PlotPanel2D plot;
     private javax.swing.JProgressBar progress;
     private javax.swing.JLabel randomnessLabel;
     private javax.swing.JSlider randomnessSlider;
     private javax.swing.JSpinner randomnessSpinner;
-    private javax.swing.JSpinner resolution;
-    private javax.swing.JLabel resolutionLabel;
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JPanel settingsPanel;
     private javax.swing.JTextPane strings;

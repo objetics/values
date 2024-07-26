@@ -6,6 +6,7 @@ choose License Headers in Project Properties.
  */
 package volgyerdo.value.method;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import volgyerdo.value.structure.Value;
@@ -79,13 +80,7 @@ public class AssemblyIndex implements Value {
             return 0;
         }
         Set<Collection> set = new HashSet<>();
-        double totalValue = 0;
-        for (Object obj : collection) {
-            if (obj instanceof Collection) {
-                totalValue += infoRecursive((Collection) obj, set);
-            }
-        }
-        return totalValue;
+        return infoRecursive(collection, set);
     }
 
     public double infoRecursive(Collection s, Set<Collection> set) {
@@ -104,7 +99,7 @@ public class AssemblyIndex implements Value {
 
     private Collection splitCollection(Collection collection, int start, int end) {
         int currentIndex = 0;
-        Collection<Object> subCollection = new HashSet<>();
+        Collection<Object> subCollection = new ArrayList<>();
         for (Object obj : collection) {
             if (currentIndex >= start && currentIndex < end) {
                 subCollection.add(obj);
