@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
@@ -18,6 +19,7 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
@@ -30,6 +32,13 @@ import volgyerdo.value.structure.Value;
  * @author zsolt
  */
 public class LengthBasedAnalyzer extends javax.swing.JPanel {
+
+    private ChangeListener repetitivenessSliderListener;
+    private ChangeListener repetitivenessSpinnerListener;
+    private ChangeListener distributionSliderListener;
+    private ChangeListener distributionSpinnerListener;
+    
+    private Random random = new Random();
 
     static {
         try {
@@ -49,8 +58,17 @@ public class LengthBasedAnalyzer extends javax.swing.JPanel {
      */
     public LengthBasedAnalyzer() {
         initComponents();
-        randomnessSlider.addChangeListener(e -> randomnessSpinner.setValue(randomnessSlider.getValue() / 100.0));
-        randomnessSpinner.addChangeListener(e -> randomnessSlider.setValue((int) ((double) randomnessSpinner.getValue() * 100)));
+
+        repetitivenessSliderListener = new RepetitivenessSliderListener();
+        repetitivenessSpinnerListener = new RepetitivenessSpinnerListener();
+        distributionSliderListener = new DistributionSliderListener();
+        distributionSpinnerListener = new DistributionSpinnerListener();
+
+        // Listener-ek hozzáadása
+        repetitivenessSlider.addChangeListener(repetitivenessSliderListener);
+        repetitivenessSpinner.addChangeListener(repetitivenessSpinnerListener);
+        distributionSlider.addChangeListener(distributionSliderListener);
+        distributionSpinner.addChangeListener(distributionSpinnerListener);
 
         values.setModel(new ValueTableModel(ValueLogic.values()));
         values.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(50);
@@ -63,10 +81,10 @@ public class LengthBasedAnalyzer extends javax.swing.JPanel {
         values.setRowHeight(30);
 
         maxLength.addChangeListener((ChangeEvent ce) -> {
-            resolution.setValue(Math.max(1, (Integer) maxLength.getValue()/ 500));
+            resolution.setValue(Math.max(1, (Integer) maxLength.getValue() / 500));
             generate();
         });
-        
+
         resolution.addChangeListener((ChangeEvent ce) -> {
             generate();
         });
@@ -87,10 +105,13 @@ public class LengthBasedAnalyzer extends javax.swing.JPanel {
                 generate();
             }
         });
+        
+        GenerationListener generationListener = new GenerationListener();
 
-        randomnessSpinner.addChangeListener((ChangeEvent ce) -> {
-            generate();
-        });
+        repetitivenessSlider.addChangeListener(generationListener);
+        repetitivenessSpinner.addChangeListener(generationListener);
+        distributionSlider.addChangeListener(generationListener);
+        distributionSpinner.addChangeListener(generationListener);
 
         values.addMouseListener(new MouseAdapter() {
             @Override
@@ -103,19 +124,73 @@ public class LengthBasedAnalyzer extends javax.swing.JPanel {
         generate();
     }
 
+    class GenerationListener implements ChangeListener {
+
+        @Override
+        public void stateChanged(ChangeEvent ce) {
+            generate();
+        }
+        
+    }
+    
+    class RepetitivenessSliderListener implements ChangeListener {
+
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            repetitivenessSpinner.removeChangeListener(repetitivenessSpinnerListener);
+            repetitivenessSpinner.setValue(repetitivenessSlider.getValue() / 100.0);
+            repetitivenessSpinner.addChangeListener(repetitivenessSpinnerListener);
+        }
+    }
+
+    class RepetitivenessSpinnerListener implements ChangeListener {
+
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            repetitivenessSlider.removeChangeListener(repetitivenessSliderListener);
+            repetitivenessSlider.setValue((int) ((double) repetitivenessSpinner.getValue() * 100));
+            repetitivenessSlider.addChangeListener(repetitivenessSliderListener);
+        }
+    }
+
+    class DistributionSliderListener implements ChangeListener {
+
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            distributionSpinner.removeChangeListener(distributionSpinnerListener);
+            distributionSpinner.setValue(
+                    0.1 * Math.exp(Math.log(10) / 50 * ((double) distributionSlider.getValue())));
+            distributionSpinner.addChangeListener(distributionSpinnerListener);
+        }
+    }
+
+    class DistributionSpinnerListener implements ChangeListener {
+
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            distributionSlider.removeChangeListener(distributionSliderListener);
+            distributionSlider.setValue(
+                    (int) (50 * Math.log((double) distributionSpinner.getValue() / 0.1) / Math.log(10)));
+            distributionSlider.addChangeListener(distributionSliderListener);
+        }
+    }
+
     private void generate() {
         int maxLengthValue = (int) maxLength.getValue();
         String charSet = baseSet.getText();
-        double randomness = (double) randomnessSpinner.getValue();
+        
+        double repetitiveness = (double) repetitivenessSpinner.getValue();
+        
+        double sigma = (double) distributionSpinner.getValue();
 
         progress.setString("Generate strings...");
-        
-        int res = (Integer)resolution.getValue();
-        
+
+        int res = (Integer) resolution.getValue();
+
         StringBuilder stringListBuilder = new StringBuilder();
         List<String> stringList = new ArrayList<>();
-        for (int length = 1; length <= maxLengthValue; length+=res) {
-            String text = generateRandomText(charSet, length, randomness);
+        for (int length = 1; length <= maxLengthValue; length += res) {
+            String text = generateRandomText(charSet, length, repetitiveness, sigma);
             stringList.add(text);
             int p = (int) ((double) length / maxLengthValue * 100);
             if (length < 100) {
@@ -151,6 +226,31 @@ public class LengthBasedAnalyzer extends javax.swing.JPanel {
             });
         }).start();
     }
+    
+    
+    private String generateRandomText(String charSet, int length, double repetitiveness, double sigma) {
+    if (charSet.isEmpty()) {
+        return "";
+    }
+    
+    
+    StringBuilder sb = new StringBuilder();
+    
+    for (int i = 0; i < length; i++) {
+        if (Math.random() < repetitiveness) {
+            // Normál eloszlású véletlen érték generálása, majd normalizálás a karakterlánc hosszához
+            double gaussian = random.nextGaussian();  // Alapértelmezett mu=0, sigma=1
+            gaussian = gaussian * sigma;  // Skálázás sigma szerint
+            int index = (int) Math.round((gaussian - (-3 * sigma)) / (6 * sigma) * (charSet.length() - 1));
+            index = Math.max(0, Math.min(charSet.length() - 1, index));  // Győződj meg arról, hogy az index a határokon belül marad
+            sb.append(charSet.charAt(index));
+        } else {
+            sb.append(i == 0 ? charSet.charAt(0) : sb.charAt(i - 1));
+        }
+    }
+    
+    return sb.toString();
+}
 
     public static List<Color> generateDistinctColors(int n) {
         List<Color> colors = new ArrayList<>();
@@ -165,20 +265,6 @@ public class LengthBasedAnalyzer extends javax.swing.JPanel {
         return colors;
     }
 
-    private String generateRandomText(String charSet, int length, double randomness) {
-        if (charSet.isEmpty()) {
-            return "";
-        }
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            if (Math.random() < randomness) {
-                sb.append(charSet.charAt((int) (Math.random() * charSet.length())));
-            } else {
-                sb.append(i == 0 ? charSet.charAt(0) : sb.charAt(i - 1));
-            }
-        }
-        return sb.toString();
-    }
 
     private List<Value> getSelectedValues() {
         ValueTableModel model = (ValueTableModel) values.getModel();
@@ -306,10 +392,13 @@ public class LengthBasedAnalyzer extends javax.swing.JPanel {
         baseSetLabel = new javax.swing.JLabel();
         scrollPane = new javax.swing.JScrollPane();
         baseSet = new javax.swing.JTextPane();
-        randomnessLabel = new javax.swing.JLabel();
-        randomnessSlider = new javax.swing.JSlider();
-        randomnessSpinner = new javax.swing.JSpinner();
+        repetitivenessLabel = new javax.swing.JLabel();
+        repetitivenessSlider = new javax.swing.JSlider();
+        repetitivenessSpinner = new javax.swing.JSpinner();
         filler = new javax.swing.JLabel();
+        distributionLabel = new javax.swing.JLabel();
+        distributionSpinner = new javax.swing.JSpinner();
+        distributionSlider = new javax.swing.JSlider();
         stringsPanel = new javax.swing.JPanel();
         stringsScroll = new javax.swing.JScrollPane();
         strings = new javax.swing.JTextPane();
@@ -392,40 +481,67 @@ public class LengthBasedAnalyzer extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         settingsPanel.add(scrollPane, gridBagConstraints);
 
-        randomnessLabel.setFont(randomnessLabel.getFont().deriveFont(randomnessLabel.getFont().getSize()+2f));
-        randomnessLabel.setText("Randomness");
+        repetitivenessLabel.setFont(repetitivenessLabel.getFont().deriveFont(repetitivenessLabel.getFont().getSize()+2f));
+        repetitivenessLabel.setText("Repetitiveness");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
-        settingsPanel.add(randomnessLabel, gridBagConstraints);
+        settingsPanel.add(repetitivenessLabel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
-        settingsPanel.add(randomnessSlider, gridBagConstraints);
+        settingsPanel.add(repetitivenessSlider, gridBagConstraints);
 
-        randomnessSpinner.setFont(randomnessSpinner.getFont().deriveFont(randomnessSpinner.getFont().getSize()+2f));
-        randomnessSpinner.setModel(new javax.swing.SpinnerNumberModel(0.5d, 0.0d, 1.0d, 0.1d));
-        randomnessSpinner.setMinimumSize(new java.awt.Dimension(80, 27));
-        randomnessSpinner.setPreferredSize(new java.awt.Dimension(80, 27));
+        repetitivenessSpinner.setFont(repetitivenessSpinner.getFont().deriveFont(repetitivenessSpinner.getFont().getSize()+2f));
+        repetitivenessSpinner.setModel(new javax.swing.SpinnerNumberModel(0.5d, 0.0d, 1.0d, 0.1d));
+        repetitivenessSpinner.setMinimumSize(new java.awt.Dimension(80, 27));
+        repetitivenessSpinner.setPreferredSize(new java.awt.Dimension(80, 27));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
-        settingsPanel.add(randomnessSpinner, gridBagConstraints);
+        settingsPanel.add(repetitivenessSpinner, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.weighty = 0.5;
         settingsPanel.add(filler, gridBagConstraints);
+
+        distributionLabel.setFont(distributionLabel.getFont().deriveFont(distributionLabel.getFont().getSize()+2f));
+        distributionLabel.setText("Normal distribution σ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        settingsPanel.add(distributionLabel, gridBagConstraints);
+
+        distributionSpinner.setFont(distributionSpinner.getFont().deriveFont(distributionSpinner.getFont().getSize()+2f));
+        distributionSpinner.setModel(new javax.swing.SpinnerNumberModel(1.0d, 0.1d, 10.0d, 0.1d));
+        distributionSpinner.setMinimumSize(new java.awt.Dimension(80, 27));
+        distributionSpinner.setPreferredSize(new java.awt.Dimension(80, 27));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        settingsPanel.add(distributionSpinner, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        settingsPanel.add(distributionSlider, gridBagConstraints);
 
         tabs.addTab("Settings", settingsPanel);
 
@@ -469,14 +585,17 @@ public class LengthBasedAnalyzer extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextPane baseSet;
     private javax.swing.JLabel baseSetLabel;
+    private javax.swing.JLabel distributionLabel;
+    private javax.swing.JSlider distributionSlider;
+    private javax.swing.JSpinner distributionSpinner;
     private javax.swing.JLabel filler;
     private javax.swing.JSpinner maxLength;
     private javax.swing.JLabel maxLengthLabel;
     private volgyerdo.value.ui.PlotPanel2D plot;
     private javax.swing.JProgressBar progress;
-    private javax.swing.JLabel randomnessLabel;
-    private javax.swing.JSlider randomnessSlider;
-    private javax.swing.JSpinner randomnessSpinner;
+    private javax.swing.JLabel repetitivenessLabel;
+    private javax.swing.JSlider repetitivenessSlider;
+    private javax.swing.JSpinner repetitivenessSpinner;
     private javax.swing.JSpinner resolution;
     private javax.swing.JLabel resolutionLabel;
     private javax.swing.JScrollPane scrollPane;

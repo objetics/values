@@ -20,8 +20,6 @@ import volgyerdo.value.structure.Value;
  */
 public class RLEInfo implements Value {
 
-    private final ShannonInfo shannon = new ShannonInfo();
-
     @Override
     public String name() {
         return "RLE information";
