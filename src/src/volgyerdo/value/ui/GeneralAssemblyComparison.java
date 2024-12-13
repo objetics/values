@@ -23,6 +23,7 @@ import javax.swing.WindowConstants;
 public class GeneralAssemblyComparison extends javax.swing.JFrame {
 
     private static DecimalFormat fiFormat = new DecimalFormat("0.0", new DecimalFormatSymbols(Locale.ENGLISH));
+    private static DecimalFormat printFormat = new DecimalFormat("0.####");
 
     /**
      * Creates new form AssemblyComparison
@@ -44,6 +45,7 @@ public class GeneralAssemblyComparison extends javax.swing.JFrame {
                 float c = (float) (phi / 2.0 + 0.5);
                 dataSeriesList.add(createSeriesFixPhi(phi, new Color(c, 1f - c, 1f - c)));
             }
+            printData(dataSeriesList, "Fix phi:");
             SwingUtilities.invokeLater(() -> {
                 plotFixPhi.setDataSeries(dataSeriesList);
             });
@@ -59,6 +61,7 @@ public class GeneralAssemblyComparison extends javax.swing.JFrame {
                 float c = (float) (phi0 / 2.0 + 0.5);
                 dataSeriesList.add(createSeriesChangingPhi(phi0, new Color(c, 1f - c, 1f - c)));
             }
+            printData(dataSeriesList, "Changing phi:");
             SwingUtilities.invokeLater(() -> {
                 PlotChangingPhi.setDataSeries(dataSeriesList);
             });
@@ -87,12 +90,13 @@ public class GeneralAssemblyComparison extends javax.swing.JFrame {
         double[] a = new double[102];
         a[1] = 10e12;
         List<Point2D> points = new ArrayList<>();
-        double phi = phi0;
+        double phi;
         for (int i = 0; i < 50; i++) {
             double[] a1 = new double[102];
             points.add(new Point2D.Double(i, generalAssembly(a)));
             for (int j = 1; j < 102; j++) {
                 phi = phi0 * Math.pow(0.33, j - 1);
+//                System.out.println(phi);
                 a1[j] = (1 - phi) * a[j] + phi * a[j - 1];
             }
             a = a1;
@@ -102,18 +106,24 @@ public class GeneralAssemblyComparison extends javax.swing.JFrame {
                 points, color, true, false);
     }
 
+    private void printData(List<DataSeries> series, String title) {
+        System.out.println(title);
+        for (int i = 0; i < 50; i++) {
+            for (int j = 0; j < 6; j++) {
+                System.out.print(printFormat.format(series.get(j).getPoints().get(i).getY()) + ";");
+            }
+            System.out.println();
+        }
+    }
+
     private double generalAssembly(double[] a) {
         double assembly = 0;
         double total = 0;
         for (int j = 1; j < 102; j++) {
-            if (a[j] > 1) {
-                total+=Math.log(a[j]) / Math.log(2.);
-            }
+            total += a[j];
         }
         for (int j = 1; j < 102; j++) {
-            if (a[j] > 1) {
-                assembly += j * Math.log(a[j]) / Math.log(2.);
-            }
+                assembly += j * a[j];
         }
         return assembly / total;
     }
@@ -177,10 +187,10 @@ public class GeneralAssemblyComparison extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 JFrame frame = new GeneralAssemblyComparison();
-                frame.setTitle("Assembly Plot");
+                frame.setTitle("General Assembly Plot");
                 frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-                frame.setPreferredSize(new Dimension(950, 600));
-                frame.setMinimumSize(new Dimension(950, 600));
+                frame.setPreferredSize(new Dimension(600, 500));
+                frame.setMinimumSize(new Dimension(600, 500));
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
             }

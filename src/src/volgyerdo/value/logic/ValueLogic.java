@@ -9,6 +9,7 @@ import java.util.List;
 import volgyerdo.value.method.AssemblyIndex;
 import volgyerdo.value.method.GZIPInfo;
 import volgyerdo.value.method.HuffmanInfo;
+import volgyerdo.value.method.MarkovInfo;
 import volgyerdo.value.method.MaxEntropy;
 import volgyerdo.value.method.MaxInfo;
 import volgyerdo.value.method.MinInfo;
@@ -41,6 +42,7 @@ public class ValueLogic {
         VALUES.add(new ShannonInfo());
         VALUES.add(new MinInfo());
         VALUES.add(new RLEShannonInfo());
+        VALUES.add(new MarkovInfo());
         VALUES.sort((o1, o2) -> o1.name().compareTo(o2.name()));
     }
 

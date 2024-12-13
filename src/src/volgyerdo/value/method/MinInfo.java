@@ -21,18 +21,30 @@ public class MinInfo implements Value {
 
     @Override
     public double value(Collection values) {
-        if (values == null || values.size() <= 1) {
+        if (values == null) {
             return 0;
         }
-        return Math.log(values.size()) / Math.log(2);
+        if (values.isEmpty()) {
+            return 0;
+        }
+        if (values.size() == 1) {
+            return 1;
+        }
+        return Math.log(values.size() + 1) / Math.log(2);
     }
 
     @Override
     public double value(byte[] values) {
-        if (values == null || values.length <= 1) {
+        if (values == null) {
             return 0;
         }
-        return Math.log(values.length) / Math.log(2);
+        if(values.length == 0){
+            return 0;
+        }
+        if(values.length == 1){
+            return 1;
+        }
+        return Math.log(values.length + 1) / Math.log(2);
     }
 
 }

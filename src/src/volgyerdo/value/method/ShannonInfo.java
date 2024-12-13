@@ -104,7 +104,7 @@ public class ShannonInfo implements Value {
             }
         }
         if (map.size() == 1) {
-            return Math.log(values.size()) / Math.log(2);
+            return Math.log(values.size() + 1) / Math.log(2);
         }
         double info = 0;
         for (Object x : values) {

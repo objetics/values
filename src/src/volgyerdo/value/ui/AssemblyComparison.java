@@ -23,6 +23,7 @@ import javax.swing.WindowConstants;
 public class AssemblyComparison extends javax.swing.JFrame {
 
     private static DecimalFormat fiFormat = new DecimalFormat("0.0", new DecimalFormatSymbols(Locale.ENGLISH));
+    private static DecimalFormat resultFormat = new DecimalFormat("0.####");
 
     /**
      * Creates new form AssemblyComparison
@@ -44,6 +45,7 @@ public class AssemblyComparison extends javax.swing.JFrame {
                 float c = (float) (phi / 2.0 + 0.5);
                 dataSeriesList.add(createSeriesFixPhi(phi, new Color(c, 1f - c, 1f - c)));
             }
+            printData(dataSeriesList, "Fix phi:");
             SwingUtilities.invokeLater(() -> {
                 plotFixPhi.setDataSeries(dataSeriesList);
             });
@@ -59,12 +61,23 @@ public class AssemblyComparison extends javax.swing.JFrame {
                 float c = (float) (phi0 / 2.0 + 0.5);
                 dataSeriesList.add(createSeriesChangingPhi(phi0, new Color(c, 1f - c, 1f - c)));
             }
+            printData(dataSeriesList, "Changing phi:");
             SwingUtilities.invokeLater(() -> {
                 PlotChangingPhi.setDataSeries(dataSeriesList);
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    private void printData(List<DataSeries> series, String title){
+        System.out.println(title);
+            for (int i = 0; i < 50; i++) {
+                for (int j = 0; j < 6; j++) {
+                    System.out.print(resultFormat.format(series.get(j).getPoints().get(i).getY()) + ";");
+                }
+                System.out.println();
+            }
     }
 
     private DataSeries createSeriesFixPhi(double phi, Color color) {
@@ -178,8 +191,8 @@ public class AssemblyComparison extends javax.swing.JFrame {
                 JFrame frame = new AssemblyComparison();
                 frame.setTitle("Assembly Plot");
                 frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-                frame.setPreferredSize(new Dimension(950, 600));
-                frame.setMinimumSize(new Dimension(950, 600));
+                frame.setPreferredSize(new Dimension(600, 500));
+                frame.setMinimumSize(new Dimension(600, 500));
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
             }
