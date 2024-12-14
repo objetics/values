@@ -5,6 +5,7 @@
 package volgyerdo.test;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Random;
 import volgyerdo.value.method.GZIPInfo;
 import volgyerdo.value.method.MarkovInfo;
@@ -15,6 +16,8 @@ import volgyerdo.value.method.MaxInfo;
  * @author zsolt
  */
 public class Comparison {
+    
+    private static DecimalFormat format = new DecimalFormat("0");
 
     public static void main(String[] args) {
 
@@ -66,10 +69,10 @@ public class Comparison {
 
         System.out.println();
         System.out.println(" --------- " + name + " --------- ");
-        System.out.println(max);
-        System.out.println(markov);
-        System.out.println(gzip);
-        System.out.println(kolmogorov);
+        System.out.println(format.format(max));
+        System.out.println(format.format(markov));
+        System.out.println(format.format(gzip));
+        System.out.println(format.format(kolmogorov));
     }
 
     private static String createText() {
@@ -123,9 +126,8 @@ public class Comparison {
         
         // 2. Előírunk egy 50–50% arányt a két karakter számára
         //    (Ez nem tökéletes véletlen, de biztosítja a kívánt arányt.)
-        int half = LENGTH / 4;
+        int half = LENGTH / 8;
         int countA = half;
-        int countB = LENGTH - half;
         
         // Feltöltjük a tömböt: félig A-k, félig B-k
         // Majd később véletlenszerűen megkeverjük.
