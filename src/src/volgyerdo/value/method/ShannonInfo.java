@@ -7,8 +7,6 @@ package volgyerdo.value.method;
 
 import volgyerdo.value.structure.Value;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import volgyerdo.commons.primitive.ArrayUtils;
 
 /**
@@ -94,24 +92,7 @@ public class ShannonInfo implements Value {
         if (values == null || values.size() <= 1) {
             return 0;
         }
-        Map<Object, Integer> map = new HashMap<>();
-        for (Object x : values) {
-            Integer frequency = map.get(x);
-            if (frequency == null) {
-                map.put(x, 1);
-            } else {
-                map.put(x, frequency + 1);
-            }
-        }
-        if (map.size() == 1) {
-            return Math.log(values.size() + 1) / Math.log(2);
-        }
-        double info = 0;
-        for (Object x : values) {
-            double frequency = ((double) map.get(x)) / values.size();
-            info -= Math.log(frequency) / Math.log(2);
-        }
-        return info;
+        return shannonEntropy.value(values) * values.size();
     }
 
 }

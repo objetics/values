@@ -54,6 +54,12 @@ public class Comparison {
     }
 
     private static void test(String s, String name, String code) {
+        System.out.println();
+        System.out.println(s);
+        System.out.println();
+        System.out.println(code);
+        System.out.println();
+        
         MaxInfo maxInfo = new MaxInfo();
         double max = (maxInfo.value(s)+maxInfo.value(s)+maxInfo.value(s)+maxInfo.value(s))/4;
 
@@ -112,7 +118,6 @@ public class Comparison {
             }
         }
 
-        System.out.println(sb);
 
         return sb.toString();
     }
@@ -172,8 +177,7 @@ public class Comparison {
         
         // 6. Az eredmény (char tömb) kiírása
         String result = new String(sequence);
-        
-        System.out.println(result);
+
         
         return result;
     }
@@ -205,6 +209,7 @@ public class Comparison {
                     row.append('0');
                 }
             }
+            System.out.println(row.toString());
             sb.append(row.toString());
         }
         return sb.toString();
