@@ -6,10 +6,10 @@ package volgyerdo.test;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import volgyerdo.value.method.GZIPInfo;
-import volgyerdo.value.method.RLEShannonInfo;
-import volgyerdo.value.method.SSMInfo;
-import volgyerdo.value.method.ShannonEntropy;
+import volgyerdo.value.logic.method.GZIPInfo;
+import volgyerdo.value.logic.method.RLEShannonInfo;
+import volgyerdo.value.logic.method.SSMInfo;
+import volgyerdo.value.logic.method.ShannonEntropy;
 
 public class MarkovChain {
 

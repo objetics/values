@@ -3,25 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package volgyerdo.value.method;
+package volgyerdo.value.logic.method;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import volgyerdo.commons.collection.CollectionUtils;
 import volgyerdo.value.structure.Value;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class RLEShannonInfo implements Value {
-
-    private final ShannonInfo shannon = new ShannonInfo();
+public class RLEInfo implements Value {
 
     @Override
     public String name() {
-        return "RLE + Shannon information";
+        return "RLE information";
     }
 
     @Override
@@ -57,8 +58,10 @@ public class RLEShannonInfo implements Value {
                 }
             }
         }
+        
+        Set set = new HashSet(CollectionUtils.convertByteArrayToList(rle));
 
-        return shannon.value(rle);
+        return pos * Math.log(set.size()) / Math.log(2);
     }
     
 
@@ -97,7 +100,9 @@ public class RLEShannonInfo implements Value {
                 }
             }
         }
-
-        return shannon.value(rle);
+        
+        Set set = new HashSet(rle);
+       
+        return rle.size() * Math.log(set.size()) / Math.log(2);
     }
 }

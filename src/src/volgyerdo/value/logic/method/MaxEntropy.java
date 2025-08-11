@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package volgyerdo.value.method;
+package volgyerdo.value.logic.method;
 
 import java.util.Collection;
 import java.util.HashSet;

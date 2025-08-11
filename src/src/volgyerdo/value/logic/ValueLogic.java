@@ -6,22 +6,22 @@ package volgyerdo.value.logic;
 
 import java.util.ArrayList;
 import java.util.List;
-import volgyerdo.value.method.Assembly;
-import volgyerdo.value.method.AssemblyIndexApprox;
-import volgyerdo.value.method.AssemblyIndex;
-import volgyerdo.value.method.GZIPInfo;
-import volgyerdo.value.method.GeneralAssembly;
-import volgyerdo.value.method.HuffmanInfo;
-import volgyerdo.value.method.MarkovInfo;
-import volgyerdo.value.method.MaxEntropy;
-import volgyerdo.value.method.MaxInfo;
-import volgyerdo.value.method.MinInfo;
-import volgyerdo.value.method.RLEInfo;
-import volgyerdo.value.method.RLEShannonInfo;
-import volgyerdo.value.method.SCMInfo;
-import volgyerdo.value.method.SSMInfo;
-import volgyerdo.value.method.ShannonEntropy;
-import volgyerdo.value.method.ShannonInfo;
+import volgyerdo.value.logic.method.Assembly;
+import volgyerdo.value.logic.method.AssemblyIndexApprox;
+import volgyerdo.value.logic.method.AssemblyIndex;
+import volgyerdo.value.logic.method.GZIPInfo;
+import volgyerdo.value.logic.method.GeneralAssembly;
+import volgyerdo.value.logic.method.HuffmanInfo;
+import volgyerdo.value.logic.method.MarkovInfo;
+import volgyerdo.value.logic.method.MaxEntropy;
+import volgyerdo.value.logic.method.MaxInfo;
+import volgyerdo.value.logic.method.MinInfo;
+import volgyerdo.value.logic.method.RLEInfo;
+import volgyerdo.value.logic.method.RLEShannonInfo;
+import volgyerdo.value.logic.method.SCMInfo;
+import volgyerdo.value.logic.method.SSMInfo;
+import volgyerdo.value.logic.method.ShannonEntropy;
+import volgyerdo.value.logic.method.ShannonInfo;
 import volgyerdo.value.structure.Value;
 
 /**

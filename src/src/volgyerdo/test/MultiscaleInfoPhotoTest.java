@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import javax.imageio.ImageIO;
 import volgyerdo.commons.primitive.PrimitiveUtils;
-import volgyerdo.value.method.ShannonInfo;
+import volgyerdo.value.logic.method.ShannonInfo;
 
 /**
  *

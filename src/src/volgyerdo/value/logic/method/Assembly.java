@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package volgyerdo.value.method;
+package volgyerdo.value.logic.method;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,21 +13,13 @@ import volgyerdo.value.structure.Value;
  *
  * @author zsolt
  */
-public class GeneralAssembly implements Value {
-    
-    private final Value info;
+public class Assembly implements Value {
 
-    public GeneralAssembly() {
-        this(new GZIPInfo());
-    }
-    
-    public GeneralAssembly(Value info) {
-        this.info = info;
-    }
-    
+    private AssemblyIndexApprox ai = new AssemblyIndexApprox();
+
     @Override
     public String name() {
-        return "General Assembly";
+        return "Assembly";
     }
 
     @Override
@@ -42,23 +34,24 @@ public class GeneralAssembly implements Value {
             counts.put(o, counts.getOrDefault(o, 0) + 1);
         }
 
-        int N = counts.size();
+        int NT = values.size();
 
         double sum = 0.0;
+        double logNT = Math.log(NT);
 
         for (Map.Entry<Object, Integer> entry : counts.entrySet()) {
             Object o = entry.getKey();
             int ni = entry.getValue();
-            double i = info.value(o);
-            
-            sum += i * Math.log(ni) / Math.log(2);
+            double aiVal = ai.value(o);
+            // e^(ai - log(NT)) == e^ai / NT
+            sum += Math.exp(aiVal - logNT) * (ni - 1);
         }
-        return sum / N;
+        return sum;
     }
 
     @Override
     public double value(byte[] values) {
-        return info.value(values);
+        return ai.value(values);
     }
-    
+
 }

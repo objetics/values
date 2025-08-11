@@ -6,8 +6,8 @@
 package volgyerdo.test;
 
 import java.text.DecimalFormat;
-import volgyerdo.value.method.ShannonInfo;
-import volgyerdo.value.method.SSMInfo;
+import volgyerdo.value.logic.method.ShannonInfo;
+import volgyerdo.value.logic.method.SSMInfo;
 import volgyerdo.value.structure.Value;
 
 /**

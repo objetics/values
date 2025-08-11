@@ -9,9 +9,9 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import volgyerdo.commons.string.StringUtils;
-import volgyerdo.value.method.SCMInfo;
-import volgyerdo.value.method.SSMInfo;
-import volgyerdo.value.method.ShannonInfo;
+import volgyerdo.value.logic.method.SCMInfo;
+import volgyerdo.value.logic.method.SSMInfo;
+import volgyerdo.value.logic.method.ShannonInfo;
 import volgyerdo.value.structure.Value;
 
 /**

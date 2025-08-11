@@ -5,7 +5,7 @@
 package volgyerdo.test;
 
 import java.text.DecimalFormat;
-import volgyerdo.value.method.GZIPInfo;
+import volgyerdo.value.logic.method.GZIPInfo;
 import volgyerdo.value.structure.Value;
 
 /**
