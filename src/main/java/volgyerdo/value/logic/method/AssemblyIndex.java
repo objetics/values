@@ -120,8 +120,8 @@ public class AssemblyIndex implements Value {
      * @return assembly index (minimális lépésszám)
      */
     @Override
-    public double value(Collection collection) {
-        List list = new ArrayList(collection);
+    public double value(Collection<?> collection) {
+        List<Object> list = new ArrayList<>(collection);
         int n = list.size();
         if (n <= 1) {
             return 0;
@@ -140,7 +140,7 @@ public class AssemblyIndex implements Value {
 
             // Prefix hash frissítése (a 0...i közti prefixek)
             for (int len = 1; len <= i; len++) {
-                List sub = list.subList(i, i + len > n ? n : i + len);
+                List<Object> sub = list.subList(i, i + len > n ? n : i + len);
                 if (sub.size() < len) {
                     break;
                 }
@@ -161,7 +161,7 @@ public class AssemblyIndex implements Value {
 
             // Minden lehetséges részlistát, ami véget ér i-nél, felvesszük a prefixMap-be
             for (int start = 0; start <= i; start++) {
-                List sub = list.subList(start, i + 1);
+                List<Object> sub = list.subList(start, i + 1);
                 int hash = sub.hashCode();
                 prefixMap.computeIfAbsent(hash, k -> new ArrayList<>()).add(start);
             }

@@ -68,13 +68,13 @@ public class SSMInfo implements Value{
     }
     
     @Override
-    public double value(Collection values) {
+    public double value(Collection<?> values) {
         if (values.size() <= 1) {
             return 0;
         }
         double minimumInfo = 0;
         double absoluteMax = 0;
-        Set atomicSet = new HashSet<>(values);
+        Set<?> atomicSet = new HashSet<>(values);
         int K = atomicSet.size();
         if (K == 1) {
             return Math.log(values.size()) / Math.log(2);

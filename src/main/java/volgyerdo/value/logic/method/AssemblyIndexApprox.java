@@ -75,7 +75,7 @@ public class AssemblyIndexApprox implements Value {
     }
 
     @Override
-    public double value(Collection collection) {
+    public double value(Collection<?> collection) {
         if (collection == null || collection.isEmpty()) {
             return 0;
         }

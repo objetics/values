@@ -59,19 +59,19 @@ public class RLEInfo implements Value {
             }
         }
         
-        Set set = new HashSet(CollectionUtils.convertByteArrayToList(rle));
+        Set<?> set = new HashSet<>(CollectionUtils.convertByteArrayToList(rle));
 
         return pos * Math.log(set.size()) / Math.log(2);
     }
     
 
     @Override
-    public double value(Collection values) {
+    public double value(Collection<?> values) {
         if (values == null || values.size() <= 1) {
             return 0;
         }
         
-        List rle = new ArrayList(values.size());
+        List<Object> rle = new ArrayList<>(values.size());
         
         Object[] input = values.toArray();
 
@@ -101,7 +101,7 @@ public class RLEInfo implements Value {
             }
         }
         
-        Set set = new HashSet(rle);
+        Set<Object> set = new HashSet<>(rle);
        
         return rle.size() * Math.log(set.size()) / Math.log(2);
     }

@@ -35,11 +35,11 @@ public class SCMInfo implements Value{
     }
 
     @Override
-    public  double value(Collection values) {
+    public  double value(Collection<?> values) {
         if (values == null || values.size() <= 1) {
             return 0;
         }
-        Set atomicSet = new HashSet<>(values);
+        Set<?> atomicSet = new HashSet<>(values);
         int K = atomicSet.size();
         if (K == 1) {
             return 0;
@@ -48,11 +48,15 @@ public class SCMInfo implements Value{
         int N = values.size();
         double absoluteMax = maxInformation(N, K, 1);
         for (int r = 1; r <= N / 2; r++) {
-            List<List> parts = CollectionUtils.breakApart(values, r, false);
+            @SuppressWarnings("rawtypes")
+            List parts = CollectionUtils.breakApart(values, r, false);
             double maxInfo = maxInformation(N, K, r);
-            Set<List> range = new HashSet(parts);
+            @SuppressWarnings({"rawtypes", "unchecked"})
+            Set range = new HashSet(parts);
             double actualInfo = 0;
-            for (List element : range) {
+            for (Object obj : range) {
+                @SuppressWarnings("rawtypes")
+                List element = (List) obj;
                 actualInfo += shannon.value(element);
             }
             actualInfo += shannon.value(parts);

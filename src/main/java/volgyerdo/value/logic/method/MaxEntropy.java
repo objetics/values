@@ -22,11 +22,11 @@ public class MaxEntropy implements Value {
     }
 
     @Override
-    public double value(Collection values) {
+    public double value(Collection<?> values) {
         if (values.size() <= 1) {
             return 0;
         }
-        Set atomicSet = new HashSet<>(values);
+        Set<?> atomicSet = new HashSet<>(values);
         int K = atomicSet.size();
         if (K == 1) {
             return 0;

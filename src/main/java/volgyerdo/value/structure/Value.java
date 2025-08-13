@@ -52,7 +52,7 @@ public interface Value {
         return value(CollectionUtils.convertStringToCharList(values));
     }
 
-    double value(Collection values);
+    double value(Collection<?> values);
 
     default double value(boolean[] values) {
         if (values == null) {

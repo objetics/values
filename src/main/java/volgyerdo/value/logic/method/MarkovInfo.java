@@ -24,7 +24,7 @@ public class MarkovInfo implements Value {
     }
 
     @Override
-    public double value(Collection values) {
+    public double value(Collection<?> values) {
         if (values == null || values.isEmpty()) {
             return 0;
         }

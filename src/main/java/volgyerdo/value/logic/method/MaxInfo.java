@@ -22,7 +22,7 @@ public class MaxInfo implements Value {
     }
 
     @Override
-    public double value(Collection values) {
+    public double value(Collection<?> values) {
         if (values == null) {
             return 0;
         }
@@ -32,7 +32,7 @@ public class MaxInfo implements Value {
         if (values.size() == 1) {
             return 1;
         }
-        Set atomicSet = new HashSet<>(values);
+        Set<?> atomicSet = new HashSet<>(values);
         int k = atomicSet.size();
         int n = values.size();
         double v = n * Math.log(k) / Math.log(2);

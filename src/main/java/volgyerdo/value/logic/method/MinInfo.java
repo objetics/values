@@ -20,7 +20,7 @@ public class MinInfo implements Value {
     }
 
     @Override
-    public double value(Collection values) {
+    public double value(Collection<?> values) {
         if (values == null) {
             return 0;
         }

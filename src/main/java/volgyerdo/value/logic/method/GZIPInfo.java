@@ -77,7 +77,7 @@ public class GZIPInfo implements Value {
     }
 
     @Override
-    public double value(Collection input) {
+    public double value(Collection<?> input) {
         if (input == null || input.size() <= 1) {
             return 0;
         }

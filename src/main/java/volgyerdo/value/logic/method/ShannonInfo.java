@@ -88,7 +88,7 @@ public class ShannonInfo implements Value {
     }
 
     @Override
-    public double value(Collection values) {
+    public double value(Collection<?> values) {
         if (values == null || values.size() <= 1) {
             return 0;
         }

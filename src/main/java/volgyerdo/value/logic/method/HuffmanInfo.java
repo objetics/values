@@ -98,7 +98,7 @@ public class HuffmanInfo implements Value {
     }
     
     @Override
-    public double value(Collection values) {
+    public double value(Collection<?> values) {
         if (values == null || values.size() <= 1) {
             return 0;
         }
@@ -127,7 +127,7 @@ public class HuffmanInfo implements Value {
         }
     }
 
-    private Node buildHuffmanTree(Collection text) {
+    private Node buildHuffmanTree(Collection<?> text) {
         Map<Object, Integer> freq = new HashMap<>();
         for (Object ch : text) {
             freq.put(ch, freq.getOrDefault(ch, 0) + 1);

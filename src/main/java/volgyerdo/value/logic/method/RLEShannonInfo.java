@@ -63,12 +63,12 @@ public class RLEShannonInfo implements Value {
     
 
     @Override
-    public double value(Collection values) {
+    public double value(Collection<?> values) {
         if (values == null || values.size() <= 1) {
             return 0;
         }
         
-        List rle = new ArrayList(values.size());
+        List<Object> rle = new ArrayList<>(values.size());
         
         Object[] input = values.toArray();
 

@@ -19,7 +19,6 @@ import volgyerdo.value.logic.method.ShannonEntropy;
 public class BetterInformationTest {
 
     private static DecimalFormat format = new DecimalFormat("0.0000");
-    private static DecimalFormat shortFormat = new DecimalFormat("0");
     private static ShannonEntropy shannonEntropy = new ShannonEntropy();
 
     public static void main(String[] args) {
