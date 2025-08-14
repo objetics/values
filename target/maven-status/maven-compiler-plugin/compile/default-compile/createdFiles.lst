@@ -68,6 +68,7 @@ volgyerdo/test/BinaryTestParallel.class
 volgyerdo/test/SSMInformationTest.class
 volgyerdo/test/HumanCellCount.class
 volgyerdo/value/ui/PlotPanel2D$1.class
+volgyerdo/value/logic/method/FastAssemblyIndex.class
 volgyerdo/value/ui/PlotPanel2D$8.class
 volgyerdo/value/logic/method/GeneralAssembly.class
 volgyerdo/value/ui/LengthBasedAnalyzer$GenerationListener.class

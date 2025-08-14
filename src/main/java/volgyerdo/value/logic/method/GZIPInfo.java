@@ -96,7 +96,9 @@ public class GZIPInfo implements Value {
             // Ha az eredeti tartomány szélessége nulla, minden érték az új tartomány közepére kerül
             return (newMin + newMax) / 2;
         }
-        return newMin + ((value - originalMin) / (originalMax - originalMin)) * (newMax - newMin);
+        return Math.min(newMax, newMin + ((value - originalMin)
+            / (originalMax - originalMin))
+            * (newMax - newMin));
     }
 
 }

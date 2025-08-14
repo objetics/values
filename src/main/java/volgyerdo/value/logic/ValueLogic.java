@@ -6,9 +6,10 @@ package volgyerdo.value.logic;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import volgyerdo.value.logic.method.Assembly;
-import volgyerdo.value.logic.method.AssemblyIndexApprox;
 import volgyerdo.value.logic.method.AssemblyIndex;
+import volgyerdo.value.logic.method.AssemblyIndexApprox;
 import volgyerdo.value.logic.method.GZIPInfo;
 import volgyerdo.value.logic.method.GeneralAssembly;
 import volgyerdo.value.logic.method.HuffmanInfo;
