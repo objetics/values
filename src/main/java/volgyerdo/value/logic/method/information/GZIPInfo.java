@@ -1,0 +1,59 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package volgyerdo.value.logic.method.information;
+
+import java.util.Collection;
+import volgyerdo.commons.object.ObjectUtils;
+import volgyerdo.commons.primitive.ArrayUtils;
+import volgyerdo.value.logic.method.util.InfoNormalizer;
+import volgyerdo.value.logic.method.util.ValueUtils;
+import volgyerdo.value.structure.Information;
+
+/**
+ *
+ * @author Volgyerdo Nonprofit Kft.
+ */
+public class GZIPInfo implements Information {
+
+    @Override
+    public String name() {
+        return "GZIP information";
+    }
+    
+    @Override
+    public double value(String values) {
+        if (values == null || values.length() <= 1) {
+            return 0;
+        }
+        return value(values.getBytes());
+    }
+
+    @Override
+    public double value(byte[] values) {
+        if (values == null || values.length <= 1) {
+            return 0;
+        }
+        double gzipInfo = ArrayUtils.toGZIP(values).length * 8;
+        double minGzipInfo = ArrayUtils.toGZIP(new byte[values.length]).length * 8;
+        double maxGzipInfo = ArrayUtils.toGZIP(ValueUtils.generateRandomByteArray(values)).length * 8;
+
+        return InfoNormalizer.normalizeInfo(gzipInfo, minGzipInfo, maxGzipInfo, values);
+    }
+
+    @Override
+    public double value(Collection<?> input) {
+        if (input == null || input.size() <= 1) {
+            return 0;
+        }
+        byte[] values = ObjectUtils.serialize(input);
+        double gzipInfo = ArrayUtils.toGZIP(values).length * 8;
+        double minGzipInfo = ArrayUtils.toGZIP(new byte[values.length]).length * 8;
+        double maxGzipInfo = ArrayUtils.toGZIP(ValueUtils.generateRandomByteArray(values)).length * 8;
+
+        return InfoNormalizer.normalizeInfo(gzipInfo, minGzipInfo, maxGzipInfo, input);
+    }
+
+}

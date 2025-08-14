@@ -7,22 +7,22 @@ package volgyerdo.value.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import volgyerdo.value.logic.method.Assembly;
-import volgyerdo.value.logic.method.AssemblyIndex;
-import volgyerdo.value.logic.method.AssemblyIndexApprox;
-import volgyerdo.value.logic.method.GZIPInfo;
-import volgyerdo.value.logic.method.GeneralAssembly;
-import volgyerdo.value.logic.method.HuffmanInfo;
-import volgyerdo.value.logic.method.MarkovInfo;
-import volgyerdo.value.logic.method.MaxEntropy;
-import volgyerdo.value.logic.method.MaxInfo;
-import volgyerdo.value.logic.method.MinInfo;
-import volgyerdo.value.logic.method.RLEInfo;
-import volgyerdo.value.logic.method.RLEShannonInfo;
-import volgyerdo.value.logic.method.SCMInfo;
-import volgyerdo.value.logic.method.SSMInfo;
-import volgyerdo.value.logic.method.ShannonEntropy;
-import volgyerdo.value.logic.method.ShannonInfo;
+import volgyerdo.value.logic.method.assembly.AssemblyMeasure;
+import volgyerdo.value.logic.method.assembly.AssemblyIndex;
+import volgyerdo.value.logic.method.assembly.AssemblyIndexApprox;
+import volgyerdo.value.logic.method.information.GZIPInfo;
+import volgyerdo.value.logic.method.assembly.GeneralAssembly;
+import volgyerdo.value.logic.method.information.HuffmanInfo;
+import volgyerdo.value.logic.method.information.MarkovInfo;
+import volgyerdo.value.logic.method.entropy.MaxEntropy;
+import volgyerdo.value.logic.method.information.MaxInfo;
+import volgyerdo.value.logic.method.information.MinInfo;
+import volgyerdo.value.logic.method.information.RLEInfo;
+import volgyerdo.value.logic.method.information.RLEShannonInfo;
+import volgyerdo.value.logic.method.information.SCMInfo;
+import volgyerdo.value.logic.method.information.SSMInfo;
+import volgyerdo.value.logic.method.entropy.ShannonEntropy;
+import volgyerdo.value.logic.method.information.ShannonInfo;
 import volgyerdo.value.structure.Value;
 
 /**
@@ -34,7 +34,7 @@ public class ValueLogic {
     private static final List<Value> VALUES = new ArrayList<>();
 
     static {
-        VALUES.add(new Assembly());
+        VALUES.add(new AssemblyMeasure());
         VALUES.add(new GeneralAssembly());
         VALUES.add(new AssemblyIndexApprox());
         VALUES.add(new AssemblyIndex());

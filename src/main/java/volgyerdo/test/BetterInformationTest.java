@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import volgyerdo.value.logic.method.ShannonEntropy;
+import volgyerdo.value.logic.method.entropy.ShannonEntropy;
 
 /**
  *

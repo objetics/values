@@ -4,7 +4,7 @@
  */
 package volgyerdo.test;
 
-import volgyerdo.value.logic.method.ShannonInfo;
+import volgyerdo.value.logic.method.information.ShannonInfo;
 import volgyerdo.value.structure.Value;
 
 /**

@@ -7,8 +7,7 @@ package volgyerdo.value.structure;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.ArrayList;
-import java.util.List;
+import volgyerdo.commons.collection.CollectionUtils;
 
 /**
  *
@@ -50,12 +49,7 @@ public interface Value {
         if (values == null) {
             return 0;
         }
-        // String karaktereit Character listára konvertáljuk
-        List<Character> charList = new ArrayList<>();
-        for (char c : values.toCharArray()) {
-            charList.add(c);
-        }
-        return value(charList);
+        return value(CollectionUtils.convertStringToCharList(values));
     }
 
     double value(Collection<?> values);

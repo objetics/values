@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package volgyerdo.value.logic.method;
+package volgyerdo.value.logic.method.information;
 
-import volgyerdo.value.structure.Value;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import volgyerdo.value.structure.Information;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class MaxInfo implements Value {
+public class MaxInfo implements Information {
 
     @Override
     public String name() {

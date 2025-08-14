@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package volgyerdo.value.logic.method;
+package volgyerdo.value.logic.method.information;
 
-import volgyerdo.value.structure.Value;
 import java.util.Collection;
+import volgyerdo.value.structure.Information;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class MarkovInfo implements Value {
+public class MarkovInfo implements Information {
 
     private ShannonInfo shannonInfo = new ShannonInfo();
 

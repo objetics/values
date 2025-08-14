@@ -3,21 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package volgyerdo.value.logic.method;
+package volgyerdo.value.logic.method.information;
 
-import volgyerdo.value.structure.Value;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import volgyerdo.commons.collection.CollectionUtils;
+import volgyerdo.value.structure.Information;
+import volgyerdo.value.logic.method.entropy.ShannonEntropy;
 
 /**
  * Shannon Spectrum Minimum
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class SSMInfo implements Value{
+public class SSMInfo implements Information{
     
     private ShannonInfo shannonInfo = new ShannonInfo();
     private final ShannonEntropy shannonEntropy = new ShannonEntropy();

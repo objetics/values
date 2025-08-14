@@ -5,7 +5,7 @@
  */
 package volgyerdo.test;
 
-import volgyerdo.value.logic.method.ShannonEntropy;
+import volgyerdo.value.logic.method.entropy.ShannonEntropy;
 
 /**
  *

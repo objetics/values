@@ -7,9 +7,9 @@ package volgyerdo.test;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Random;
-import volgyerdo.value.logic.method.GZIPInfo;
-import volgyerdo.value.logic.method.MarkovInfo;
-import volgyerdo.value.logic.method.MaxInfo;
+import volgyerdo.value.logic.method.information.GZIPInfo;
+import volgyerdo.value.logic.method.information.MarkovInfo;
+import volgyerdo.value.logic.method.information.MaxInfo;
 
 /**
  *

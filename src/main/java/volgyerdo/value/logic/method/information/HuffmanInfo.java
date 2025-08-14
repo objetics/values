@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package volgyerdo.value.logic.method;
+package volgyerdo.value.logic.method.information;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
 import java.util.Collection;
-import volgyerdo.value.structure.Value;
 import java.util.PriorityQueue;
 import java.util.HashMap;
+import volgyerdo.value.structure.Information;
 import java.util.Map;
 
-public class HuffmanInfo implements Value {
+public class HuffmanInfo implements Information {
 
     @Override
     public String name() {

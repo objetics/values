@@ -2,18 +2,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package volgyerdo.value.logic.method;
+package volgyerdo.value.logic.method.assembly;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import volgyerdo.value.structure.Value;
+import volgyerdo.value.structure.Assembly;
+import volgyerdo.value.logic.method.information.GZIPInfo;
 
 /**
  *
  * @author zsolt
  */
-public class GeneralAssembly implements Value {
+public class GeneralAssembly implements Assembly {
     
     private final Value info;
 

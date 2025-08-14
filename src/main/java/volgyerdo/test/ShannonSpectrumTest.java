@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import volgyerdo.value.logic.method.ShannonEntropy;
+import volgyerdo.value.logic.method.entropy.ShannonEntropy;
 
 /**
  *

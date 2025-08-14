@@ -3,17 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package volgyerdo.value.logic.method;
+package volgyerdo.value.logic.method.information;
 
-import volgyerdo.value.structure.Value;
 import java.util.Collection;
 import volgyerdo.commons.primitive.ArrayUtils;
+import volgyerdo.value.structure.Information;
+import volgyerdo.value.logic.method.entropy.ShannonEntropy;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class ShannonInfo implements Value {
+public class ShannonInfo implements Information {
 
     private final ShannonEntropy shannonEntropy = new ShannonEntropy();
 

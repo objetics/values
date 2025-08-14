@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.text.DecimalFormat;
 import volgyerdo.commons.string.StringUtils;
-import volgyerdo.value.logic.method.SSMInfo;
+import volgyerdo.value.logic.method.information.SSMInfo;
 import volgyerdo.value.structure.Value;
 
 /**

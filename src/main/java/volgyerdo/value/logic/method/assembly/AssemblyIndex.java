@@ -4,21 +4,21 @@ choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package volgyerdo.value.logic.method;
+package volgyerdo.value.logic.method.assembly;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import volgyerdo.value.structure.Value;
 import java.util.List;
 import java.util.Map;
+import volgyerdo.value.structure.Assembly;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class AssemblyIndex implements Value {
+public class AssemblyIndex implements Assembly {
 
     @Override
     public String name() {

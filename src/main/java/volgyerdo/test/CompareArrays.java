@@ -6,7 +6,7 @@
 package volgyerdo.test;
 
 import volgyerdo.commons.string.StringUtils;
-import volgyerdo.value.logic.method.SSMInfo;
+import volgyerdo.value.logic.method.information.SSMInfo;
 import volgyerdo.value.structure.Value;
 
 /**

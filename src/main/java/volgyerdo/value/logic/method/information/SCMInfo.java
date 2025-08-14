@@ -3,21 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package volgyerdo.value.logic.method;
+package volgyerdo.value.logic.method.information;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import volgyerdo.commons.collection.CollectionUtils;
-import volgyerdo.value.structure.Value;
+import volgyerdo.value.structure.Information;
+import volgyerdo.value.logic.method.util.InfoNormalizer;
+import volgyerdo.value.logic.method.util.ValueUtils;
 
 /**
  * Shannon Composition Minimum Information
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class SCMInfo implements Value{
+public class SCMInfo implements Information{
     
     private final ShannonInfo shannon = new ShannonInfo();
 
@@ -31,11 +34,40 @@ public class SCMInfo implements Value{
         if (values == null || values.length <= 1) {
             return 0;
         }
-        return value(CollectionUtils.convertByteArrayToList(values));
+        double scmInfo = calculateScmInfo(CollectionUtils.convertByteArrayToList(values));
+        double minScmInfo = calculateScmInfo(CollectionUtils.convertByteArrayToList(new byte[values.length]));
+        double maxScmInfo = calculateScmInfo(CollectionUtils.convertByteArrayToList(ValueUtils.generateRandomByteArray(values)));
+
+        return InfoNormalizer.normalizeInfo(scmInfo, minScmInfo, maxScmInfo, values);
     }
 
     @Override
     public  double value(Collection<?> values) {
+        if (values == null || values.size() <= 1) {
+            return 0;
+        }
+        double scmInfo = calculateScmInfo(values);
+        
+        // Minimális információ: homogén kollekció (minden elem ugyanaz)
+        Object firstElement = values.iterator().next();
+        List<Object> minValues = new ArrayList<>();
+        for (int i = 0; i < values.size(); i++) {
+            minValues.add(firstElement);
+        }
+        double minScmInfo = calculateScmInfo(minValues);
+        
+        // Maximális információ: random kollekció az eredeti egyedi értékekkel
+        Object[] randomArray = ValueUtils.generateRandomObjectArray(values);
+        List<Object> maxValues = new ArrayList<>();
+        for (Object obj : randomArray) {
+            maxValues.add(obj);
+        }
+        double maxScmInfo = calculateScmInfo(maxValues);
+
+        return InfoNormalizer.normalizeInfo(scmInfo, minScmInfo, maxScmInfo, values);
+    }
+
+    private double calculateScmInfo(Collection<?> values) {
         if (values == null || values.size() <= 1) {
             return 0;
         }
