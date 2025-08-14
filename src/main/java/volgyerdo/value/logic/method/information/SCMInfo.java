@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 import volgyerdo.commons.collection.CollectionUtils;
 import volgyerdo.value.structure.Information;
+import volgyerdo.value.structure.ValueType;
 import volgyerdo.value.logic.method.util.InfoNormalizer;
 import volgyerdo.value.logic.method.util.ValueUtils;
 
@@ -20,6 +21,15 @@ import volgyerdo.value.logic.method.util.ValueUtils;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
+@ValueType(
+    category = "information",
+    name = "SCM Information",
+    description = "Shannon Composition Minimum information measure that finds the optimal " +
+                  "compositional breakdown of data to minimize Shannon information. Analyzes " +
+                  "data by breaking it into different sized components and selecting the " +
+                  "composition that yields the minimum information content, revealing " +
+                  "the most efficient structural organization."
+)
 public class SCMInfo implements Information{
     
     private final ShannonInfo shannon = new ShannonInfo();

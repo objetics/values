@@ -10,11 +10,20 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import volgyerdo.value.structure.Information;
+import volgyerdo.value.structure.ValueType;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
+@ValueType(
+    category = "information",
+    name = "RLE + Shannon Information",
+    description = "Combines Run-Length Encoding with Shannon information calculation. First applies " +
+                  "RLE compression to detect repetitive patterns, then calculates Shannon information " +
+                  "on the compressed representation. Provides enhanced information measurement " +
+                  "for data with both repetitive sequences and statistical patterns."
+)
 public class RLEShannonInfo implements Information {
 
     private final ShannonInfo shannon = new ShannonInfo();

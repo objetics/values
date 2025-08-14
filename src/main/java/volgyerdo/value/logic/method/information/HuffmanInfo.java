@@ -13,8 +13,17 @@ import java.util.Collection;
 import java.util.PriorityQueue;
 import java.util.HashMap;
 import volgyerdo.value.structure.Information;
+import volgyerdo.value.structure.ValueType;
 import java.util.Map;
 
+@ValueType(
+    category = "information",
+    name = "Huffman Information",
+    description = "Calculates information content using Huffman coding algorithm. Builds an optimal " +
+                  "binary tree based on symbol frequencies and returns the total number of bits " +
+                  "required to encode the data. More frequent symbols get shorter codes, " +
+                  "resulting in compression-based information measurement."
+)
 public class HuffmanInfo implements Information {
 
     @Override

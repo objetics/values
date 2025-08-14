@@ -9,11 +9,20 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import volgyerdo.value.structure.Entropy;
+import volgyerdo.value.structure.ValueType;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
+@ValueType(
+    category = "entropy",
+    name = "Shannon Entropy",
+    description = "Calculates Shannon entropy of a dataset, measuring the average information content " +
+                  "per symbol. Returns values between 0 (completely ordered data) and log2(n) " +
+                  "(uniformly distributed data with n unique symbols). Based on the probability " +
+                  "distribution of symbols in the data."
+)
 public class ShannonEntropy implements Entropy {
 
     @Override

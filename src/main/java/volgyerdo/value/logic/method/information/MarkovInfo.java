@@ -7,6 +7,7 @@ package volgyerdo.value.logic.method.information;
 
 import java.util.Collection;
 import volgyerdo.value.structure.Information;
+import volgyerdo.value.structure.ValueType;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +15,15 @@ import java.util.Map;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
+@ValueType(
+    category = "information",
+    name = "Markov Process Information",
+    description = "Calculates information content based on Markov chain analysis. Models data " +
+                  "as a sequence where each element depends only on the previous element, " +
+                  "capturing first-order dependencies and transition patterns. Measures " +
+                  "the predictability and sequential structure in the data through " +
+                  "transition probability analysis."
+)
 public class MarkovInfo implements Information {
 
     private ShannonInfo shannonInfo = new ShannonInfo();

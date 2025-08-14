@@ -7,11 +7,20 @@ package volgyerdo.value.logic.method.information;
 
 import java.util.Collection;
 import volgyerdo.value.structure.Information;
+import volgyerdo.value.structure.ValueType;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
+@ValueType(
+    category = "information",
+    name = "Minimum Information",
+    description = "Calculates the minimum possible information content for a given dataset. " +
+                  "This metric represents the theoretical lower bound of information that " +
+                  "must be contained in any representation of the data. Always returns 0 " +
+                  "for homogeneous data and log2(n) for n-element datasets."
+)
 public class MinInfo implements Information {
 
     @Override

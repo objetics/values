@@ -12,11 +12,20 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import volgyerdo.value.structure.Assembly;
+import volgyerdo.value.structure.ValueType;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
+@ValueType(
+    category = "assembly",
+    name = "Assembly Index (Approximation)",
+    description = "Calculates an approximation of the assembly index using recursive binary " +
+                  "splitting approach. Divides sequences into halves and counts unique " +
+                  "subsequences to estimate construction complexity. Faster than exact assembly " +
+                  "index calculation but provides less precise results for complex patterns."
+)
 public class AssemblyIndexApprox implements Assembly {
 
     @Override

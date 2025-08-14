@@ -11,11 +11,20 @@ import volgyerdo.commons.primitive.ArrayUtils;
 import volgyerdo.value.logic.method.util.InfoNormalizer;
 import volgyerdo.value.logic.method.util.ValueUtils;
 import volgyerdo.value.structure.Information;
+import volgyerdo.value.structure.ValueType;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
+@ValueType(
+    category = "information",
+    name = "GZIP Information",
+    description = "Calculates information content using GZIP compression algorithm. Measures the " +
+                  "compressed size of data in bits, representing the minimum information needed " +
+                  "to reconstruct the original data. Effective for identifying patterns, repetitions, " +
+                  "and redundancy in datasets through real-world compression techniques."
+)
 public class GZIPInfo implements Information {
 
     @Override

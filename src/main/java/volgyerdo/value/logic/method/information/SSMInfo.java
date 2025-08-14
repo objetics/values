@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 import volgyerdo.commons.collection.CollectionUtils;
 import volgyerdo.value.structure.Information;
+import volgyerdo.value.structure.ValueType;
 import volgyerdo.value.logic.method.entropy.ShannonEntropy;
 
 /**
@@ -18,6 +19,14 @@ import volgyerdo.value.logic.method.entropy.ShannonEntropy;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
+@ValueType(
+    category = "information",
+    name = "SSM Information",
+    description = "Shannon Spectrum Minimum information measure that analyzes data across multiple " +
+                  "scales and dimensions. Finds the minimum Shannon information value across " +
+                  "different spectral decompositions of the data. Useful for detecting the most " +
+                  "compressed representation and identifying intrinsic information content."
+)
 public class SSMInfo implements Information{
     
     private ShannonInfo shannonInfo = new ShannonInfo();

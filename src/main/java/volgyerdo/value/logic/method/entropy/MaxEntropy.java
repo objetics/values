@@ -9,11 +9,20 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import volgyerdo.value.structure.Entropy;
+import volgyerdo.value.structure.ValueType;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
+@ValueType(
+    category = "entropy",
+    name = "Maximum Entropy",
+    description = "Calculates the maximum possible entropy for a dataset with the same number of " +
+                  "unique symbols. Represents the theoretical upper bound of randomness that could " +
+                  "be achieved if all symbols were uniformly distributed. Returns log2(k) where " +
+                  "k is the number of unique symbols in the dataset."
+)
 public class MaxEntropy implements Entropy {
 
     @Override

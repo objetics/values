@@ -12,11 +12,20 @@ import java.util.Set;
 import volgyerdo.value.logic.method.util.InfoNormalizer;
 import volgyerdo.value.logic.method.util.ValueUtils;
 import volgyerdo.value.structure.Information;
+import volgyerdo.value.structure.ValueType;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
+@ValueType(
+    category = "information",
+    name = "RLE Information",
+    description = "Calculates information content using Run-Length Encoding (RLE) compression. " +
+                  "Measures how much data can be compressed by encoding consecutive identical " +
+                  "values as (value, count) pairs. Effective for detecting repetitive patterns " +
+                  "and sequences in data, with better compression for highly repetitive content."
+)
 public class RLEInfo implements Information {
 
     @Override

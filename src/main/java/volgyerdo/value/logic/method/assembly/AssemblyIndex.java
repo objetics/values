@@ -13,11 +13,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import volgyerdo.value.structure.Assembly;
+import volgyerdo.value.structure.ValueType;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
+@ValueType(
+    category = "assembly",
+    name = "Assembly Index",
+    description = "Calculates the minimum number of construction steps needed to build a sequence " +
+                  "from scratch, where previously constructed subsequences can be reused. Uses " +
+                  "dynamic programming with rolling hash optimization to find the optimal assembly " +
+                  "strategy. Measures the structural complexity and redundancy in data sequences."
+)
 public class AssemblyIndex implements Assembly {
 
     @Override

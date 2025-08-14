@@ -9,12 +9,21 @@ import java.util.HashMap;
 import java.util.Map;
 import volgyerdo.value.structure.Value;
 import volgyerdo.value.structure.Assembly;
+import volgyerdo.value.structure.ValueType;
 import volgyerdo.value.logic.method.information.GZIPInfo;
 
 /**
  *
  * @author zsolt
  */
+@ValueType(
+    category = "assembly",
+    name = "General Assembly",
+    description = "Calculates a general assembly measure by analyzing the information content " +
+                  "of individual objects in a collection and weighting them by their frequency. " +
+                  "Uses GZIP compression as the default information measure to assess how much " +
+                  "information each unique object contributes to the overall assembly structure."
+)
 public class GeneralAssembly implements Assembly {
     
     private final Value info;

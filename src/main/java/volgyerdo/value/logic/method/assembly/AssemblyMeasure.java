@@ -8,11 +8,20 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import volgyerdo.value.structure.Assembly;
+import volgyerdo.value.structure.ValueType;
 
 /**
  *
  * @author zsolt
  */
+@ValueType(
+    category = "assembly",
+    name = "Assembly Measure",
+    description = "Calculates a weighted assembly measure that combines object assembly indices " +
+                  "with their frequency in the dataset. Uses exponential weighting to emphasize " +
+                  "the contribution of frequent, easily assemblable objects. Provides insight " +
+                  "into the overall structural efficiency of a collection."
+)
 public class AssemblyMeasure implements Assembly {
 
     private AssemblyIndexApprox ai = new AssemblyIndexApprox();

@@ -8,12 +8,20 @@ package volgyerdo.value.logic.method.information;
 import java.util.Collection;
 import volgyerdo.commons.primitive.ArrayUtils;
 import volgyerdo.value.structure.Information;
+import volgyerdo.value.structure.ValueType;
 import volgyerdo.value.logic.method.entropy.ShannonEntropy;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
+@ValueType(
+    category = "information",
+    name = "Shannon Information",
+    description = "Calculates Shannon information content of a dataset by multiplying Shannon entropy " +
+                  "with the length of the data. Represents the total amount of information (in bits) " +
+                  "contained in the entire dataset based on symbol probabilities."
+)
 public class ShannonInfo implements Information {
 
     private final ShannonEntropy shannonEntropy = new ShannonEntropy();

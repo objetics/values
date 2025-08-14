@@ -9,11 +9,19 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import volgyerdo.value.structure.Information;
+import volgyerdo.value.structure.ValueType;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
+@ValueType(
+    category = "information",
+    name = "Maximum Information",
+    description = "Calculates the maximum possible information content for a given dataset. " +
+                  "This metric represents the theoretical upper bound of information that can be " +
+                  "contained in a collection of values with a specific number of unique elements."
+)
 public class MaxInfo implements Information {
 
     @Override
