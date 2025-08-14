@@ -4,6 +4,7 @@ volgyerdo/value/ui/PlotPanel2D$3.class
 volgyerdo/test/MultiscaleInformationTest.class
 volgyerdo/value/ui/LengthBasedAnalyzer$DistributionSpinnerListener.class
 volgyerdo/value/ui/SetBasedAnalyzer.class
+volgyerdo/value/logic/method/util/InfoUtils.class
 volgyerdo/value/ui/PlotPanel2D$10.class
 volgyerdo/test/MultiscaleInfoPhotoTest.class
 volgyerdo/value/logic/method/information/HuffmanInfo$ByteNode.class
@@ -35,7 +36,6 @@ volgyerdo/value/ui/LengthBasedAnalyzer$2.class
 volgyerdo/value/logic/method/information/RLEShannonInfo.class
 volgyerdo/test/BinaryTest2.class
 volgyerdo/test/BetterInformationTest.class
-volgyerdo/value/logic/method/util/ValueUtils.class
 volgyerdo/value/structure/Information.class
 volgyerdo/test/DeflaterTest.class
 volgyerdo/test/BinaryTest.class

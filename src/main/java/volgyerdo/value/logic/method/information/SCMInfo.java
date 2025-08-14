@@ -14,7 +14,7 @@ import volgyerdo.commons.collection.CollectionUtils;
 import volgyerdo.value.structure.Information;
 import volgyerdo.value.structure.ValueType;
 import volgyerdo.value.logic.method.util.InfoNormalizer;
-import volgyerdo.value.logic.method.util.ValueUtils;
+import volgyerdo.value.logic.method.util.InfoUtils;
 
 /**
  * Shannon Composition Minimum Information
@@ -46,7 +46,7 @@ public class SCMInfo implements Information{
         }
         double scmInfo = calculateScmInfo(CollectionUtils.convertByteArrayToList(values));
         double minScmInfo = calculateScmInfo(CollectionUtils.convertByteArrayToList(new byte[values.length]));
-        double maxScmInfo = calculateScmInfo(CollectionUtils.convertByteArrayToList(ValueUtils.generateRandomByteArray(values)));
+        double maxScmInfo = calculateScmInfo(CollectionUtils.convertByteArrayToList(InfoUtils.generateRandomByteArray(values)));
 
         return InfoNormalizer.normalizeInfo(scmInfo, minScmInfo, maxScmInfo, values);
     }
@@ -67,7 +67,7 @@ public class SCMInfo implements Information{
         double minScmInfo = calculateScmInfo(minValues);
         
         // Maximális információ: random kollekció az eredeti egyedi értékekkel
-        Object[] randomArray = ValueUtils.generateRandomObjectArray(values);
+        Object[] randomArray = InfoUtils.generateRandomObjectArray(values);
         List<Object> maxValues = new ArrayList<>();
         for (Object obj : randomArray) {
             maxValues.add(obj);

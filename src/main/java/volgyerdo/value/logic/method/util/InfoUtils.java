@@ -20,7 +20,7 @@ import java.util.Set;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class ValueUtils {
+public class InfoUtils {
 
     /**
      * Generates a random byte array with the same length and unique values as the original.

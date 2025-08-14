@@ -9,7 +9,7 @@ import java.util.Collection;
 import volgyerdo.commons.object.ObjectUtils;
 import volgyerdo.commons.primitive.ArrayUtils;
 import volgyerdo.value.logic.method.util.InfoNormalizer;
-import volgyerdo.value.logic.method.util.ValueUtils;
+import volgyerdo.value.logic.method.util.InfoUtils;
 import volgyerdo.value.structure.Information;
 import volgyerdo.value.structure.ValueType;
 
@@ -47,7 +47,7 @@ public class GZIPInfo implements Information {
         }
         double gzipInfo = ArrayUtils.toGZIP(values).length * 8;
         double minGzipInfo = ArrayUtils.toGZIP(new byte[values.length]).length * 8;
-        double maxGzipInfo = ArrayUtils.toGZIP(ValueUtils.generateRandomByteArray(values)).length * 8;
+        double maxGzipInfo = ArrayUtils.toGZIP(InfoUtils.generateRandomByteArray(values)).length * 8;
 
         return InfoNormalizer.normalizeInfo(gzipInfo, minGzipInfo, maxGzipInfo, values);
     }
@@ -60,7 +60,7 @@ public class GZIPInfo implements Information {
         byte[] values = ObjectUtils.serialize(input);
         double gzipInfo = ArrayUtils.toGZIP(values).length * 8;
         double minGzipInfo = ArrayUtils.toGZIP(new byte[values.length]).length * 8;
-        double maxGzipInfo = ArrayUtils.toGZIP(ValueUtils.generateRandomByteArray(values)).length * 8;
+        double maxGzipInfo = ArrayUtils.toGZIP(InfoUtils.generateRandomByteArray(values)).length * 8;
 
         return InfoNormalizer.normalizeInfo(gzipInfo, minGzipInfo, maxGzipInfo, input);
     }
