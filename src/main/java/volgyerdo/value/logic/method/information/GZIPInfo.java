@@ -19,11 +19,18 @@ import volgyerdo.value.structure.ValueType;
  */
 @ValueType(
     category = "information",
+    acronym = "IGZIP",
     name = "GZIP Information",
     description = "Calculates information content using GZIP compression algorithm. Measures the " +
                   "compressed size of data in bits, representing the minimum information needed " +
                   "to reconstruct the original data. Effective for identifying patterns, repetitions, " +
-                  "and redundancy in datasets through real-world compression techniques."
+                  "and redundancy in datasets through real-world compression techniques.",
+    pseudo = "1. Convert input data to byte array if needed; " +
+             "2. Apply GZIP compression algorithm (LZ77 + Huffman coding); " +
+             "3. Calculate compressed size in bits; " +
+             "4. Generate random data baseline for normalization; " +
+             "5. Generate minimum compression baseline (all zeros); " +
+             "6. Normalize result between min and max compression ratios"
 )
 public class GZIPInfo implements Information {
 

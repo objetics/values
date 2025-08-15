@@ -17,11 +17,17 @@ import volgyerdo.value.structure.ValueType;
  */
 @ValueType(
     category = "entropy",
+    acronym = "ESH",
     name = "Shannon Entropy",
     description = "Calculates Shannon entropy of a dataset, measuring the average information content " +
                   "per symbol. Returns values between 0 (completely ordered data) and log2(n) " +
                   "(uniformly distributed data with n unique symbols). Based on the probability " +
-                  "distribution of symbols in the data."
+                  "distribution of symbols in the data.",
+    pseudo = "1. Count frequency of each unique element in dataset; " +
+             "2. Calculate probability for each element (frequency / total_count); " +
+             "3. For each element, compute -p * log2(p); " +
+             "4. Sum all individual entropy contributions; " +
+             "5. Return total Shannon entropy value"
 )
 public class ShannonEntropy implements Entropy {
 

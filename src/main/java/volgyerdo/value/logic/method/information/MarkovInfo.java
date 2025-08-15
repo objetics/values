@@ -17,12 +17,18 @@ import java.util.Map;
  */
 @ValueType(
     category = "information",
+    acronym = "IMARK",
     name = "Markov Process Information",
     description = "Calculates information content based on Markov chain analysis. Models data " +
                   "as a sequence where each element depends only on the previous element, " +
                   "capturing first-order dependencies and transition patterns. Measures " +
                   "the predictability and sequential structure in the data through " +
-                  "transition probability analysis."
+                  "transition probability analysis.",
+    pseudo = "1. Create pairs of consecutive elements (current, next); " +
+             "2. Group pairs by their first element (current state); " +
+             "3. For each state, count transitions to different next states; " +
+             "4. Calculate transition probabilities for each state; " +
+             "5. Apply Shannon information formula to transition probabilities"
 )
 public class MarkovInfo implements Information {
 

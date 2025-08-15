@@ -21,11 +21,18 @@ import volgyerdo.value.structure.ValueType;
  */
 @ValueType(
     category = "assembly",
+    acronym = "AI",
     name = "Assembly Index",
     description = "Calculates the minimum number of construction steps needed to build a sequence " +
                   "from scratch, where previously constructed subsequences can be reused. Uses " +
                   "dynamic programming with rolling hash optimization to find the optimal assembly " +
-                  "strategy. Measures the structural complexity and redundancy in data sequences."
+                  "strategy. Measures the structural complexity and redundancy in data sequences.",
+    pseudo = "1. Initialize assembly steps count for each position; " +
+             "2. For each position, check all possible substring constructions; " +
+             "3. Use dynamic programming to find minimum steps to reach each position; " +
+             "4. If substring was built before, reuse it (no additional cost); " +
+             "5. Otherwise, add construction cost and mark substring as available; " +
+             "6. Return minimum steps needed to build entire sequence"
 )
 public class AssemblyIndex implements Assembly {
 

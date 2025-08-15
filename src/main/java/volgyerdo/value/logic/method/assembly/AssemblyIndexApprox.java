@@ -20,11 +20,18 @@ import volgyerdo.value.structure.ValueType;
  */
 @ValueType(
     category = "assembly",
-    name = "Assembly Index (Approximation)",
+    acronym = "AIF",
+    name = "Assembly Index Fast",
     description = "Calculates an approximation of the assembly index using recursive binary " +
                   "splitting approach. Divides sequences into halves and counts unique " +
                   "subsequences to estimate construction complexity. Faster than exact assembly " +
-                  "index calculation but provides less precise results for complex patterns."
+                  "index calculation but provides less precise results for complex patterns.",
+    pseudo = "1. Recursively split sequence into two halves; " +
+             "2. For each half, check if it was seen before; " +
+             "3. If new substring found, increment assembly steps; " +
+             "4. Continue splitting until reaching individual elements; " +
+             "5. Sum total construction steps across all recursive splits; " +
+             "6. Return approximated assembly index"
 )
 public class AssemblyIndexApprox implements Assembly {
 

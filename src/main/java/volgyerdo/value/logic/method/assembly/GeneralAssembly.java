@@ -18,11 +18,17 @@ import volgyerdo.value.logic.method.information.GZIPInfo;
  */
 @ValueType(
     category = "assembly",
+    acronym = "AG",
     name = "General Assembly",
     description = "Calculates a general assembly measure by analyzing the information content " +
                   "of individual objects in a collection and weighting them by their frequency. " +
                   "Uses GZIP compression as the default information measure to assess how much " +
-                  "information each unique object contributes to the overall assembly structure."
+                  "information each unique object contributes to the overall assembly structure.",
+    pseudo = "1. Group objects in collection by their unique values; " +
+             "2. For each unique object, calculate its information content using GZIP; " +
+             "3. Weight each object's information by its frequency in the collection; " +
+             "4. Sum all weighted information values; " +
+             "5. Return total assembly information content"
 )
 public class GeneralAssembly implements Assembly {
     

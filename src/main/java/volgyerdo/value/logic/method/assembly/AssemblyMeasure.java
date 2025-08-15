@@ -16,11 +16,17 @@ import volgyerdo.value.structure.ValueType;
  */
 @ValueType(
     category = "assembly",
+    acronym = "A",
     name = "Assembly Measure",
     description = "Calculates a weighted assembly measure that combines object assembly indices " +
                   "with their frequency in the dataset. Uses exponential weighting to emphasize " +
                   "the contribution of frequent, easily assemblable objects. Provides insight " +
-                  "into the overall structural efficiency of a collection."
+                  "into the overall structural efficiency of a collection.",
+    pseudo = "1. Count frequency of each unique object in collection; " +
+             "2. Calculate assembly index for each unique object; " +
+             "3. Apply exponential weighting: exp(assembly_index) * (frequency - 1); " +
+             "4. Sum all weighted assembly values; " +
+             "5. Normalize by total number of objects to get assembly measure"
 )
 public class AssemblyMeasure implements Assembly {
 

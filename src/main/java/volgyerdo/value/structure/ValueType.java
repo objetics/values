@@ -29,6 +29,15 @@ public @interface ValueType {
     String category() default "";
 
     /**
+     * Az érték számítási módszer mozaikszava (akroníma).
+     * Az algoritmus nevének logikus rövidítése, például:
+     * ShannonInfo -> "ISH", RLEInfo -> "IRLE", MaxInfo -> "IMAX", SCMInfo -> "ISCM"
+     * 
+     * @return a módszer mozaikszava
+     */
+    String acronym() default "";
+
+    /**
      * Az érték számítási módszer neve.
      * Ha nincs megadva, akkor a name() metódus eredményét használja.
      * 
@@ -43,6 +52,13 @@ public @interface ValueType {
      */
     String description() default "";
     
-
+    
+    /**
+     * Az algoritmus leegyszerűsített pszeudokódja szöveges felsorolás formában.
+     * Az algoritmus főbb lépéseinek összefoglalása egyszerű, érthető formában.
+     * 
+     * @return az algoritmus pszeudokódja
+     */
+    String pseudo() default "";
     
 }

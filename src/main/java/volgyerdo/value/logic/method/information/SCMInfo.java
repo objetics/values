@@ -23,12 +23,18 @@ import volgyerdo.value.logic.method.util.InfoUtils;
  */
 @ValueType(
     category = "information",
+    acronym = "ISCM",
     name = "SCM Information",
     description = "Shannon Composition Minimum information measure that finds the optimal " +
                   "compositional breakdown of data to minimize Shannon information. Analyzes " +
                   "data by breaking it into different sized components and selecting the " +
                   "composition that yields the minimum information content, revealing " +
-                  "the most efficient structural organization."
+                  "the most efficient structural organization.",
+    pseudo = "1. Try different composition sizes (1, 2, 3, ... up to data length); " +
+             "2. For each size, break data into chunks of that size; " +
+             "3. Calculate Shannon information for each composition; " +
+             "4. Find composition size that yields minimum Shannon information; " +
+             "5. Return the minimum information value found"
 )
 public class SCMInfo implements Information{
     

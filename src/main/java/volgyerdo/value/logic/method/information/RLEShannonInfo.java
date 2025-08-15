@@ -18,11 +18,17 @@ import volgyerdo.value.structure.ValueType;
  */
 @ValueType(
     category = "information",
+    acronym = "IRLES",
     name = "RLE + Shannon Information",
     description = "Combines Run-Length Encoding with Shannon information calculation. First applies " +
                   "RLE compression to detect repetitive patterns, then calculates Shannon information " +
                   "on the compressed representation. Provides enhanced information measurement " +
-                  "for data with both repetitive sequences and statistical patterns."
+                  "for data with both repetitive sequences and statistical patterns.",
+    pseudo = "1. Apply Run-Length Encoding to input data; " +
+             "2. Convert RLE result into (value, count) pairs; " +
+             "3. Create new dataset from RLE representation; " +
+             "4. Calculate Shannon information on RLE-compressed data; " +
+             "5. Return Shannon information of the compressed representation"
 )
 public class RLEShannonInfo implements Information {
 

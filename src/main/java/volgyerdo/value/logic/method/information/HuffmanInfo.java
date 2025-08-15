@@ -18,11 +18,17 @@ import java.util.Map;
 
 @ValueType(
     category = "information",
+    acronym = "IHUFF",
     name = "Huffman Information",
     description = "Calculates information content using Huffman coding algorithm. Builds an optimal " +
                   "binary tree based on symbol frequencies and returns the total number of bits " +
                   "required to encode the data. More frequent symbols get shorter codes, " +
-                  "resulting in compression-based information measurement."
+                  "resulting in compression-based information measurement.",
+    pseudo = "1. Count frequency of each unique symbol; " +
+             "2. Create leaf nodes for each symbol with their frequencies; " +
+             "3. Build Huffman tree by repeatedly merging two lowest frequency nodes; " +
+             "4. Generate binary codes by traversing tree (left=0, right=1); " +
+             "5. Calculate total bits by summing (symbol_frequency * code_length)"
 )
 public class HuffmanInfo implements Information {
 

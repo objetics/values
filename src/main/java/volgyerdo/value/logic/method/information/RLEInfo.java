@@ -20,11 +20,17 @@ import volgyerdo.value.structure.ValueType;
  */
 @ValueType(
     category = "information",
+    acronym = "IRLE",
     name = "RLE Information",
     description = "Calculates information content using Run-Length Encoding (RLE) compression. " +
                   "Measures how much data can be compressed by encoding consecutive identical " +
                   "values as (value, count) pairs. Effective for detecting repetitive patterns " +
-                  "and sequences in data, with better compression for highly repetitive content."
+                  "and sequences in data, with better compression for highly repetitive content.",
+    pseudo = "1. Scan input data sequentially; " +
+             "2. Count consecutive identical elements (runs); " +
+             "3. Encode each run as (value, count) pair; " +
+             "4. Calculate total bits needed for RLE encoding; " +
+             "5. Normalize against random and minimum compression baselines"
 )
 public class RLEInfo implements Information {
 

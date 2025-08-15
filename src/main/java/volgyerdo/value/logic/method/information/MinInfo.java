@@ -15,11 +15,15 @@ import volgyerdo.value.structure.ValueType;
  */
 @ValueType(
     category = "information",
+    acronym = "IMIN",
     name = "Minimum Information",
     description = "Calculates the minimum possible information content for a given dataset. " +
                   "This metric represents the theoretical lower bound of information that " +
                   "must be contained in any representation of the data. Always returns 0 " +
-                  "for homogeneous data and log2(n) for n-element datasets."
+                  "for homogeneous data and log2(n) for n-element datasets.",
+    pseudo = "1. Check if input is null or empty; " +
+             "2. Return 0 as minimum information represents the theoretical lower bound; " +
+             "3. Minimum information is achieved when all elements are identical"
 )
 public class MinInfo implements Information {
 
