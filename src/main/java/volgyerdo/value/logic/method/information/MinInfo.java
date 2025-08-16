@@ -7,6 +7,7 @@ package volgyerdo.value.logic.method.information;
 
 import java.util.Collection;
 import volgyerdo.value.structure.Information;
+import volgyerdo.commons.math.fast.FastLog;
 import volgyerdo.value.structure.BaseValue;
 
 /**
@@ -44,7 +45,7 @@ public class MinInfo implements Information {
         if (values.size() == 1) {
             return 1;
         }
-        return Math.log(values.size() + 1) / Math.log(2);
+        return FastLog.log2(values.size() + 1);
     }
 
     @Override
@@ -58,7 +59,7 @@ public class MinInfo implements Information {
         if(values.length == 1){
             return 1;
         }
-        return Math.log(values.length + 1) / Math.log(2);
+        return FastLog.log2(values.length + 1);
     }
 
 }

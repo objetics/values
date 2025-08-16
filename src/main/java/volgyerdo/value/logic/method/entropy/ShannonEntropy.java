@@ -8,8 +8,10 @@ package volgyerdo.value.logic.method.entropy;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import volgyerdo.value.structure.Entropy;
+
+import volgyerdo.commons.math.fast.FastLog;
 import volgyerdo.value.structure.BaseValue;
+import volgyerdo.value.structure.Entropy;
 
 /**
  *
@@ -54,7 +56,7 @@ public class ShannonEntropy implements Entropy {
         double entropy = 0;
         for (boolean x : map.keySet()) {
             double frequency = ((double) map.get(x)) / values.length; 
-            entropy -= frequency * (Math.log(frequency) / Math.log(2));
+            entropy -= frequency * (FastLog.log2(frequency));
         }
         return entropy;
     }
@@ -76,7 +78,7 @@ public class ShannonEntropy implements Entropy {
         double entropy = 0;
         for (byte x : map.keySet()) {
             double frequency = ((double) map.get(x)) / values.length; 
-            entropy -= frequency * (Math.log(frequency) / Math.log(2));
+            entropy -= frequency * (FastLog.log2(frequency));
         }
         return entropy;
     }
@@ -98,7 +100,7 @@ public class ShannonEntropy implements Entropy {
         double entropy = 0;
         for (short x : map.keySet()) {
             double frequency = ((double) map.get(x)) / values.length; 
-            entropy -= frequency * (Math.log(frequency) / Math.log(2));
+            entropy -= frequency * (FastLog.log2(frequency));
         }
         return entropy;
     }
@@ -120,7 +122,7 @@ public class ShannonEntropy implements Entropy {
         double entropy = 0;
         for (int x : map.keySet()) {
             double frequency = ((double) map.get(x)) / values.length; 
-            entropy -= frequency * (Math.log(frequency) / Math.log(2));
+            entropy -= frequency * (FastLog.log2(frequency));
         }
         return entropy;
     }
@@ -142,7 +144,7 @@ public class ShannonEntropy implements Entropy {
         double entropy = 0;
         for (float x : map.keySet()) {
             double frequency = ((double) map.get(x)) / values.length; 
-            entropy -= frequency * (Math.log(frequency) / Math.log(2));
+            entropy -= frequency * (FastLog.log2(frequency));
         }
         return entropy;
     }
@@ -164,7 +166,7 @@ public class ShannonEntropy implements Entropy {
         double entropy = 0;
         for (double x : map.keySet()) {
             double frequency = ((double) map.get(x)) / values.length; 
-            entropy -= frequency * (Math.log(frequency) / Math.log(2));
+            entropy -= frequency * (FastLog.log2(frequency));
         }
         return entropy;
     }
@@ -186,7 +188,7 @@ public class ShannonEntropy implements Entropy {
         double entropy = 0;
         for (char x : map.keySet()) {
             double frequency = ((double) map.get(x)) / values.length; 
-            entropy -= frequency * (Math.log(frequency) / Math.log(2));
+            entropy -= frequency * (FastLog.log2(frequency));
         }
         return entropy;
     }
@@ -208,7 +210,7 @@ public class ShannonEntropy implements Entropy {
         double entropy = 0;
         for (String x : map.keySet()) {
             double frequency = ((double) map.get(x)) / values.length; 
-            entropy -= frequency * (Math.log(frequency) / Math.log(2));
+            entropy -= frequency * (FastLog.log2(frequency));
         }
         return entropy;
     }
@@ -230,7 +232,7 @@ public class ShannonEntropy implements Entropy {
         double entropy = 0;
         for (Object x : map.keySet()) {
             double frequency = ((double) map.get(x)) / values.size(); 
-            entropy -= frequency * (Math.log(frequency) / Math.log(2));
+            entropy -= frequency * (FastLog.log2(frequency));
         }
         return entropy;
     }

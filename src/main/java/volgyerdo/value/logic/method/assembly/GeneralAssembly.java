@@ -7,10 +7,12 @@ package volgyerdo.value.logic.method.assembly;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import volgyerdo.value.structure.Value;
+
+import volgyerdo.commons.math.fast.FastLog;
+import volgyerdo.value.logic.method.information.GZIPInfo;
 import volgyerdo.value.structure.Assembly;
 import volgyerdo.value.structure.BaseValue;
-import volgyerdo.value.logic.method.information.GZIPInfo;
+import volgyerdo.value.structure.Value;
 
 /**
  *
@@ -69,7 +71,7 @@ public class GeneralAssembly implements Assembly {
             int ni = entry.getValue();
             double i = info.value(o);
             
-            sum += i * Math.log(ni) / Math.log(2);
+            sum += i * FastLog.log2(ni);
         }
         return sum / N;
     }

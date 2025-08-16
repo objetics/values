@@ -8,8 +8,10 @@ package volgyerdo.value.logic.method.entropy;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import volgyerdo.value.structure.Entropy;
+
+import volgyerdo.commons.math.fast.FastLog;
 import volgyerdo.value.structure.BaseValue;
+import volgyerdo.value.structure.Entropy;
 
 /**
  *
@@ -46,7 +48,7 @@ public class MaxEntropy implements Entropy {
         if (K == 1) {
             return 0;
         }
-        return Math.log(K) / Math.log(2);
+        return FastLog.log2(K);
     }
 
     @Override
@@ -58,7 +60,7 @@ public class MaxEntropy implements Entropy {
         if (K == 1) {
             return 0;
         }
-        return Math.log(K) / Math.log(2);
+        return FastLog.log2(K);
     }
 
     public static int countUniqueBytes(byte[] byteArray) {

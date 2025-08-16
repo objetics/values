@@ -7,6 +7,8 @@ package volgyerdo.value.logic.method.assembly;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import volgyerdo.commons.math.fast.FastLog;
 import volgyerdo.value.structure.Assembly;
 import volgyerdo.value.structure.BaseValue;
 
@@ -53,7 +55,7 @@ public class AssemblyMeasure implements Assembly {
         int NT = values.size();
 
         double sum = 0.0;
-        double logNT = Math.log(NT);
+        double logNT = FastLog.log(NT);
 
         for (Map.Entry<Object, Integer> entry : counts.entrySet()) {
             Object o = entry.getKey();

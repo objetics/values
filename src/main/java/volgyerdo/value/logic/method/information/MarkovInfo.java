@@ -6,10 +6,12 @@
 package volgyerdo.value.logic.method.information;
 
 import java.util.Collection;
-import volgyerdo.value.structure.Information;
-import volgyerdo.value.structure.BaseValue;
 import java.util.HashMap;
 import java.util.Map;
+
+import volgyerdo.commons.math.fast.FastLog;
+import volgyerdo.value.structure.BaseValue;
+import volgyerdo.value.structure.Information;
 
 /**
  *
@@ -62,7 +64,7 @@ public class MarkovInfo implements Information {
             return shannonInfo.value(values);
         }
         if (map.size() == 1) {
-            return Math.log(n + 1) / Math.log(2);
+            return FastLog.log2(n + 1);
         }
         for (Object x : map.keySet()) {
             map.put(x, map.get(x) / n);
@@ -76,7 +78,7 @@ public class MarkovInfo implements Information {
             }
             info += p;
         }
-        return Math.log(info) / Math.log(2);
+        return FastLog.log2(info);
     }
 
     @Override
@@ -101,7 +103,7 @@ public class MarkovInfo implements Information {
             return shannonInfo.value(values);
         }
         if (map.size() == 1) {
-            return Math.log(n + 1) / Math.log(2);
+            return FastLog.log2(n + 1);
         }
         for (Byte x : map.keySet()) {
             map.put(x, map.get(x) / n);
@@ -115,6 +117,6 @@ public class MarkovInfo implements Information {
             }
             info += p;
         }
-        return Math.log(info) / Math.log(2);
+        return FastLog.log2(info);
     }
 }

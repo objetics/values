@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import volgyerdo.value.structure.Information;
+import volgyerdo.commons.math.fast.FastLog;
 import volgyerdo.value.structure.BaseValue;
 
 /**
@@ -49,7 +50,7 @@ public class MaxInfo implements Information {
         Set<?> atomicSet = new HashSet<>(values);
         int k = atomicSet.size();
         int n = values.size();
-        double v = n * Math.log(k) / Math.log(2);
+        double v = n * FastLog.log2(k);
         if (v > 500) {
             return v;
         }
@@ -69,7 +70,7 @@ public class MaxInfo implements Information {
         }
         int k = countUniqueBytes(values);
         int n = values.length;
-        double v = n * Math.log(k) / Math.log(2);
+        double v = n * FastLog.log2(k);
         if (v > 500) {
             return v;
         }
@@ -78,9 +79,9 @@ public class MaxInfo implements Information {
 
     private double value(double n, double k) {
         if (k == 1) {
-            return Math.log(n + 1) / Math.log(2);
+            return FastLog.log2(n + 1);
         }
-        return Math.log((Math.pow(k, n + 1) - 1) / (k - 1)) / Math.log(2);
+        return FastLog.log2((Math.pow(k, n + 1) - 1) / (k - 1));
     }
 
     public static int countUniqueBytes(byte[] byteArray) {

@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import volgyerdo.commons.collection.CollectionUtils;
+import volgyerdo.commons.math.fast.FastLog;
 import volgyerdo.value.structure.Information;
 import volgyerdo.value.structure.BaseValue;
 import volgyerdo.value.logic.method.util.InfoNormalizer;
@@ -119,8 +120,8 @@ public class SCMInfo implements Information{
 
     private  double maxInformation(int N, int K, int r) {
         int m = N / r;
-        return m * (r * Math.log(Math.min(r, K)) / Math.log(2) 
-                + Math.log(Math.min(m, Math.pow(K, r)))/Math.log(2));
+        return m * (r * FastLog.log2(Math.min(r, K)) 
+                + FastLog.log2(Math.min(m, Math.pow(K, r))));
     }
 
 

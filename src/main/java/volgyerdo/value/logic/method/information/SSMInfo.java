@@ -9,10 +9,12 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import volgyerdo.commons.collection.CollectionUtils;
-import volgyerdo.value.structure.Information;
-import volgyerdo.value.structure.BaseValue;
+import volgyerdo.commons.math.fast.FastLog;
 import volgyerdo.value.logic.method.entropy.ShannonEntropy;
+import volgyerdo.value.structure.BaseValue;
+import volgyerdo.value.structure.Information;
 
 /**
  * Shannon Spectrum Minimum
@@ -63,7 +65,7 @@ public class SSMInfo implements Information{
         }
         int K = atomicSet.size();
         if (K == 1) {
-            return Math.log(values.length) / Math.log(2);
+            return FastLog.log2(values.length);
         }
         int N = values.length;
         double atomicInfo = shannonEntropy.value(values);
@@ -75,7 +77,7 @@ public class SSMInfo implements Information{
             double actualInfo = shannonInfo.value(parts);
             actualInfo = maxInfo == 0 ? 0 : actualInfo / maxInfo * absoluteMax;
             if (actualInfo == 0) {
-                actualInfo = atomicInfo * r + Math.log(values.length / r) / Math.log(2);
+                actualInfo = atomicInfo * r + FastLog.log2(values.length / r);
             }
             if (minimumInfo == 0 || actualInfo < minimumInfo) {
                 minimumInfo = actualInfo;
@@ -94,7 +96,7 @@ public class SSMInfo implements Information{
         Set<?> atomicSet = new HashSet<>(values);
         int K = atomicSet.size();
         if (K == 1) {
-            return Math.log(values.size()) / Math.log(2);
+            return FastLog.log2(values.size());
         }
         int N = values.size();
         double atomicInfo = shannonEntropy.value(values);
@@ -106,7 +108,7 @@ public class SSMInfo implements Information{
             double actualInfo = shannonInfo.value(parts);
             actualInfo = maxInfo == 0 ? 0 : actualInfo / maxInfo * absoluteMax;
             if (actualInfo == 0) {
-                actualInfo = atomicInfo * r + Math.log(values.size() / r) / Math.log(2);
+                actualInfo = atomicInfo * r + FastLog.log2(values.size() / r);
             }
             if (minimumInfo == 0 || actualInfo < minimumInfo) {
                 minimumInfo = actualInfo;
@@ -118,9 +120,9 @@ public class SSMInfo implements Information{
     private double maxInformation(int N, int K, int r) {
         int m = N / r;
         if (Math.pow(K, r) <= m) {
-            return N * Math.log(K) / Math.log(2);
+            return N * FastLog.log2(K);
         } else {
-            return m * Math.log(m) / Math.log(2);
+            return m * FastLog.log2(m);
         }
     }
 

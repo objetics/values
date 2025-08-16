@@ -5,6 +5,8 @@
 package volgyerdo.test;
 
 import java.text.DecimalFormat;
+
+import volgyerdo.commons.math.fast.FastLog;
 import volgyerdo.value.logic.method.information.GZIPInfo;
 import volgyerdo.value.structure.Value;
 
@@ -25,8 +27,6 @@ public class BinaryTest {
         
         int n = 10000;
         
-        double log2 = Math.log(2);
-        
         String binary;
         
         long start = System.currentTimeMillis();
@@ -35,7 +35,7 @@ public class BinaryTest {
 
             binary = Integer.toBinaryString(x);
             
-            logInfo += Math.log(x) / log2;
+            logInfo += FastLog.log2(x);
             binaryInfo += info.value(binary);
             
             if(x%10000 == 0){

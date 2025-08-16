@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import volgyerdo.commons.math.fast.FastLog;
 import volgyerdo.value.logic.method.util.InfoNormalizer;
 import volgyerdo.value.logic.method.util.InfoUtils;
 import volgyerdo.value.structure.Information;
@@ -67,7 +69,7 @@ public class RLEInfo implements Information {
             set.add(b);
         }
         
-        return rle.length * Math.log(set.size()) / Math.log(2);
+        return rle.length * FastLog.log2(set.size());
     }
 
     @Override
@@ -94,7 +96,7 @@ public class RLEInfo implements Information {
         
         List<Object> rle = InfoUtils.performRleEncoding(input);
         Set<Object> set = new HashSet<>(rle);
-        
-        return rle.size() * Math.log(set.size()) / Math.log(2);
+
+        return rle.size() * FastLog.log2(set.size());
     }
 }

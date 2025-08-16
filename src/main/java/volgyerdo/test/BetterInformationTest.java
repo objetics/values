@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import volgyerdo.commons.math.fast.FastLog;
 import volgyerdo.value.logic.method.entropy.ShannonEntropy;
 
 /**
@@ -109,9 +111,9 @@ public class BetterInformationTest {
 
     private static double maxInformation(int N, int n, int r) {
         if (Math.pow(n, r) <= N / r) {
-            return N * Math.log(n) / Math.log(2);
+            return N * FastLog.log2(n);
         } else {
-            return (N / r) * Math.log(N / r) / Math.log(2);
+            return (N / r) * FastLog.log2(N / r);
         }
     }
 
