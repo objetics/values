@@ -11,6 +11,9 @@ import java.lang.reflect.Modifier;
 import java.io.File;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.net.JarURLConnection;
 
 import volgyerdo.value.structure.Value;
 import volgyerdo.value.structure.ValueType;
@@ -22,35 +25,89 @@ import volgyerdo.value.structure.ValueType;
 public class ValueLogic {
 
     /**
-     * Megkeresi és visszaadja az összes ValueType annotációval ellátott osztályt 
-     * a volgyerdo.value.logic.method csomagban és alkönyvtáraiban.
+     * Finds and returns all classes annotated with ValueType 
+     * in the volgyerdo.value.logic.method package and its subdirectories.
      */
     private static List<Class<?>> findAnnotatedClasses() {
         List<Class<?>> annotatedClasses = new ArrayList<>();
         String packageName = "volgyerdo.value.logic.method";
-        
+        String path = packageName.replace('.', '/');
         try {
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-            String path = packageName.replace('.', '/');
             Enumeration<URL> resources = classLoader.getResources(path);
-            
             while (resources.hasMoreElements()) {
                 URL resource = resources.nextElement();
-                File directory = new File(resource.getFile());
-                
-                if (directory.exists()) {
-                    findClassesInDirectory(directory, packageName, annotatedClasses);
+                String protocol = resource.getProtocol();
+                if ("file".equals(protocol)) {
+                    File directory = new File(resource.toURI());
+                    if (directory.exists()) {
+                        findClassesInDirectory(directory, packageName, annotatedClasses);
+                    }
+                } else if ("jar".equals(protocol)) {
+                    try {
+                        JarURLConnection jarConn = (JarURLConnection) resource.openConnection();
+                        try (JarFile jarFile = jarConn.getJarFile()) {
+                            scanJar(jarFile, path, packageName, annotatedClasses);
+                        }
+                    } catch (ClassCastException e) {
+                        // Fallback: parse jar path manually
+                        String file = resource.getFile(); // e.g. file:/path/values-1.0-SNAPSHOT.jar!/volgyerdo/value/logic/method
+                        int sep = file.indexOf(".jar!");
+                        if (sep != -1) {
+                            String jarPath = file.substring(0, sep + 4);
+                            if (jarPath.startsWith("file:")) {
+                                jarPath = jarPath.substring(5);
+                            }
+                            jarPath = jarPath.replace("%20", " ");
+                            try (JarFile jar = new JarFile(jarPath)) {
+                                scanJar(jar, path, packageName, annotatedClasses);
+                            } catch (Exception ignore) { }
+                        }
+                    }
+                } else {
+                    // Unknown protocol, attempt manual jar parsing if contains .jar!
+                    String file = resource.toString();
+                    int sep = file.indexOf(".jar!");
+                    if (sep != -1) {
+                        int start = file.indexOf("file:");
+                        if (start != -1) {
+                            String jarPath = file.substring(start + 5, sep + 4).replace("%20", " ");
+                            try (JarFile jar = new JarFile(jarPath)) {
+                                scanJar(jar, path, packageName, annotatedClasses);
+                            } catch (Exception ignore) { }
+                        }
+                    }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
         return annotatedClasses;
+    }
+
+    private static void scanJar(JarFile jarFile, String path, String packageName, List<Class<?>> annotatedClasses) {
+        jarFile.stream()
+            .filter(e -> !e.isDirectory())
+            .map(JarEntry::getName)
+            .filter(name -> name.startsWith(path) && name.endsWith(".class"))
+            .forEach(name -> {
+                String className = name.replace('/', '.').substring(0, name.length() - 6);
+                try {
+                    Class<?> clazz = Class.forName(className);
+                    if (clazz.isAnnotationPresent(ValueType.class) &&
+                            Value.class.isAssignableFrom(clazz) &&
+                            !Modifier.isAbstract(clazz.getModifiers()) &&
+                            !clazz.isInterface()) {
+                        annotatedClasses.add(clazz);
+                    }
+                } catch (Throwable ex) {
+                    // ignore
+                }
+            });
     }
     
     /**
-     * Rekurzívan keresi az annotált osztályokat egy könyvtárban.
+     * Recursively searches for annotated classes in a directory.
      */
     private static void findClassesInDirectory(File directory, String packageName, List<Class<?>> annotatedClasses) {
         File[] files = directory.listFiles();
@@ -77,7 +134,7 @@ public class ValueLogic {
     }
     
     /**
-     * Létrehozza a Value objektumok listáját az annotált osztályokból.
+     * Creates a list of Value objects from annotated classes.
      */
     public static List<Value> values() {
         List<Value> values = new ArrayList<>();
@@ -97,9 +154,9 @@ public class ValueLogic {
     }
     
     /**
-     * Visszaadja az összes annotált osztály ValueType annotáció objektumait.
+     * Returns all ValueType annotation objects from annotated classes.
      * 
-     * @return a ValueType annotációk listája
+     * @return list of ValueType annotations
      */
     public static List<ValueType> getValueTypeAnnotations() {
         return values().stream()
@@ -109,10 +166,10 @@ public class ValueLogic {
     }
     
     /**
-     * Szűrt lista a ValueType annotációkból kategória alapján.
+     * Filtered list of ValueType annotations by category.
      * 
-     * @param category a keresett kategória (null esetén nem szűr)
-     * @return a szűrt ValueType annotációk listája
+     * @param category the searched category (null means no filter)
+     * @return list of filtered ValueType annotations
      */
     public static List<ValueType> getValueTypeAnnotationsByCategory(String category) {
         return values().stream()
@@ -123,10 +180,10 @@ public class ValueLogic {
     }
     
     /**
-     * Szűrt lista a ValueType annotációkból mozaikszó (acronym) alapján.
+     * Filtered list of ValueType annotations by acronym.
      * 
-     * @param acronym a keresett mozaikszó (null esetén nem szűr)
-     * @return a szűrt ValueType annotációk listája
+     * @param acronym the searched acronym (null means no filter)
+     * @return list of filtered ValueType annotations
      */
     public static List<ValueType> getValueTypeAnnotationsByAcronym(String acronym) {
         return values().stream()
@@ -137,10 +194,10 @@ public class ValueLogic {
     }
     
     /**
-     * Szűrt lista a ValueType annotációkból osztálynév alapján.
+     * Filtered list of ValueType annotations by class name.
      * 
-     * @param className a keresett osztálynév (null esetén nem szűr)
-     * @return a szűrt ValueType annotációk listája
+     * @param className the searched class name (null means no filter)
+     * @return list of filtered ValueType annotations
      */
     public static List<ValueType> getValueTypeAnnotationsByClassName(String className) {
         return values().stream()
@@ -151,12 +208,12 @@ public class ValueLogic {
     }
     
     /**
-     * Kombinált szűrő metódus kategória, mozaikszó és osztálynév alapján.
+     * Combined filter method by category, acronym and class name.
      * 
-     * @param category a keresett kategória (null esetén nem szűr)
-     * @param acronym a keresett mozaikszó (null esetén nem szűr)
-     * @param className a keresett osztálynév (null esetén nem szűr)
-     * @return a szűrt ValueType annotációk listája
+     * @param category the searched category (null means no filter)
+     * @param acronym the searched acronym (null means no filter)
+     * @param className the searched class name (null means no filter)
+     * @return list of filtered ValueType annotations
      */
     public static List<ValueType> getValueTypeAnnotationsFiltered(String category, String acronym, String className) {
         return values().stream()
@@ -169,9 +226,9 @@ public class ValueLogic {
     }
     
     /**
-     * Visszaadja az összes Value objektumot a hozzájuk tartozó ValueType annotációval együtt.
+     * Returns all Value objects with their corresponding ValueType annotations.
      * 
-     * @return ValueAnnotationPair objektumok listája
+     * @return list of ValueAnnotationPair objects
      */
     public static List<ValueAnnotationPair> getValueAnnotationPairs() {
         return values().stream()
@@ -183,7 +240,7 @@ public class ValueLogic {
     }
     
     /**
-     * Segéd osztály Value objektum és ValueType annotáció párosításához.
+     * Helper class for pairing Value objects with ValueType annotations.
      */
     public static class ValueAnnotationPair {
         private final Value value;
