@@ -10,13 +10,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import volgyerdo.value.structure.Information;
-import volgyerdo.value.structure.ValueType;
+import volgyerdo.value.structure.BaseValue;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-@ValueType(
+@BaseValue(
     category = "information",
     acronym = "IRLES",
     name = "RLE + Shannon Information",
@@ -24,7 +24,7 @@ import volgyerdo.value.structure.ValueType;
                   "RLE compression to detect repetitive patterns, then calculates Shannon information " +
                   "on the compressed representation. Provides enhanced information measurement " +
                   "for data with both repetitive sequences and statistical patterns.",
-    pseudo = "1. Apply Run-Length Encoding to input data; " +
+    algorithm = "1. Apply Run-Length Encoding to input data; " +
              "2. Convert RLE result into (value, count) pairs; " +
              "3. Create new dataset from RLE representation; " +
              "4. Calculate Shannon information on RLE-compressed data; " +

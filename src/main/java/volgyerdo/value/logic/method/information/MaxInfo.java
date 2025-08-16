@@ -9,20 +9,20 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import volgyerdo.value.structure.Information;
-import volgyerdo.value.structure.ValueType;
+import volgyerdo.value.structure.BaseValue;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-@ValueType(
+@BaseValue(
     category = "information",
     acronym = "IMAX",
     name = "Maximum Information",
     description = "Calculates the maximum possible information content for a given dataset. " +
                   "This metric represents the theoretical upper bound of information that can be " +
                   "contained in a collection of values with a specific number of unique elements.",
-    pseudo = "1. Check if input is null or empty; " +
+    algorithm = "1. Check if input is null or empty; " +
              "2. Count unique elements in the dataset; " +
              "3. Calculate log2(unique_count) as maximum information; " +
              "4. Maximum information is achieved when all elements are equally probable"

@@ -8,21 +8,21 @@ package volgyerdo.value.logic.method.information;
 import java.util.Collection;
 import volgyerdo.commons.primitive.ArrayUtils;
 import volgyerdo.value.structure.Information;
-import volgyerdo.value.structure.ValueType;
+import volgyerdo.value.structure.BaseValue;
 import volgyerdo.value.logic.method.entropy.ShannonEntropy;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-@ValueType(
+@BaseValue(
     category = "information",
     acronym = "ISH",
     name = "Shannon Information",
     description = "Calculates Shannon information content of a dataset by multiplying Shannon entropy " +
                   "with the length of the data. Represents the total amount of information (in bits) " +
                   "contained in the entire dataset based on symbol probabilities.",
-    pseudo = "1. Calculate frequency of each unique element; " +
+    algorithm = "1. Calculate frequency of each unique element; " +
              "2. Compute probability for each element (frequency / total_count); " +
              "3. Calculate Shannon entropy: -Σ(p * log2(p)); " +
              "4. Multiply entropy by dataset length to get total information"

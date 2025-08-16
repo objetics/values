@@ -7,7 +7,7 @@ package volgyerdo.value.logic.method.information;
 
 import java.util.Collection;
 import volgyerdo.value.structure.Information;
-import volgyerdo.value.structure.ValueType;
+import volgyerdo.value.structure.BaseValue;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +15,7 @@ import java.util.Map;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-@ValueType(
+@BaseValue(
     category = "information",
     acronym = "IMARK",
     name = "Markov Process Information",
@@ -24,7 +24,7 @@ import java.util.Map;
                   "capturing first-order dependencies and transition patterns. Measures " +
                   "the predictability and sequential structure in the data through " +
                   "transition probability analysis.",
-    pseudo = "1. Create pairs of consecutive elements (current, next); " +
+    algorithm = "1. Create pairs of consecutive elements (current, next); " +
              "2. Group pairs by their first element (current state); " +
              "3. For each state, count transitions to different next states; " +
              "4. Calculate transition probabilities for each state; " +

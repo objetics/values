@@ -9,13 +9,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import volgyerdo.value.structure.Entropy;
-import volgyerdo.value.structure.ValueType;
+import volgyerdo.value.structure.BaseValue;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-@ValueType(
+@BaseValue(
     category = "entropy",
     acronym = "ESH",
     name = "Shannon Entropy",
@@ -23,7 +23,7 @@ import volgyerdo.value.structure.ValueType;
                   "per symbol. Returns values between 0 (completely ordered data) and log2(n) " +
                   "(uniformly distributed data with n unique symbols). Based on the probability " +
                   "distribution of symbols in the data.",
-    pseudo = "1. Count frequency of each unique element in dataset; " +
+    algorithm = "1. Count frequency of each unique element in dataset; " +
              "2. Calculate probability for each element (frequency / total_count); " +
              "3. For each element, compute -p * log2(p); " +
              "4. Sum all individual entropy contributions; " +

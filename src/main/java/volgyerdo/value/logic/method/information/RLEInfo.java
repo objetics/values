@@ -12,13 +12,13 @@ import java.util.Set;
 import volgyerdo.value.logic.method.util.InfoNormalizer;
 import volgyerdo.value.logic.method.util.InfoUtils;
 import volgyerdo.value.structure.Information;
-import volgyerdo.value.structure.ValueType;
+import volgyerdo.value.structure.BaseValue;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-@ValueType(
+@BaseValue(
     category = "information",
     acronym = "IRLE",
     name = "RLE Information",
@@ -26,7 +26,7 @@ import volgyerdo.value.structure.ValueType;
                   "Measures how much data can be compressed by encoding consecutive identical " +
                   "values as (value, count) pairs. Effective for detecting repetitive patterns " +
                   "and sequences in data, with better compression for highly repetitive content.",
-    pseudo = "1. Scan input data sequentially; " +
+    algorithm = "1. Scan input data sequentially; " +
              "2. Count consecutive identical elements (runs); " +
              "3. Encode each run as (value, count) pair; " +
              "4. Calculate total bits needed for RLE encoding; " +

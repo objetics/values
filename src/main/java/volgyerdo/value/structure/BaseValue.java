@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface ValueType {
+public @interface BaseValue {
 
     /**
      * Az érték számítási módszer kategóriája.
@@ -54,11 +54,11 @@ public @interface ValueType {
     
     
     /**
-     * Az algoritmus leegyszerűsített pszeudokódja szöveges felsorolás formában.
-     * Az algoritmus főbb lépéseinek összefoglalása egyszerű, érthető formában.
+     * The algorithm pseudocode as a textual enumeration.
+     * Summary of the main steps of the algorithm in simple, understandable form.
      * 
-     * @return az algoritmus pszeudokódja
+     * @return the algorithm pseudocode
      */
-    String pseudo() default "";
+    String algorithm() default "";
     
 }

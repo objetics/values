@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 import volgyerdo.commons.collection.CollectionUtils;
 import volgyerdo.value.structure.Information;
-import volgyerdo.value.structure.ValueType;
+import volgyerdo.value.structure.BaseValue;
 import volgyerdo.value.logic.method.util.InfoNormalizer;
 import volgyerdo.value.logic.method.util.InfoUtils;
 
@@ -21,7 +21,7 @@ import volgyerdo.value.logic.method.util.InfoUtils;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-@ValueType(
+@BaseValue(
     category = "information",
     acronym = "ISCM",
     name = "SCM Information",
@@ -30,7 +30,7 @@ import volgyerdo.value.logic.method.util.InfoUtils;
                   "data by breaking it into different sized components and selecting the " +
                   "composition that yields the minimum information content, revealing " +
                   "the most efficient structural organization.",
-    pseudo = "1. Try different composition sizes (1, 2, 3, ... up to data length); " +
+    algorithm = "1. Try different composition sizes (1, 2, 3, ... up to data length); " +
              "2. For each size, break data into chunks of that size; " +
              "3. Calculate Shannon information for each composition; " +
              "4. Find composition size that yields minimum Shannon information; " +

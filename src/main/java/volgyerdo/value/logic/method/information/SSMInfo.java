@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 import volgyerdo.commons.collection.CollectionUtils;
 import volgyerdo.value.structure.Information;
-import volgyerdo.value.structure.ValueType;
+import volgyerdo.value.structure.BaseValue;
 import volgyerdo.value.logic.method.entropy.ShannonEntropy;
 
 /**
@@ -19,7 +19,7 @@ import volgyerdo.value.logic.method.entropy.ShannonEntropy;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-@ValueType(
+@BaseValue(
     category = "information",
     acronym = "ISSM",
     name = "SSM Information",
@@ -27,7 +27,7 @@ import volgyerdo.value.logic.method.entropy.ShannonEntropy;
                   "scales and dimensions. Finds the minimum Shannon information value across " +
                   "different spectral decompositions of the data. Useful for detecting the most " +
                   "compressed representation and identifying intrinsic information content.",
-    pseudo = "1. Apply different spectral transformations to the data; " +
+    algorithm = "1. Apply different spectral transformations to the data; " +
              "2. For each transformation, calculate Shannon information; " +
              "3. Analyze data at multiple scales and resolutions; " +
              "4. Find the transformation yielding minimum Shannon information; " +

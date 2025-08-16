@@ -7,13 +7,13 @@ package volgyerdo.value.logic.method.information;
 
 import java.util.Collection;
 import volgyerdo.value.structure.Information;
-import volgyerdo.value.structure.ValueType;
+import volgyerdo.value.structure.BaseValue;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-@ValueType(
+@BaseValue(
     category = "information",
     acronym = "IMIN",
     name = "Minimum Information",
@@ -21,7 +21,7 @@ import volgyerdo.value.structure.ValueType;
                   "This metric represents the theoretical lower bound of information that " +
                   "must be contained in any representation of the data. Always returns 0 " +
                   "for homogeneous data and log2(n) for n-element datasets.",
-    pseudo = "1. Check if input is null or empty; " +
+    algorithm = "1. Check if input is null or empty; " +
              "2. Return 0 as minimum information represents the theoretical lower bound; " +
              "3. Minimum information is achieved when all elements are identical"
 )

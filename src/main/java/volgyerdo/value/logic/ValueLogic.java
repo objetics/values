@@ -16,7 +16,7 @@ import java.util.jar.JarFile;
 import java.net.JarURLConnection;
 
 import volgyerdo.value.structure.Value;
-import volgyerdo.value.structure.ValueType;
+import volgyerdo.value.structure.BaseValue;
 
 /**
  *
@@ -25,7 +25,7 @@ import volgyerdo.value.structure.ValueType;
 public class ValueLogic {
 
     /**
-     * Finds and returns all classes annotated with ValueType 
+     * Finds and returns all classes annotated with BaseValue 
      * in the volgyerdo.value.logic.method package and its subdirectories.
      */
     private static List<Class<?>> findAnnotatedClasses() {
@@ -94,7 +94,7 @@ public class ValueLogic {
                 String className = name.replace('/', '.').substring(0, name.length() - 6);
                 try {
                     Class<?> clazz = Class.forName(className);
-                    if (clazz.isAnnotationPresent(ValueType.class) &&
+                    if (clazz.isAnnotationPresent(BaseValue.class) &&
                             Value.class.isAssignableFrom(clazz) &&
                             !Modifier.isAbstract(clazz.getModifiers()) &&
                             !clazz.isInterface()) {
@@ -119,7 +119,7 @@ public class ValueLogic {
                     String className = packageName + '.' + file.getName().substring(0, file.getName().length() - 6);
                     try {
                         Class<?> clazz = Class.forName(className);
-                        if (clazz.isAnnotationPresent(ValueType.class) && 
+                        if (clazz.isAnnotationPresent(BaseValue.class) && 
                             Value.class.isAssignableFrom(clazz) &&
                             !Modifier.isAbstract(clazz.getModifiers()) &&
                             !clazz.isInterface()) {
@@ -154,55 +154,55 @@ public class ValueLogic {
     }
     
     /**
-     * Returns all ValueType annotation objects from annotated classes.
+     * Returns all BaseValue annotation objects from annotated classes.
      * 
-     * @return list of ValueType annotations
+     * @return list of BaseValue annotations
      */
-    public static List<ValueType> getValueTypeAnnotations() {
+    public static List<BaseValue> getBaseValueAnnotations() {
         return values().stream()
-                .map(value -> value.getClass().getAnnotation(ValueType.class))
+                .map(value -> value.getClass().getAnnotation(BaseValue.class))
                 .filter(annotation -> annotation != null)
                 .collect(Collectors.toList());
     }
     
     /**
-     * Filtered list of ValueType annotations by category.
+     * Filtered list of BaseValue annotations by category.
      * 
      * @param category the searched category (null means no filter)
-     * @return list of filtered ValueType annotations
+     * @return list of filtered BaseValue annotations
      */
-    public static List<ValueType> getValueTypeAnnotationsByCategory(String category) {
+    public static List<BaseValue> getBaseValueAnnotationsByCategory(String category) {
         return values().stream()
-                .map(value -> value.getClass().getAnnotation(ValueType.class))
+                .map(value -> value.getClass().getAnnotation(BaseValue.class))
                 .filter(annotation -> annotation != null)
                 .filter(annotation -> category == null || category.equals(annotation.category()))
                 .collect(Collectors.toList());
     }
     
     /**
-     * Filtered list of ValueType annotations by acronym.
+     * Filtered list of BaseValue annotations by acronym.
      * 
      * @param acronym the searched acronym (null means no filter)
-     * @return list of filtered ValueType annotations
+     * @return list of filtered BaseValue annotations
      */
-    public static List<ValueType> getValueTypeAnnotationsByAcronym(String acronym) {
+    public static List<BaseValue> getBaseValueAnnotationsByAcronym(String acronym) {
         return values().stream()
-                .map(value -> value.getClass().getAnnotation(ValueType.class))
+                .map(value -> value.getClass().getAnnotation(BaseValue.class))
                 .filter(annotation -> annotation != null)
                 .filter(annotation -> acronym == null || acronym.equals(annotation.acronym()))
                 .collect(Collectors.toList());
     }
     
     /**
-     * Filtered list of ValueType annotations by class name.
+     * Filtered list of BaseValue annotations by class name.
      * 
      * @param className the searched class name (null means no filter)
-     * @return list of filtered ValueType annotations
+     * @return list of filtered BaseValue annotations
      */
-    public static List<ValueType> getValueTypeAnnotationsByClassName(String className) {
+    public static List<BaseValue> getBaseValueAnnotationsByClassName(String className) {
         return values().stream()
                 .filter(value -> className == null || value.getClass().getSimpleName().equals(className))
-                .map(value -> value.getClass().getAnnotation(ValueType.class))
+                .map(value -> value.getClass().getAnnotation(BaseValue.class))
                 .filter(annotation -> annotation != null)
                 .collect(Collectors.toList());
     }
@@ -213,12 +213,12 @@ public class ValueLogic {
      * @param category the searched category (null means no filter)
      * @param acronym the searched acronym (null means no filter)
      * @param className the searched class name (null means no filter)
-     * @return list of filtered ValueType annotations
+     * @return list of filtered BaseValue annotations
      */
-    public static List<ValueType> getValueTypeAnnotationsFiltered(String category, String acronym, String className) {
+    public static List<BaseValue> getBaseValueAnnotationsFiltered(String category, String acronym, String className) {
         return values().stream()
                 .filter(value -> className == null || value.getClass().getSimpleName().equals(className))
-                .map(value -> value.getClass().getAnnotation(ValueType.class))
+                .map(value -> value.getClass().getAnnotation(BaseValue.class))
                 .filter(annotation -> annotation != null)
                 .filter(annotation -> category == null || category.equals(annotation.category()))
                 .filter(annotation -> acronym == null || acronym.equals(annotation.acronym()))
@@ -226,27 +226,27 @@ public class ValueLogic {
     }
     
     /**
-     * Returns all Value objects with their corresponding ValueType annotations.
+     * Returns all Value objects with their corresponding BaseValue annotations.
      * 
      * @return list of ValueAnnotationPair objects
      */
     public static List<ValueAnnotationPair> getValueAnnotationPairs() {
         return values().stream()
                 .map(value -> {
-                    ValueType annotation = value.getClass().getAnnotation(ValueType.class);
+                    BaseValue annotation = value.getClass().getAnnotation(BaseValue.class);
                     return new ValueAnnotationPair(value, annotation);
                 })
                 .collect(Collectors.toList());
     }
     
     /**
-     * Helper class for pairing Value objects with ValueType annotations.
+     * Helper class for pairing Value objects with BaseValue annotations.
      */
     public static class ValueAnnotationPair {
         private final Value value;
-        private final ValueType annotation;
+        private final BaseValue annotation;
         
-        public ValueAnnotationPair(Value value, ValueType annotation) {
+        public ValueAnnotationPair(Value value, BaseValue annotation) {
             this.value = value;
             this.annotation = annotation;
         }
@@ -255,7 +255,7 @@ public class ValueLogic {
             return value;
         }
         
-        public ValueType getAnnotation() {
+        public BaseValue getAnnotation() {
             return annotation;
         }
         

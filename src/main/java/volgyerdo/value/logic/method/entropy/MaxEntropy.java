@@ -9,13 +9,13 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import volgyerdo.value.structure.Entropy;
-import volgyerdo.value.structure.ValueType;
+import volgyerdo.value.structure.BaseValue;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-@ValueType(
+@BaseValue(
     category = "entropy",
     acronym = "EMAX",
     name = "Maximum Entropy",
@@ -23,7 +23,7 @@ import volgyerdo.value.structure.ValueType;
                   "unique symbols. Represents the theoretical upper bound of randomness that could " +
                   "be achieved if all symbols were uniformly distributed. Returns log2(k) where " +
                   "k is the number of unique symbols in the dataset.",
-    pseudo = "1. Count the number of unique elements in dataset; " +
+    algorithm = "1. Count the number of unique elements in dataset; " +
              "2. Calculate log2(unique_count); " +
              "3. Return maximum entropy value; " +
              "4. This represents uniform distribution entropy for the same symbol set"

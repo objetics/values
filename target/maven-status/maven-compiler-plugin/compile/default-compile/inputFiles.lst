@@ -10,6 +10,7 @@
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/logic/method/information/GZIPInfo.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/ui/GeneralAssemblyComparison.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/test/BinaryTest2.java
+/media/PROJECTS/Github/values/src/main/java/volgyerdo/value/structure/BaseValue.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/logic/method/information/MinInfo.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/test/MultiscaleInformationTest.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/test/BinaryTestParallel.java
@@ -39,7 +40,6 @@
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/test/SSMInformationTest.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/structure/Value.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/logic/method/util/InfoNormalizer.java
-/media/PROJECTS/Github/values/src/main/java/volgyerdo/value/structure/ValueType.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/test/HumanCellCount.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/test/MultiscaleMultilevelInformationTest.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/ui/SetBasedAnalyzer.java

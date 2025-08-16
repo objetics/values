@@ -12,13 +12,13 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import volgyerdo.value.structure.Assembly;
-import volgyerdo.value.structure.ValueType;
+import volgyerdo.value.structure.BaseValue;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-@ValueType(
+@BaseValue(
     category = "assembly",
     acronym = "AIF",
     name = "Assembly Index Fast",
@@ -26,7 +26,7 @@ import volgyerdo.value.structure.ValueType;
                   "splitting approach. Divides sequences into halves and counts unique " +
                   "subsequences to estimate construction complexity. Faster than exact assembly " +
                   "index calculation but provides less precise results for complex patterns.",
-    pseudo = "1. Recursively split sequence into two halves; " +
+    algorithm = "1. Recursively split sequence into two halves; " +
              "2. For each half, check if it was seen before; " +
              "3. If new substring found, increment assembly steps; " +
              "4. Continue splitting until reaching individual elements; " +

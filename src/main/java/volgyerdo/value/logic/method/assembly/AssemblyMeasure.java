@@ -8,13 +8,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import volgyerdo.value.structure.Assembly;
-import volgyerdo.value.structure.ValueType;
+import volgyerdo.value.structure.BaseValue;
 
 /**
  *
  * @author zsolt
  */
-@ValueType(
+@BaseValue(
     category = "assembly",
     acronym = "A",
     name = "Assembly Measure",
@@ -22,7 +22,7 @@ import volgyerdo.value.structure.ValueType;
                   "with their frequency in the dataset. Uses exponential weighting to emphasize " +
                   "the contribution of frequent, easily assemblable objects. Provides insight " +
                   "into the overall structural efficiency of a collection.",
-    pseudo = "1. Count frequency of each unique object in collection; " +
+    algorithm = "1. Count frequency of each unique object in collection; " +
              "2. Calculate assembly index for each unique object; " +
              "3. Apply exponential weighting: exp(assembly_index) * (frequency - 1); " +
              "4. Sum all weighted assembly values; " +

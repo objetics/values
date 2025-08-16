@@ -13,13 +13,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import volgyerdo.value.structure.Assembly;
-import volgyerdo.value.structure.ValueType;
+import volgyerdo.value.structure.BaseValue;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-@ValueType(
+@BaseValue(
     category = "assembly",
     acronym = "AI",
     name = "Assembly Index",
@@ -27,7 +27,7 @@ import volgyerdo.value.structure.ValueType;
                   "from scratch, where previously constructed subsequences can be reused. Uses " +
                   "dynamic programming with rolling hash optimization to find the optimal assembly " +
                   "strategy. Measures the structural complexity and redundancy in data sequences.",
-    pseudo = "1. Initialize assembly steps count for each position; " +
+    algorithm = "1. Initialize assembly steps count for each position; " +
              "2. For each position, check all possible substring constructions; " +
              "3. Use dynamic programming to find minimum steps to reach each position; " +
              "4. If substring was built before, reuse it (no additional cost); " +

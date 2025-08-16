@@ -1,7 +1,7 @@
 package volgyerdo.test;
 
 import volgyerdo.value.logic.ValueLogic;
-import volgyerdo.value.structure.ValueType;
+import volgyerdo.value.structure.BaseValue;
 import java.util.List;
 
 /**
@@ -13,40 +13,40 @@ public class ValueLogicDemo {
     
     public static void main(String[] args) {
         
-        System.out.println("=== Összes ValueType annotáció ===");
-        List<ValueType> allAnnotations = ValueLogic.getValueTypeAnnotations();
+        System.out.println("=== Összes BaseValue annotáció ===");
+        List<BaseValue> allAnnotations = ValueLogic.getBaseValueAnnotations();
         allAnnotations.forEach(annotation -> {
             System.out.printf("Név: %s, Kategória: %s, Mozaikszó: %s%n", 
                 annotation.name(), annotation.category(), annotation.acronym());
         });
         
         System.out.println("\n=== Information kategóriájú algoritmusok ===");
-        List<ValueType> infoAnnotations = ValueLogic.getValueTypeAnnotationsByCategory("information");
+        List<BaseValue> infoAnnotations = ValueLogic.getBaseValueAnnotationsByCategory("information");
         infoAnnotations.forEach(annotation -> {
             System.out.printf("Név: %s, Mozaikszó: %s%n", 
                 annotation.name(), annotation.acronym());
         });
         
         System.out.println("\n=== Assembly kategóriájú algoritmusok ===");
-        List<ValueType> assemblyAnnotations = ValueLogic.getValueTypeAnnotationsByCategory("assembly");
+        List<BaseValue> assemblyAnnotations = ValueLogic.getBaseValueAnnotationsByCategory("assembly");
         assemblyAnnotations.forEach(annotation -> {
             System.out.printf("Név: %s, Mozaikszó: %s%n", 
                 annotation.name(), annotation.acronym());
         });
         
         System.out.println("\n=== Entropy kategóriájú algoritmusok ===");
-        List<ValueType> entropyAnnotations = ValueLogic.getValueTypeAnnotationsByCategory("entropy");
+        List<BaseValue> entropyAnnotations = ValueLogic.getBaseValueAnnotationsByCategory("entropy");
         entropyAnnotations.forEach(annotation -> {
             System.out.printf("Név: %s, Mozaikszó: %s%n", 
                 annotation.name(), annotation.acronym());
         });
         
         System.out.println("\n=== GZIP algoritmus keresése mozaikszó alapján ===");
-        List<ValueType> gzipAnnotations = ValueLogic.getValueTypeAnnotationsByAcronym("IGZIP");
+        List<BaseValue> gzipAnnotations = ValueLogic.getBaseValueAnnotationsByAcronym("IGZIP");
         gzipAnnotations.forEach(annotation -> {
             System.out.printf("Név: %s, Leírás: %s%n", 
                 annotation.name(), annotation.description());
-            System.out.printf("Pszeudokód: %s%n", annotation.pseudo());
+            System.out.printf("Algoritmus: %s%n", annotation.algorithm());
         });
         
         System.out.println("\n=== Value-Annotation párok ===");
@@ -58,7 +58,7 @@ public class ValueLogicDemo {
         });
         
         System.out.println("\n=== Kombinált szűrés: information kategória és ISH mozaikszó ===");
-        List<ValueType> filteredAnnotations = ValueLogic.getValueTypeAnnotationsFiltered("information", "ISH", null);
+        List<BaseValue> filteredAnnotations = ValueLogic.getBaseValueAnnotationsFiltered("information", "ISH", null);
         filteredAnnotations.forEach(annotation -> {
             System.out.printf("Név: %s, Kategória: %s, Mozaikszó: %s%n", 
                 annotation.name(), annotation.category(), annotation.acronym());

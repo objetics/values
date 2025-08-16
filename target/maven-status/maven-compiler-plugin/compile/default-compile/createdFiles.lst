@@ -24,6 +24,7 @@ volgyerdo/value/structure/Assembly.class
 volgyerdo/value/ui/RandomnessBasedAnalyzer.class
 volgyerdo/value/logic/method/information/GZIPInfo.class
 volgyerdo/value/logic/method/assembly/AssemblyIndexApprox.class
+volgyerdo/value/structure/BaseValue.class
 volgyerdo/value/structure/Entropy.class
 volgyerdo/value/logic/method/information/SCMInfo.class
 volgyerdo/value/ui/PlotPanel2D$9.class
@@ -31,6 +32,7 @@ volgyerdo/value/ui/RandomnessBasedAnalyzer$1.class
 volgyerdo/value/ui/LengthBasedAnalyzer$ValueTableModel.class
 volgyerdo/value/logic/ValueLogic.class
 volgyerdo/value/ui/PlotPanel2D$6.class
+volgyerdo/test/ValueLogicDemo.class
 volgyerdo/value/logic/method/information/SSMInfo.class
 volgyerdo/value/ui/LengthBasedAnalyzer$2.class
 volgyerdo/value/logic/method/information/RLEShannonInfo.class
@@ -52,12 +54,12 @@ volgyerdo/test/InfoDecompositionTest.class
 volgyerdo/value/logic/method/util/InfoNormalizer.class
 volgyerdo/value/ui/LengthBasedAnalyzer$DistributionSliderListener.class
 volgyerdo/value/logic/method/assembly/AssemblyMeasure.class
+volgyerdo/value/logic/ValueLogic$ValueAnnotationPair.class
 volgyerdo/value/logic/method/assembly/GeneralAssembly.class
 volgyerdo/value/logic/method/information/MarkovInfo.class
 volgyerdo/test/ConcentricCirclesMatrix.class
 volgyerdo/test/ShannonEntropyTest.class
 volgyerdo/value/ui/SetBasedAnalyzer$ValueTableModel.class
-volgyerdo/value/structure/ValueType.class
 volgyerdo/value/ui/PlotPanel2D$2.class
 volgyerdo/value/logic/method/information/MaxInfo.class
 volgyerdo/test/BinaryTestParallel$InfoTask.class

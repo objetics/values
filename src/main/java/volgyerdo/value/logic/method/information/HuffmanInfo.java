@@ -13,10 +13,10 @@ import java.util.Collection;
 import java.util.PriorityQueue;
 import java.util.HashMap;
 import volgyerdo.value.structure.Information;
-import volgyerdo.value.structure.ValueType;
+import volgyerdo.value.structure.BaseValue;
 import java.util.Map;
 
-@ValueType(
+@BaseValue(
     category = "information",
     acronym = "IHUFF",
     name = "Huffman Information",
@@ -24,7 +24,7 @@ import java.util.Map;
                   "binary tree based on symbol frequencies and returns the total number of bits " +
                   "required to encode the data. More frequent symbols get shorter codes, " +
                   "resulting in compression-based information measurement.",
-    pseudo = "1. Count frequency of each unique symbol; " +
+    algorithm = "1. Count frequency of each unique symbol; " +
              "2. Create leaf nodes for each symbol with their frequencies; " +
              "3. Build Huffman tree by repeatedly merging two lowest frequency nodes; " +
              "4. Generate binary codes by traversing tree (left=0, right=1); " +

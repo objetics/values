@@ -9,14 +9,14 @@ import java.util.HashMap;
 import java.util.Map;
 import volgyerdo.value.structure.Value;
 import volgyerdo.value.structure.Assembly;
-import volgyerdo.value.structure.ValueType;
+import volgyerdo.value.structure.BaseValue;
 import volgyerdo.value.logic.method.information.GZIPInfo;
 
 /**
  *
  * @author zsolt
  */
-@ValueType(
+@BaseValue(
     category = "assembly",
     acronym = "AG",
     name = "General Assembly",
@@ -24,7 +24,7 @@ import volgyerdo.value.logic.method.information.GZIPInfo;
                   "of individual objects in a collection and weighting them by their frequency. " +
                   "Uses GZIP compression as the default information measure to assess how much " +
                   "information each unique object contributes to the overall assembly structure.",
-    pseudo = "1. Group objects in collection by their unique values; " +
+    algorithm = "1. Group objects in collection by their unique values; " +
              "2. For each unique object, calculate its information content using GZIP; " +
              "3. Weight each object's information by its frequency in the collection; " +
              "4. Sum all weighted information values; " +

@@ -11,13 +11,13 @@ import volgyerdo.commons.primitive.ArrayUtils;
 import volgyerdo.value.logic.method.util.InfoNormalizer;
 import volgyerdo.value.logic.method.util.InfoUtils;
 import volgyerdo.value.structure.Information;
-import volgyerdo.value.structure.ValueType;
+import volgyerdo.value.structure.BaseValue;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-@ValueType(
+@BaseValue(
     category = "information",
     acronym = "IGZIP",
     name = "GZIP Information",
@@ -25,7 +25,7 @@ import volgyerdo.value.structure.ValueType;
                   "compressed size of data in bits, representing the minimum information needed " +
                   "to reconstruct the original data. Effective for identifying patterns, repetitions, " +
                   "and redundancy in datasets through real-world compression techniques.",
-    pseudo = "1. Convert input data to byte array if needed; " +
+    algorithm = "1. Convert input data to byte array if needed; " +
              "2. Apply GZIP compression algorithm (LZ77 + Huffman coding); " +
              "3. Calculate compressed size in bits; " +
              "4. Generate random data baseline for normalization; " +
