@@ -18,7 +18,7 @@ import volgyerdo.value.logic.method.entropy.ShannonEntropy;
 @BaseValue(
     id = 15,
     category = "information",
-    acronym = "ISH",
+    acronym = "IS",
     name = "Shannon Information",
     description = "Calculates Shannon information content of a dataset by multiplying Shannon entropy " +
                   "with the length of the data. Represents the total amount of information (in bits) " +

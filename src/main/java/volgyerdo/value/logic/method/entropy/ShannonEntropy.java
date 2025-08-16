@@ -18,7 +18,7 @@ import volgyerdo.value.structure.BaseValue;
 @BaseValue(
     id = 6,
     category = "entropy",
-    acronym = "ESH",
+    acronym = "ES",
     name = "Shannon Entropy",
     description = "Calculates Shannon entropy of a dataset, measuring the average information content " +
                   "per symbol. Returns values between 0 (completely ordered data) and log2(n) " +
