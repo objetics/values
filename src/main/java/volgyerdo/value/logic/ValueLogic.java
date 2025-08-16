@@ -24,6 +24,32 @@ import volgyerdo.value.structure.BaseValue;
  * @author zsolt
  */
 public class ValueLogic {
+    
+    /**
+     * Static cache that maps BaseValue IDs to Value classes.
+     * Initialized once at class loading time for optimal performance.
+     * Thread-safe because we create new instances on each call.
+     */
+    private static final java.util.Map<Long, Class<?>> VALUE_CLASS_CACHE = initializeValueClassCache();
+    
+    /**
+     * Initializes the static value class cache by loading all Value classes
+     * and mapping their BaseValue.id() to the corresponding Value class objects.
+     */
+    private static java.util.Map<Long, Class<?>> initializeValueClassCache() {
+        java.util.Map<Long, Class<?>> cache = new java.util.HashMap<>();
+        List<Class<?>> annotatedClasses = findAnnotatedClasses();
+        
+        for (Class<?> clazz : annotatedClasses) {
+            BaseValue annotation = clazz.getAnnotation(BaseValue.class);
+            if (annotation != null) {
+                cache.put(annotation.id(), clazz);
+            }
+        }
+        
+        return cache;
+    }
+
 
     /**
      * Finds and returns all classes annotated with BaseValue 
@@ -136,12 +162,12 @@ public class ValueLogic {
     
     /**
      * Creates a list of Value objects from annotated classes.
+     * Now creates new instances each time from the class cache for thread safety.
      */
     public static List<Value> values() {
         List<Value> values = new ArrayList<>();
-        List<Class<?>> annotatedClasses = findAnnotatedClasses();
         
-        for (Class<?> clazz : annotatedClasses) {
+        for (Class<?> clazz : VALUE_CLASS_CACHE.values()) {
             try {
                 Value instance = (Value) clazz.getDeclaredConstructor().newInstance();
                 values.add(instance);
@@ -242,8 +268,7 @@ public class ValueLogic {
     
     /**
      * Calculates a value using the specified BaseValue ID and input object.
-     * Finds the Value implementation by BaseValue.id(), creates an instance, 
-     * and calls the appropriate value() method based on the object type.
+     * Uses a static cache for optimal performance - O(1) lookup time.
      * 
      * @param valueId the BaseValue.id() to find the corresponding Value implementation
      * @param object the input object to calculate the value for
@@ -256,18 +281,18 @@ public class ValueLogic {
             return 0.0;
         }
         
-        // Find the Value class by BaseValue.id()
-        Value valueInstance = null;
-        for (Value value : values()) {
-            BaseValue annotation = value.getClass().getAnnotation(BaseValue.class);
-            if (annotation != null && annotation.id() == valueId) {
-                valueInstance = value;
-                break;
-            }
+        // Get the class from cache and create a new instance for thread safety
+        Class<?> valueClass = VALUE_CLASS_CACHE.get(valueId);
+        
+        if (valueClass == null) {
+            throw new IllegalArgumentException("No Value implementation found for BaseValue.id() = " + valueId);
         }
         
-        if (valueInstance == null) {
-            throw new IllegalArgumentException("No Value implementation found for BaseValue.id() = " + valueId);
+        Value valueInstance;
+        try {
+            valueInstance = (Value) valueClass.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to instantiate Value class for BaseValue.id() = " + valueId, e);
         }
         
         try {
@@ -309,6 +334,26 @@ public class ValueLogic {
         } catch (Exception e) {
             throw new RuntimeException("Failed to calculate value for BaseValue.id() = " + valueId + 
                                      " with object type " + object.getClass().getSimpleName(), e);
+        }
+    }
+
+    /**
+     * Gets a new Value instance by its BaseValue ID.
+     * Uses the static class cache for O(1) lookup time and creates a new instance for thread safety.
+     * 
+     * @param valueId the BaseValue.id() to find the corresponding Value implementation
+     * @return a new Value instance, or null if not found
+     */
+    public static Value getValueById(long valueId) {
+        Class<?> valueClass = VALUE_CLASS_CACHE.get(valueId);
+        if (valueClass == null) {
+            return null;
+        }
+        
+        try {
+            return (Value) valueClass.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to instantiate Value class for BaseValue.id() = " + valueId, e);
         }
     }
 
