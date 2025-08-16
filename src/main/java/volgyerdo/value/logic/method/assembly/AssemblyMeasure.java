@@ -15,6 +15,7 @@ import volgyerdo.value.structure.BaseValue;
  * @author zsolt
  */
 @BaseValue(
+    id = 3,
     category = "assembly",
     acronym = "A",
     name = "Assembly Measure",

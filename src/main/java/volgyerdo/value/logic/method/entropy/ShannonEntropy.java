@@ -16,6 +16,7 @@ import volgyerdo.value.structure.BaseValue;
  * @author Volgyerdo Nonprofit Kft.
  */
 @BaseValue(
+    id = 6,
     category = "entropy",
     acronym = "ESH",
     name = "Shannon Entropy",

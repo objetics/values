@@ -17,6 +17,7 @@ import volgyerdo.value.structure.BaseValue;
 import java.util.Map;
 
 @BaseValue(
+    id = 8,
     category = "information",
     acronym = "IHUFF",
     name = "Huffman Information",

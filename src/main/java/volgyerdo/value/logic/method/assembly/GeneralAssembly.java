@@ -17,6 +17,7 @@ import volgyerdo.value.logic.method.information.GZIPInfo;
  * @author zsolt
  */
 @BaseValue(
+    id = 4,
     category = "assembly",
     acronym = "AG",
     name = "General Assembly",

@@ -19,6 +19,7 @@ import volgyerdo.value.structure.BaseValue;
  * @author Volgyerdo Nonprofit Kft.
  */
 @BaseValue(
+    id = 12,
     category = "information",
     acronym = "IRLE",
     name = "RLE Information",

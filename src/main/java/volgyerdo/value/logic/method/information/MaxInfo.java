@@ -16,6 +16,7 @@ import volgyerdo.value.structure.BaseValue;
  * @author Volgyerdo Nonprofit Kft.
  */
 @BaseValue(
+    id = 10,
     category = "information",
     acronym = "IMAX",
     name = "Maximum Information",

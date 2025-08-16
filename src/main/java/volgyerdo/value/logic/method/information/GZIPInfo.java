@@ -18,6 +18,7 @@ import volgyerdo.value.structure.BaseValue;
  * @author Volgyerdo Nonprofit Kft.
  */
 @BaseValue(
+    id = 7,
     category = "information",
     acronym = "IGZIP",
     name = "GZIP Information",

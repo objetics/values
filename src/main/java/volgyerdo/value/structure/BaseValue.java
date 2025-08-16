@@ -21,6 +21,14 @@ import java.lang.annotation.Target;
 public @interface BaseValue {
 
     /**
+     * Az érték számítási módszer egyedi azonosítója.
+     * Pozitív egész szám, ami egyedileg azonosítja az algoritmus.
+     * 
+     * @return az algoritmus egyedi azonosítója
+     */
+    long id() default 0;
+
+    /**
      * Az érték számítási módszer kategóriája.
      * Például: "information", "entropy", "complexity" stb.
      * 

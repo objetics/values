@@ -22,6 +22,7 @@ import volgyerdo.value.logic.method.util.InfoUtils;
  * @author Volgyerdo Nonprofit Kft.
  */
 @BaseValue(
+    id = 14,
     category = "information",
     acronym = "ISCM",
     name = "SCM Information",

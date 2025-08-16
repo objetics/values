@@ -16,6 +16,7 @@ import volgyerdo.value.structure.BaseValue;
  * @author Volgyerdo Nonprofit Kft.
  */
 @BaseValue(
+    id = 5,
     category = "entropy",
     acronym = "EMAX",
     name = "Maximum Entropy",

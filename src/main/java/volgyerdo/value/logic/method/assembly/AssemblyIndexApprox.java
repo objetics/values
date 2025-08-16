@@ -19,6 +19,7 @@ import volgyerdo.value.structure.BaseValue;
  * @author Volgyerdo Nonprofit Kft.
  */
 @BaseValue(
+    id = 2,
     category = "assembly",
     acronym = "AIF",
     name = "Assembly Index Fast",

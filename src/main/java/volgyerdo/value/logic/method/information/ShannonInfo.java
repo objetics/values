@@ -16,6 +16,7 @@ import volgyerdo.value.logic.method.entropy.ShannonEntropy;
  * @author Volgyerdo Nonprofit Kft.
  */
 @BaseValue(
+    id = 15,
     category = "information",
     acronym = "ISH",
     name = "Shannon Information",
