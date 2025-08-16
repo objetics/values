@@ -5,6 +5,7 @@
 package volgyerdo.value.logic;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.lang.reflect.Modifier;
@@ -239,6 +240,78 @@ public class ValueLogic {
                 .collect(Collectors.toList());
     }
     
+    /**
+     * Calculates a value using the specified BaseValue ID and input object.
+     * Finds the Value implementation by BaseValue.id(), creates an instance, 
+     * and calls the appropriate value() method based on the object type.
+     * 
+     * @param valueId the BaseValue.id() to find the corresponding Value implementation
+     * @param object the input object to calculate the value for
+     * @return the calculated double value
+     * @throws IllegalArgumentException if no Value implementation found for the given ID
+     * @throws RuntimeException if Value instantiation or calculation fails
+     */
+    public static double calculateValueById(long valueId, Object object) {
+        if (object == null) {
+            return 0.0;
+        }
+        
+        // Find the Value class by BaseValue.id()
+        Value valueInstance = null;
+        for (Value value : values()) {
+            BaseValue annotation = value.getClass().getAnnotation(BaseValue.class);
+            if (annotation != null && annotation.id() == valueId) {
+                valueInstance = value;
+                break;
+            }
+        }
+        
+        if (valueInstance == null) {
+            throw new IllegalArgumentException("No Value implementation found for BaseValue.id() = " + valueId);
+        }
+        
+        try {
+            // Call the appropriate value() method based on object type
+            if (object instanceof byte[]) {
+                return valueInstance.value((byte[]) object);
+            } else if (object instanceof Collection<?>) {
+                return valueInstance.value((Collection<?>) object);
+            } else if (object instanceof String) {
+                return valueInstance.value((String) object);
+            } else if (object instanceof boolean[]) {
+                return valueInstance.value((boolean[]) object);
+            } else if (object instanceof short[]) {
+                return valueInstance.value((short[]) object);
+            } else if (object instanceof int[]) {
+                return valueInstance.value((int[]) object);
+            } else if (object instanceof float[]) {
+                return valueInstance.value((float[]) object);
+            } else if (object instanceof double[]) {
+                return valueInstance.value((double[]) object);
+            } else if (object instanceof char[]) {
+                return valueInstance.value((char[]) object);
+            } else if (object instanceof Character[]) {
+                return valueInstance.value((Character[]) object);
+            } else if (object instanceof Byte[]) {
+                return valueInstance.value((Byte[]) object);
+            } else if (object instanceof Short[]) {
+                return valueInstance.value((Short[]) object);
+            } else if (object instanceof Integer[]) {
+                return valueInstance.value((Integer[]) object);
+            } else if (object instanceof Long[]) {
+                return valueInstance.value((Long[]) object);
+            } else if (object instanceof String[]) {
+                return valueInstance.value((String[]) object);
+            } else {
+                // Default: use the generic Object method which converts to string
+                return valueInstance.value(object);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to calculate value for BaseValue.id() = " + valueId + 
+                                     " with object type " + object.getClass().getSimpleName(), e);
+        }
+    }
+
     /**
      * Helper class for pairing Value objects with BaseValue annotations.
      */
