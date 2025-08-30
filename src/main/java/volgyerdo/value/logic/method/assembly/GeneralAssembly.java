@@ -27,10 +27,10 @@ import volgyerdo.value.structure.Value;
                   "of individual objects in a collection and weighting them by their frequency. " +
                   "Uses GZIP compression as the default information measure to assess how much " +
                   "information each unique object contributes to the overall assembly structure.",
-    algorithm = "1. Group objects in collection by their unique values; " +
-             "2. For each unique object, calculate its information content using GZIP; " +
-             "3. Weight each object's information by its frequency in the collection; " +
-             "4. Sum all weighted information values; " +
+    algorithm = "1. Group objects in collection by their unique values;\n" +
+             "2. For each unique object, calculate its information content using GZIP;\n" +
+             "3. Weight each object's information by its frequency in the collection;\n" +
+             "4. Sum all weighted information values;\n" +
              "5. Return total assembly information content"
 )
 public class GeneralAssembly implements Assembly {

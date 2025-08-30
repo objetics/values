@@ -28,11 +28,11 @@ import volgyerdo.value.structure.BaseValue;
                   "from scratch, where previously constructed subsequences can be reused. Uses " +
                   "dynamic programming with rolling hash optimization to find the optimal assembly " +
                   "strategy. Measures the structural complexity and redundancy in data sequences.",
-    algorithm = "1. Initialize assembly steps count for each position; " +
-             "2. For each position, check all possible substring constructions; " +
-             "3. Use dynamic programming to find minimum steps to reach each position; " +
-             "4. If substring was built before, reuse it (no additional cost); " +
-             "5. Otherwise, add construction cost and mark substring as available; " +
+    algorithm = "1. Initialize assembly steps count for each position;\n" +
+             "2. For each position, check all possible substring constructions;\n" +
+             "3. Use dynamic programming to find minimum steps to reach each position;\n" +
+             "4. If substring was built before, reuse it (no additional cost);\n" +
+             "5. Otherwise, add construction cost and mark substring as available;\n" +
              "6. Return minimum steps needed to build entire sequence"
 )
 public class AssemblyIndex implements Assembly {

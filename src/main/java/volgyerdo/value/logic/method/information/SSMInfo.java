@@ -30,10 +30,10 @@ import volgyerdo.value.structure.Information;
                   "scales and dimensions. Finds the minimum Shannon information value across " +
                   "different spectral decompositions of the data. Useful for detecting the most " +
                   "compressed representation and identifying intrinsic information content.",
-    algorithm = "1. Apply different spectral transformations to the data; " +
-             "2. For each transformation, calculate Shannon information; " +
-             "3. Analyze data at multiple scales and resolutions; " +
-             "4. Find the transformation yielding minimum Shannon information; " +
+    algorithm = "1. Apply different spectral transformations to the data;\n" +
+             "2. For each transformation, calculate Shannon information;\n" +
+             "3. Analyze data at multiple scales and resolutions;\n" +
+             "4. Find the transformation yielding minimum Shannon information;\n" +
              "5. Return the minimum information value across all transformations"
 )
 public class SSMInfo implements Information{

@@ -26,11 +26,11 @@ import volgyerdo.value.structure.BaseValue;
                   "compressed size of data in bits, representing the minimum information needed " +
                   "to reconstruct the original data. Effective for identifying patterns, repetitions, " +
                   "and redundancy in datasets through real-world compression techniques.",
-    algorithm = "1. Convert input data to byte array if needed; " +
-             "2. Apply GZIP compression algorithm (LZ77 + Huffman coding); " +
-             "3. Calculate compressed size in bits; " +
-             "4. Generate random data baseline for normalization; " +
-             "5. Generate minimum compression baseline (all zeros); " +
+    algorithm = "1. Convert input data to byte array if needed;\n" +
+             "2. Apply GZIP compression algorithm (LZ77 + Huffman coding);\n" +
+             "3. Calculate compressed size in bits;\n" +
+             "4. Generate random data baseline for normalization;\n" +
+             "5. Generate minimum compression baseline (all zeros);\n" +
              "6. Normalize result between min and max compression ratios"
 )
 public class GZIPInfo implements Information {

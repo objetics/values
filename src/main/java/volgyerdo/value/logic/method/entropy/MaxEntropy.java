@@ -26,9 +26,9 @@ import volgyerdo.value.structure.Entropy;
                   "unique symbols. Represents the theoretical upper bound of randomness that could " +
                   "be achieved if all symbols were uniformly distributed. Returns log2(k) where " +
                   "k is the number of unique symbols in the dataset.",
-    algorithm = "1. Count the number of unique elements in dataset; " +
-             "2. Calculate log2(unique_count); " +
-             "3. Return maximum entropy value; " +
+    algorithm = "1. Count the number of unique elements in dataset;\n" +
+             "2. Calculate log2(unique_count);\n" +
+             "3. Return maximum entropy value;\n" +
              "4. This represents uniform distribution entropy for the same symbol set"
 )
 public class MaxEntropy implements Entropy {

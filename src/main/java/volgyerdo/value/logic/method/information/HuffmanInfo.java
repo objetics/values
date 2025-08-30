@@ -25,10 +25,10 @@ import java.util.Map;
                   "binary tree based on symbol frequencies and returns the total number of bits " +
                   "required to encode the data. More frequent symbols get shorter codes, " +
                   "resulting in compression-based information measurement.",
-    algorithm = "1. Count frequency of each unique symbol; " +
-             "2. Create leaf nodes for each symbol with their frequencies; " +
-             "3. Build Huffman tree by repeatedly merging two lowest frequency nodes; " +
-             "4. Generate binary codes by traversing tree (left=0, right=1); " +
+    algorithm = "1. Count frequency of each unique symbol;\n" +
+             "2. Create leaf nodes for each symbol with their frequencies;\n" +
+             "3. Build Huffman tree by repeatedly merging two lowest frequency nodes;\n" +
+             "4. Generate binary codes by traversing tree (left=0, right=1);\n" +
              "5. Calculate total bits by summing (symbol_frequency * code_length)"
 )
 public class HuffmanInfo implements Information {

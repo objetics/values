@@ -27,10 +27,10 @@ import volgyerdo.value.structure.Information;
                   "capturing first-order dependencies and transition patterns. Measures " +
                   "the predictability and sequential structure in the data through " +
                   "transition probability analysis.",
-    algorithm = "1. Create pairs of consecutive elements (current, next); " +
-             "2. Group pairs by their first element (current state); " +
-             "3. For each state, count transitions to different next states; " +
-             "4. Calculate transition probabilities for each state; " +
+    algorithm = "1. Create pairs of consecutive elements (current, next);\n" +
+             "2. Group pairs by their first element (current state);\n" +
+             "3. For each state, count transitions to different next states;\n" +
+             "4. Calculate transition probabilities for each state;\n" +
              "5. Apply Shannon information formula to transition probabilities"
 )
 public class MarkovInfo implements Information {

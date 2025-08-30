@@ -25,10 +25,10 @@ import volgyerdo.value.structure.BaseValue;
                   "with their frequency in the dataset. Uses exponential weighting to emphasize " +
                   "the contribution of frequent, easily assemblable objects. Provides insight " +
                   "into the overall structural efficiency of a collection.",
-    algorithm = "1. Count frequency of each unique object in collection; " +
-             "2. Calculate assembly index for each unique object; " +
-             "3. Apply exponential weighting: exp(assembly_index) * (frequency - 1); " +
-             "4. Sum all weighted assembly values; " +
+    algorithm = "1. Count frequency of each unique object in collection;\n" +
+             "2. Calculate assembly index for each unique object;\n" +
+             "3. Apply exponential weighting: exp(assembly_index) * (frequency - 1);\n" +
+             "4. Sum all weighted assembly values;\n" +
              "5. Normalize by total number of objects to get assembly measure"
 )
 public class AssemblyMeasure implements Assembly {

@@ -25,10 +25,10 @@ import volgyerdo.value.structure.BaseValue;
                   "RLE compression to detect repetitive patterns, then calculates Shannon information " +
                   "on the compressed representation. Provides enhanced information measurement " +
                   "for data with both repetitive sequences and statistical patterns.",
-    algorithm = "1. Apply Run-Length Encoding to input data; " +
-             "2. Convert RLE result into (value, count) pairs; " +
-             "3. Create new dataset from RLE representation; " +
-             "4. Calculate Shannon information on RLE-compressed data; " +
+    algorithm = "1. Apply Run-Length Encoding to input data;\n" +
+             "2. Convert RLE result into (value, count) pairs;\n" +
+             "3. Create new dataset from RLE representation;\n" +
+             "4. Calculate Shannon information on RLE-compressed data;\n" +
              "5. Return Shannon information of the compressed representation"
 )
 public class RLEShannonInfo implements Information {

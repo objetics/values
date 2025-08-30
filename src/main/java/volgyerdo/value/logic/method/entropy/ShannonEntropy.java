@@ -26,10 +26,10 @@ import volgyerdo.value.structure.Entropy;
                   "per symbol. Returns values between 0 (completely ordered data) and log2(n) " +
                   "(uniformly distributed data with n unique symbols). Based on the probability " +
                   "distribution of symbols in the data.",
-    algorithm = "1. Count frequency of each unique element in dataset; " +
-             "2. Calculate probability for each element (frequency / total_count); " +
-             "3. For each element, compute -p * log2(p); " +
-             "4. Sum all individual entropy contributions; " +
+    algorithm = "1. Count frequency of each unique element in dataset;\n" +
+             "2. Calculate probability for each element (frequency / total_count);\n" +
+             "3. For each element, compute -p * log2(p);\n" +
+             "4. Sum all individual entropy contributions;\n" +
              "5. Return total Shannon entropy value"
 )
 public class ShannonEntropy implements Entropy {

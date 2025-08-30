@@ -23,8 +23,8 @@ import volgyerdo.value.structure.BaseValue;
                   "This metric represents the theoretical lower bound of information that " +
                   "must be contained in any representation of the data. Always returns 0 " +
                   "for homogeneous data and log2(n) for n-element datasets.",
-    algorithm = "1. Check if input is null or empty; " +
-             "2. Return 0 as minimum information represents the theoretical lower bound; " +
+    algorithm = "1. Check if input is null or empty;\n" +
+             "2. Return 0 as minimum information represents the theoretical lower bound;\n" +
              "3. Minimum information is achieved when all elements are identical"
 )
 public class MinInfo implements Information {

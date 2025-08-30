@@ -32,10 +32,10 @@ import volgyerdo.value.logic.method.util.InfoUtils;
                   "data by breaking it into different sized components and selecting the " +
                   "composition that yields the minimum information content, revealing " +
                   "the most efficient structural organization.",
-    algorithm = "1. Try different composition sizes (1, 2, 3, ... up to data length); " +
-             "2. For each size, break data into chunks of that size; " +
-             "3. Calculate Shannon information for each composition; " +
-             "4. Find composition size that yields minimum Shannon information; " +
+    algorithm = "1. Try different composition sizes (1, 2, 3, ... up to data length);\n" +
+             "2. For each size, break data into chunks of that size;\n" +
+             "3. Calculate Shannon information for each composition;\n" +
+             "4. Find composition size that yields minimum Shannon information;\n" +
              "5. Return the minimum information value found"
 )
 public class SCMInfo implements Information{

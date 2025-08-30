@@ -29,10 +29,10 @@ import volgyerdo.value.structure.BaseValue;
                   "Measures how much data can be compressed by encoding consecutive identical " +
                   "values as (value, count) pairs. Effective for detecting repetitive patterns " +
                   "and sequences in data, with better compression for highly repetitive content.",
-    algorithm = "1. Scan input data sequentially; " +
-             "2. Count consecutive identical elements (runs); " +
-             "3. Encode each run as (value, count) pair; " +
-             "4. Calculate total bits needed for RLE encoding; " +
+    algorithm = "1. Scan input data sequentially;\n" +
+             "2. Count consecutive identical elements (runs);\n" +
+             "3. Encode each run as (value, count) pair;\n" +
+             "4. Calculate total bits needed for RLE encoding;\n" +
              "5. Normalize against random and minimum compression baselines"
 )
 public class RLEInfo implements Information {

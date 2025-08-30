@@ -27,11 +27,11 @@ import volgyerdo.value.structure.BaseValue;
                   "splitting approach. Divides sequences into halves and counts unique " +
                   "subsequences to estimate construction complexity. Faster than exact assembly " +
                   "index calculation but provides less precise results for complex patterns.",
-    algorithm = "1. Recursively split sequence into two halves; " +
-             "2. For each half, check if it was seen before; " +
-             "3. If new substring found, increment assembly steps; " +
-             "4. Continue splitting until reaching individual elements; " +
-             "5. Sum total construction steps across all recursive splits; " +
+    algorithm = "1. Recursively split sequence into two halves;\n" +
+             "2. For each half, check if it was seen before;\n" +
+             "3. If new substring found, increment assembly steps;\n" +
+             "4. Continue splitting until reaching individual elements;\n" +
+             "5. Sum total construction steps across all recursive splits;\n" +
              "6. Return approximated assembly index"
 )
 public class AssemblyIndexApprox implements Assembly {

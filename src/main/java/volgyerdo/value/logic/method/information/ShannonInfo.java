@@ -23,9 +23,9 @@ import volgyerdo.value.logic.method.entropy.ShannonEntropy;
     description = "Calculates Shannon information content of a dataset by multiplying Shannon entropy " +
                   "with the length of the data. Represents the total amount of information (in bits) " +
                   "contained in the entire dataset based on symbol probabilities.",
-    algorithm = "1. Calculate frequency of each unique element; " +
-             "2. Compute probability for each element (frequency / total_count); " +
-             "3. Calculate Shannon entropy: -Σ(p * log2(p)); " +
+    algorithm = "1. Calculate frequency of each unique element;\n" +
+             "2. Compute probability for each element (frequency / total_count);\n" +
+             "3. Calculate Shannon entropy: -Σ(p * log2(p));\n" +
              "4. Multiply entropy by dataset length to get total information"
 )
 public class ShannonInfo implements Information {

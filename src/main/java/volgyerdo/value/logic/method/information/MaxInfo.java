@@ -24,9 +24,9 @@ import volgyerdo.value.structure.BaseValue;
     description = "Calculates the maximum possible information content for a given dataset. " +
                   "This metric represents the theoretical upper bound of information that can be " +
                   "contained in a collection of values with a specific number of unique elements.",
-    algorithm = "1. Check if input is null or empty; " +
-             "2. Count unique elements in the dataset; " +
-             "3. Calculate log2(unique_count) as maximum information; " +
+    algorithm = "1. Check if input is null or empty;\n" +
+             "2. Count unique elements in the dataset;\n" +
+             "3. Calculate log2(unique_count) as maximum information;\n" +
              "4. Maximum information is achieved when all elements are equally probable"
 )
 public class MaxInfo implements Information {
