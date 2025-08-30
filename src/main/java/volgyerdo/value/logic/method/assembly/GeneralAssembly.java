@@ -69,9 +69,7 @@ public class GeneralAssembly implements Assembly {
         for (Map.Entry<Object, Integer> entry : counts.entrySet()) {
             Object o = entry.getKey();
             int ni = entry.getValue();
-            double i = info.value(o);
-            
-            sum += i * FastLog.log2(ni);
+            sum += info.value(o) * FastLog.log2(ni);
         }
         return sum / N;
     }
