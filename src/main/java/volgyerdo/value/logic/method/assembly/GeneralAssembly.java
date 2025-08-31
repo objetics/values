@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import volgyerdo.commons.math.fast.FastLog;
+import volgyerdo.commons.math.fast.FastMath;
 import volgyerdo.value.logic.method.information.GZIPInfo;
 import volgyerdo.value.structure.Assembly;
 import volgyerdo.value.structure.BaseValue;
@@ -62,14 +62,16 @@ public class GeneralAssembly implements Assembly {
             counts.put(o, counts.getOrDefault(o, 0) + 1);
         }
 
-        int N = counts.size();
+        double N = 0;
 
         double sum = 0.0;
 
         for (Map.Entry<Object, Integer> entry : counts.entrySet()) {
             Object o = entry.getKey();
             int ni = entry.getValue();
-            sum += info.value(o) * FastLog.log2(ni);
+            double l = FastMath.log2((double)ni);
+            sum += info.value(o) * l; 
+            N+=l;  
         }
         return sum / N;
     }
