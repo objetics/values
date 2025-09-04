@@ -1,4 +1,4 @@
-package volgyerdo.test;
+package volgyerdo.test.theoretic;
 
 import java.util.ArrayList;
 import java.util.Arrays;

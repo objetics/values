@@ -1,4 +1,4 @@
-package volgyerdo.test;
+package volgyerdo.test.theoretic;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
