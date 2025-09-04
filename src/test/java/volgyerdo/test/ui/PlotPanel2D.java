@@ -217,6 +217,18 @@ public class PlotPanel2D extends JPanel {
 
         double xRange = (maxX - minX);
         double yRange = (maxY - minY);
+        
+        // Handle constant values (horizontal/vertical lines)
+        if (xRange == 0) {
+            xRange = 1.0; // Set a minimum range for constant X values
+            minX -= 0.5;
+            maxX += 0.5;
+        }
+        if (yRange == 0) {
+            yRange = 1.0; // Set a minimum range for constant Y values  
+            minY -= 0.5;
+            maxY += 0.5;
+        }
 
         scaleX = ((double) getWidth() - 2 * margin - labelPadding) / xRange;
         scaleY = ((double) getHeight() - 2 * margin - labelPadding) / yRange;
