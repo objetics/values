@@ -69,42 +69,49 @@ public class AssemblyInfoTheoreticTest {
         JFrame frame = new JFrame("Assembly Information Theoretic Test");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
+        frame.getContentPane().setBackground(Color.WHITE);
         
         // Progress bar
         JProgressBar progressBar = new JProgressBar();
         progressBar.setStringPainted(true);
         progressBar.setString("Running tests...");
         progressBar.setIndeterminate(true);
+        progressBar.setBackground(Color.WHITE);
         frame.add(progressBar, BorderLayout.NORTH);
         
         // Tabs for different test results
         JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.setBackground(Color.WHITE);
         
         // Create plot panels
         PlotPanel2D assemblyBinomialPlot = new PlotPanel2D();
+        assemblyBinomialPlot.setBackground(Color.WHITE);
         PlotPanel2D infoBasedAssemblyBinomialPlot = new PlotPanel2D();
+        infoBasedAssemblyBinomialPlot.setBackground(Color.WHITE);
         PlotPanel2D assemblyDirichletPlot = new PlotPanel2D();
+        assemblyDirichletPlot.setBackground(Color.WHITE);
         PlotPanel2D infoBasedAssemblyDirichletPlot = new PlotPanel2D();
+        infoBasedAssemblyDirichletPlot.setBackground(Color.WHITE);
         
         // Create panels for side-by-side display
         JPanel binomialPanel = new JPanel(new GridLayout(1, 2));
-        binomialPanel.setBorder(BorderFactory.createTitledBorder("Bernoulli Test Results"));
+        binomialPanel.setBackground(Color.WHITE);
         JPanel leftBinomial = new JPanel(new BorderLayout());
-        leftBinomial.setBorder(BorderFactory.createTitledBorder("Assembly"));
+        leftBinomial.setBackground(Color.WHITE);
         leftBinomial.add(assemblyBinomialPlot, BorderLayout.CENTER);
         JPanel rightBinomial = new JPanel(new BorderLayout());
-        rightBinomial.setBorder(BorderFactory.createTitledBorder("General Assembly"));
+        rightBinomial.setBackground(Color.WHITE);
         rightBinomial.add(infoBasedAssemblyBinomialPlot, BorderLayout.CENTER);
         binomialPanel.add(leftBinomial);
         binomialPanel.add(rightBinomial);
         
         JPanel dirichletPanel = new JPanel(new GridLayout(1, 2));
-        dirichletPanel.setBorder(BorderFactory.createTitledBorder("Dirichlet Test Results"));
+        dirichletPanel.setBackground(Color.WHITE);
         JPanel leftDirichlet = new JPanel(new BorderLayout());
-        leftDirichlet.setBorder(BorderFactory.createTitledBorder("Assembly"));
+        leftDirichlet.setBackground(Color.WHITE);
         leftDirichlet.add(assemblyDirichletPlot, BorderLayout.CENTER);
         JPanel rightDirichlet = new JPanel(new BorderLayout());
-        rightDirichlet.setBorder(BorderFactory.createTitledBorder("General Assembly"));
+        rightDirichlet.setBackground(Color.WHITE);
         rightDirichlet.add(infoBasedAssemblyDirichletPlot, BorderLayout.CENTER);
         dirichletPanel.add(leftDirichlet);
         dirichletPanel.add(rightDirichlet);
@@ -169,7 +176,7 @@ public class AssemblyInfoTheoreticTest {
                     
                     // Set data to plots
                     assemblyBinomialPlot.setDataSeries(assemblyBinomialSeries);
-                    //assemblyBinomialPlot.setAxisLabels("Entropy (H)", "Assembly (A)");
+                    assemblyBinomialPlot.setAxisLabels("Entropy (H)", "Assembly (A)");
                     
                     infoBasedAssemblyBinomialPlot.setDataSeries(infoBasedAssemblyBinomialSeries);
                     infoBasedAssemblyBinomialPlot.setAxisLabels("Entropy (H)", "Information-based Assembly (IBA)");

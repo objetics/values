@@ -67,42 +67,49 @@ public class AssemblyWeightingContrastTest  {
         JFrame frame = new JFrame("Assembly Weighting Contrast Test");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
+        frame.getContentPane().setBackground(Color.WHITE);
         
         // Progress bar
         JProgressBar progressBar = new JProgressBar();
         progressBar.setStringPainted(true);
         progressBar.setString("Running weighting contrast tests...");
         progressBar.setIndeterminate(true);
+        progressBar.setBackground(Color.WHITE);
         frame.add(progressBar, BorderLayout.NORTH);
         
         // Tabs for different test results
         JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.setBackground(Color.WHITE);
         
         // Create plot panels
         PlotPanel2D assemblyRareMassPlot = new PlotPanel2D();
+        assemblyRareMassPlot.setBackground(Color.WHITE);
         PlotPanel2D generalAssemblyRareMassPlot = new PlotPanel2D();
+        generalAssemblyRareMassPlot.setBackground(Color.WHITE);
         PlotPanel2D assemblyRareMultiplicityPlot = new PlotPanel2D();
+        assemblyRareMultiplicityPlot.setBackground(Color.WHITE);
         PlotPanel2D generalAssemblyRareMultiplicityPlot = new PlotPanel2D();
+        generalAssemblyRareMultiplicityPlot.setBackground(Color.WHITE);
         
         // Create panels for side-by-side display
         JPanel rareMassPanel = new JPanel(new GridLayout(1, 2));
-        rareMassPanel.setBorder(BorderFactory.createTitledBorder("Rare Mass Test Results"));
+        rareMassPanel.setBackground(Color.WHITE);
         JPanel leftRareMass = new JPanel(new BorderLayout());
-        leftRareMass.setBorder(BorderFactory.createTitledBorder("Assembly"));
+        leftRareMass.setBackground(Color.WHITE);
         leftRareMass.add(assemblyRareMassPlot, BorderLayout.CENTER);
         JPanel rightRareMass = new JPanel(new BorderLayout());
-        rightRareMass.setBorder(BorderFactory.createTitledBorder("General Assembly"));
+        rightRareMass.setBackground(Color.WHITE);
         rightRareMass.add(generalAssemblyRareMassPlot, BorderLayout.CENTER);
         rareMassPanel.add(leftRareMass);
         rareMassPanel.add(rightRareMass);
         
         JPanel rareMultiplicityPanel = new JPanel(new GridLayout(1, 2));
-        rareMultiplicityPanel.setBorder(BorderFactory.createTitledBorder("Rare Multiplicity Test Results"));
+        rareMultiplicityPanel.setBackground(Color.WHITE);
         JPanel leftRareMultiplicity = new JPanel(new BorderLayout());
-        leftRareMultiplicity.setBorder(BorderFactory.createTitledBorder("Assembly"));
+        leftRareMultiplicity.setBackground(Color.WHITE);
         leftRareMultiplicity.add(assemblyRareMultiplicityPlot, BorderLayout.CENTER);
         JPanel rightRareMultiplicity = new JPanel(new BorderLayout());
-        rightRareMultiplicity.setBorder(BorderFactory.createTitledBorder("General Assembly"));
+        rightRareMultiplicity.setBackground(Color.WHITE);
         rightRareMultiplicity.add(generalAssemblyRareMultiplicityPlot, BorderLayout.CENTER);
         rareMultiplicityPanel.add(leftRareMultiplicity);
         rareMultiplicityPanel.add(rightRareMultiplicity);

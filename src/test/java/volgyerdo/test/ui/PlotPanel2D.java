@@ -17,6 +17,24 @@ import java.util.ArrayList;
 
 public class PlotPanel2D extends JPanel {
 
+    // Zoom mode enumeration
+    public enum ZoomMode {
+        BOTH("Both Axes"),
+        X_ONLY("X-Axis Only"),
+        Y_ONLY("Y-Axis Only");
+        
+        private final String displayName;
+        
+        ZoomMode(String displayName) {
+            this.displayName = displayName;
+        }
+        
+        @Override
+        public String toString() {
+            return displayName;
+        }
+    }
+
     private List<DataSeries> dataSeriesList;
     private double minX, maxX, minY, maxY;
     private double scaleX;
@@ -42,9 +60,14 @@ public class PlotPanel2D extends JPanel {
     private String xAxisLabel = "";
     private String yAxisLabel = "";
     private int axisLabelPadding = 50;
+    
+    // Zoom mode selection
+    private ZoomMode currentZoomMode = ZoomMode.BOTH;
+    private JComboBox<ZoomMode> zoomModeCombo;
 
     public PlotPanel2D() {
         this.dataSeriesList = new ArrayList<>();
+        setBackground(Color.WHITE);
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -62,9 +85,26 @@ public class PlotPanel2D extends JPanel {
         });
 
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder());
+        
+        // Create zoom mode combo box
+        zoomModeCombo = new JComboBox<>(ZoomMode.values());
+        zoomModeCombo.setSelectedItem(ZoomMode.BOTH);
+        zoomModeCombo.setBackground(Color.WHITE);
+        zoomModeCombo.setToolTipText("Select zoom mode");
+        zoomModeCombo.addActionListener(e -> {
+            currentZoomMode = (ZoomMode) zoomModeCombo.getSelectedItem();
+        });
+        
         JButton zoomInButton = new JButton("Zoom In");
         JButton zoomOutButton = new JButton("Zoom Out");
         JButton resetButton = new JButton("Reset");
+
+        // Make buttons white background
+        zoomInButton.setBackground(Color.WHITE);
+        zoomOutButton.setBackground(Color.WHITE);
+        resetButton.setBackground(Color.WHITE);
 
         zoomInButton.setToolTipText("Zoom in (Shortcut: +)");
         zoomOutButton.setToolTipText("Zoom out (Shortcut: -)");
@@ -82,11 +122,13 @@ public class PlotPanel2D extends JPanel {
             resetView();
         });
 
+        buttonPanel.add(zoomModeCombo);
         buttonPanel.add(zoomInButton);
         buttonPanel.add(zoomOutButton);
         buttonPanel.add(resetButton);
 
         setLayout(new BorderLayout());
+        setBorder(BorderFactory.createEmptyBorder());
         add(buttonPanel, BorderLayout.SOUTH);
 
         // Key bindings
@@ -263,22 +305,48 @@ public class PlotPanel2D extends JPanel {
     }
 
     private void zoomIn(int mouseX, int mouseY) {
-        scaleX *= 1.1;
-        scaleY *= 1.1;
         int totalXPadding = (labelPadding - leftPadding) + (yAxisLabel.isEmpty() ? 0 : axisLabelPadding);
         int totalYPadding = labelPadding + (xAxisLabel.isEmpty() ? 0 : axisLabelPadding);
-        offsetX += ((getWidth() - 2 * margin - totalXPadding) * 0.1 * mouseX / getWidth()) / scaleX;
-        offsetY -= ((getHeight() - 2 * margin - totalYPadding) * 0.1 * mouseY / getHeight()) / scaleY;
+        
+        switch (currentZoomMode) {
+            case BOTH:
+                scaleX *= 1.1;
+                scaleY *= 1.1;
+                offsetX += ((getWidth() - 2 * margin - totalXPadding) * 0.1 * mouseX / getWidth()) / scaleX;
+                offsetY -= ((getHeight() - 2 * margin - totalYPadding) * 0.1 * mouseY / getHeight()) / scaleY;
+                break;
+            case X_ONLY:
+                scaleX *= 1.1;
+                offsetX += ((getWidth() - 2 * margin - totalXPadding) * 0.1 * mouseX / getWidth()) / scaleX;
+                break;
+            case Y_ONLY:
+                scaleY *= 1.1;
+                offsetY -= ((getHeight() - 2 * margin - totalYPadding) * 0.1 * mouseY / getHeight()) / scaleY;
+                break;
+        }
         repaint();
     }
 
     private void zoomOut(int mouseX, int mouseY) {
-        scaleX /= 1.1;
-        scaleY /= 1.1;
         int totalXPadding = (labelPadding - leftPadding) + (yAxisLabel.isEmpty() ? 0 : axisLabelPadding);
         int totalYPadding = labelPadding + (xAxisLabel.isEmpty() ? 0 : axisLabelPadding);
-        offsetX -= ((getWidth() - 2 * margin - totalXPadding) * 0.1 * mouseX / getWidth()) / scaleX;
-        offsetY += ((getHeight() - 2 * margin - totalYPadding) * 0.05 * mouseY / getHeight()) / scaleY;
+        
+        switch (currentZoomMode) {
+            case BOTH:
+                scaleX /= 1.1;
+                scaleY /= 1.1;
+                offsetX -= ((getWidth() - 2 * margin - totalXPadding) * 0.1 * mouseX / getWidth()) / scaleX;
+                offsetY += ((getHeight() - 2 * margin - totalYPadding) * 0.05 * mouseY / getHeight()) / scaleY;
+                break;
+            case X_ONLY:
+                scaleX /= 1.1;
+                offsetX -= ((getWidth() - 2 * margin - totalXPadding) * 0.1 * mouseX / getWidth()) / scaleX;
+                break;
+            case Y_ONLY:
+                scaleY /= 1.1;
+                offsetY += ((getHeight() - 2 * margin - totalYPadding) * 0.05 * mouseY / getHeight()) / scaleY;
+                break;
+        }
         repaint();
     }
 

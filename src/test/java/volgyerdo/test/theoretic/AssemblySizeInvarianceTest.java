@@ -75,55 +75,64 @@ public class AssemblySizeInvarianceTest {
         JFrame frame = new JFrame("Assembly Size Invariance Test");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
+        frame.getContentPane().setBackground(Color.WHITE);
         
         // Progress bar
         JProgressBar progressBar = new JProgressBar();
         progressBar.setStringPainted(true);
         progressBar.setString("Running size invariance tests...");
         progressBar.setIndeterminate(true);
+        progressBar.setBackground(Color.WHITE);
         frame.add(progressBar, BorderLayout.NORTH);
         
         // Tabs for different test results
         JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.setBackground(Color.WHITE);
         
         // Create plot panels
         PlotPanel2D assemblyUniformPlot = new PlotPanel2D();
+        assemblyUniformPlot.setBackground(Color.WHITE);
         PlotPanel2D generalAssemblyUniformPlot = new PlotPanel2D();
+        generalAssemblyUniformPlot.setBackground(Color.WHITE);
         PlotPanel2D assemblyZipfPlot = new PlotPanel2D();
+        assemblyZipfPlot.setBackground(Color.WHITE);
         PlotPanel2D generalAssemblyZipfPlot = new PlotPanel2D();
+        generalAssemblyZipfPlot.setBackground(Color.WHITE);
         PlotPanel2D assemblyMixPlot = new PlotPanel2D();
+        assemblyMixPlot.setBackground(Color.WHITE);
         PlotPanel2D generalAssemblyMixPlot = new PlotPanel2D();
+        generalAssemblyMixPlot.setBackground(Color.WHITE);
         
         // Create panels for side-by-side display
         JPanel uniformPanel = new JPanel(new GridLayout(1, 2));
-        uniformPanel.setBorder(BorderFactory.createTitledBorder("Uniform Distribution Test Results"));
+        uniformPanel.setBackground(Color.WHITE);
         JPanel leftUniform = new JPanel(new BorderLayout());
-        leftUniform.setBorder(BorderFactory.createTitledBorder("Assembly"));
+        leftUniform.setBackground(Color.WHITE);
         leftUniform.add(assemblyUniformPlot, BorderLayout.CENTER);
         JPanel rightUniform = new JPanel(new BorderLayout());
-        rightUniform.setBorder(BorderFactory.createTitledBorder("General Assembly"));
+        rightUniform.setBackground(Color.WHITE);
         rightUniform.add(generalAssemblyUniformPlot, BorderLayout.CENTER);
         uniformPanel.add(leftUniform);
         uniformPanel.add(rightUniform);
         
         JPanel zipfPanel = new JPanel(new GridLayout(1, 2));
-        zipfPanel.setBorder(BorderFactory.createTitledBorder("Zipf Distribution Test Results"));
+        zipfPanel.setBackground(Color.WHITE);
         JPanel leftZipf = new JPanel(new BorderLayout());
-        leftZipf.setBorder(BorderFactory.createTitledBorder("Assembly"));
+        leftZipf.setBackground(Color.WHITE);
         leftZipf.add(assemblyZipfPlot, BorderLayout.CENTER);
         JPanel rightZipf = new JPanel(new BorderLayout());
-        rightZipf.setBorder(BorderFactory.createTitledBorder("General Assembly"));
+        rightZipf.setBackground(Color.WHITE);
         rightZipf.add(generalAssemblyZipfPlot, BorderLayout.CENTER);
         zipfPanel.add(leftZipf);
         zipfPanel.add(rightZipf);
         
         JPanel mixPanel = new JPanel(new GridLayout(1, 2));
-        mixPanel.setBorder(BorderFactory.createTitledBorder("Mixture Distribution Test Results"));
+        mixPanel.setBackground(Color.WHITE);
         JPanel leftMix = new JPanel(new BorderLayout());
-        leftMix.setBorder(BorderFactory.createTitledBorder("Assembly"));
+        leftMix.setBackground(Color.WHITE);
         leftMix.add(assemblyMixPlot, BorderLayout.CENTER);
         JPanel rightMix = new JPanel(new BorderLayout());
-        rightMix.setBorder(BorderFactory.createTitledBorder("General Assembly"));
+        rightMix.setBackground(Color.WHITE);
         rightMix.add(generalAssemblyMixPlot, BorderLayout.CENTER);
         mixPanel.add(leftMix);
         mixPanel.add(rightMix);
