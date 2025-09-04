@@ -133,7 +133,7 @@ public class AssemblyScalingTest {
         
         frame.add(tabbedPane, BorderLayout.CENTER);
         
-        frame.setSize(1200, 800);
+        frame.setSize(1000, 500);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         
@@ -195,21 +195,27 @@ public class AssemblyScalingTest {
                     // Set data to plots
                     assemblyUniformPlot.setDataSeries(assemblyUniformSeries);
                     assemblyUniformPlot.setAxisLabels("Scale Factor", "Assembly (A)");
+                    assemblyUniformPlot.setPlotTitle("Assembly - Uniform Distribution");
                     
                     generalAssemblyUniformPlot.setDataSeries(generalAssemblyUniformSeries);
                     generalAssemblyUniformPlot.setAxisLabels("Scale Factor", "General Assembly (AG)");
+                    generalAssemblyUniformPlot.setPlotTitle("General Assembly - Uniform Distribution");
                     
                     assemblyGrowingPlot.setDataSeries(assemblyGrowingSeries);
                     assemblyGrowingPlot.setAxisLabels("Scale Factor", "Assembly (A)");
+                    assemblyGrowingPlot.setPlotTitle("Assembly - Growing Alphabet");
                     
                     generalAssemblyGrowingPlot.setDataSeries(generalAssemblyGrowingSeries);
                     generalAssemblyGrowingPlot.setAxisLabels("Scale Factor", "General Assembly (AG)");
+                    generalAssemblyGrowingPlot.setPlotTitle("General Assembly - Growing Alphabet");
                     
                     assemblyZipfPlot.setDataSeries(assemblyZipfSeries);
                     assemblyZipfPlot.setAxisLabels("Scale Factor", "Assembly (A)");
+                    assemblyZipfPlot.setPlotTitle("Assembly - Zipf Distribution");
                     
                     generalAssemblyZipfPlot.setDataSeries(generalAssemblyZipfSeries);
                     generalAssemblyZipfPlot.setAxisLabels("Scale Factor", "General Assembly (AG)");
+                    generalAssemblyZipfPlot.setPlotTitle("General Assembly - Zipf Distribution");
                     
                     // Hide progress bar
                     progressBar.setVisible(false);

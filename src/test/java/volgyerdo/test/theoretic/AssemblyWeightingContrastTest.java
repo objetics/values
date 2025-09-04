@@ -119,7 +119,7 @@ public class AssemblyWeightingContrastTest  {
         
         frame.add(tabbedPane, BorderLayout.CENTER);
         
-        frame.setSize(1200, 800);
+        frame.setSize(1000, 500);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         
@@ -167,15 +167,19 @@ public class AssemblyWeightingContrastTest  {
                     // Set data to plots
                     assemblyRareMassPlot.setDataSeries(assemblyRareMassSeries);
                     assemblyRareMassPlot.setAxisLabels("Rare Mass", "Assembly (A)");
+                    assemblyRareMassPlot.setPlotTitle("Assembly - Rare Mass Contrast");
                     
                     generalAssemblyRareMassPlot.setDataSeries(generalAssemblyRareMassSeries);
                     generalAssemblyRareMassPlot.setAxisLabels("Rare Mass", "General Assembly (AG)");
+                    generalAssemblyRareMassPlot.setPlotTitle("General Assembly - Rare Mass Contrast");
                     
                     assemblyRareMultiplicityPlot.setDataSeries(assemblyRareMultiplicitySeries);
                     assemblyRareMultiplicityPlot.setAxisLabels("Rare Types", "Assembly (A)");
+                    assemblyRareMultiplicityPlot.setPlotTitle("Assembly - Rare Multiplicity Contrast");
                     
                     generalAssemblyRareMultiplicityPlot.setDataSeries(generalAssemblyRareMultiplicitySeries);
                     generalAssemblyRareMultiplicityPlot.setAxisLabels("Rare Types", "General Assembly (AG)");
+                    generalAssemblyRareMultiplicityPlot.setPlotTitle("General Assembly - Rare Multiplicity Contrast");
                     
                     // Hide progress bar
                     progressBar.setVisible(false);

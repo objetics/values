@@ -59,7 +59,9 @@ public class PlotPanel2D extends JPanel {
 
     private String xAxisLabel = "";
     private String yAxisLabel = "";
+    private String plotTitle = "";
     private int axisLabelPadding = 50;
+    private int titlePadding = 30;
     
     // Zoom mode selection
     private ZoomMode currentZoomMode = ZoomMode.BOTH;
@@ -213,10 +215,12 @@ public class PlotPanel2D extends JPanel {
 
             @Override
             public void mouseMoved(MouseEvent e) {
+                int titleSpace = plotTitle.isEmpty() ? 0 : titlePadding; 
+                int topMargin = margin + titleSpace;
                 int totalXPadding = (labelPadding - leftPadding) + (yAxisLabel.isEmpty() ? 0 : axisLabelPadding);
                 int totalYPadding = labelPadding + (xAxisLabel.isEmpty() ? 0 : axisLabelPadding);
                 if (e.getX() > margin + totalXPadding && e.getX() < getWidth() - margin
-                        && e.getY() > margin && e.getY() < getHeight() - margin - totalYPadding) {
+                        && e.getY() > topMargin && e.getY() < getHeight() - margin - totalYPadding) {
                     if (getCursor().getType() != Cursor.HAND_CURSOR) {
                         setCursor(new Cursor(Cursor.HAND_CURSOR));
                     }
@@ -267,6 +271,11 @@ public class PlotPanel2D extends JPanel {
         repaint();
     }
 
+    public void setPlotTitle(String plotTitle) {
+        this.plotTitle = plotTitle != null ? plotTitle : "";
+        repaint();
+    }
+
     private void resetParameters() {
         if (dataSeriesList == null || dataSeriesList.isEmpty()) {
             return;
@@ -297,9 +306,10 @@ public class PlotPanel2D extends JPanel {
 
         int totalXPadding = (labelPadding - leftPadding) + (yAxisLabel.isEmpty() ? 0 : axisLabelPadding);
         int totalYPadding = labelPadding + (xAxisLabel.isEmpty() ? 0 : axisLabelPadding);
+        int titleSpace = plotTitle.isEmpty() ? 0 : titlePadding; 
 
         scaleX = ((double) getWidth() - 2 * margin - totalXPadding) / xRange;
-        scaleY = ((double) getHeight() - 2 * margin - totalYPadding) / yRange;
+        scaleY = ((double) getHeight() - margin - titleSpace - margin - totalYPadding) / yRange;
 
         zoomOut(getWidth() / 2, getHeight() / 2);
     }
@@ -307,13 +317,14 @@ public class PlotPanel2D extends JPanel {
     private void zoomIn(int mouseX, int mouseY) {
         int totalXPadding = (labelPadding - leftPadding) + (yAxisLabel.isEmpty() ? 0 : axisLabelPadding);
         int totalYPadding = labelPadding + (xAxisLabel.isEmpty() ? 0 : axisLabelPadding);
+        int titleSpace = plotTitle.isEmpty() ? 0 : titlePadding;
         
         switch (currentZoomMode) {
             case BOTH:
                 scaleX *= 1.1;
                 scaleY *= 1.1;
                 offsetX += ((getWidth() - 2 * margin - totalXPadding) * 0.1 * mouseX / getWidth()) / scaleX;
-                offsetY -= ((getHeight() - 2 * margin - totalYPadding) * 0.1 * mouseY / getHeight()) / scaleY;
+                offsetY -= ((getHeight() - margin - titleSpace - margin - totalYPadding) * 0.1 * mouseY / getHeight()) / scaleY;
                 break;
             case X_ONLY:
                 scaleX *= 1.1;
@@ -321,7 +332,7 @@ public class PlotPanel2D extends JPanel {
                 break;
             case Y_ONLY:
                 scaleY *= 1.1;
-                offsetY -= ((getHeight() - 2 * margin - totalYPadding) * 0.1 * mouseY / getHeight()) / scaleY;
+                offsetY -= ((getHeight() - margin - titleSpace - margin - totalYPadding) * 0.1 * mouseY / getHeight()) / scaleY;
                 break;
         }
         repaint();
@@ -330,13 +341,14 @@ public class PlotPanel2D extends JPanel {
     private void zoomOut(int mouseX, int mouseY) {
         int totalXPadding = (labelPadding - leftPadding) + (yAxisLabel.isEmpty() ? 0 : axisLabelPadding);
         int totalYPadding = labelPadding + (xAxisLabel.isEmpty() ? 0 : axisLabelPadding);
+        int titleSpace = plotTitle.isEmpty() ? 0 : titlePadding;
         
         switch (currentZoomMode) {
             case BOTH:
                 scaleX /= 1.1;
                 scaleY /= 1.1;
                 offsetX -= ((getWidth() - 2 * margin - totalXPadding) * 0.1 * mouseX / getWidth()) / scaleX;
-                offsetY += ((getHeight() - 2 * margin - totalYPadding) * 0.05 * mouseY / getHeight()) / scaleY;
+                offsetY += ((getHeight() - margin - titleSpace - margin - totalYPadding) * 0.05 * mouseY / getHeight()) / scaleY;
                 break;
             case X_ONLY:
                 scaleX /= 1.1;
@@ -344,7 +356,7 @@ public class PlotPanel2D extends JPanel {
                 break;
             case Y_ONLY:
                 scaleY /= 1.1;
-                offsetY += ((getHeight() - 2 * margin - totalYPadding) * 0.05 * mouseY / getHeight()) / scaleY;
+                offsetY += ((getHeight() - margin - titleSpace - margin - totalYPadding) * 0.05 * mouseY / getHeight()) / scaleY;
                 break;
         }
         repaint();
@@ -399,22 +411,26 @@ public class PlotPanel2D extends JPanel {
         int totalXPadding = padding[0];
         int totalYPadding = padding[1];
         
+        // Calculate title space separately
+        int titleSpace = plotTitle.isEmpty() ? 0 : titlePadding; // Space for title
+        int topMargin = margin + titleSpace;
+        
         // Get font metrics for label drawing
         FontMetrics metrics = g2.getFontMetrics();
 
         int chartWidth = getWidth() - 2 * margin - totalXPadding;
-        int chartHeight = getHeight() - 2 * margin - totalYPadding;
+        int chartHeight = getHeight() - topMargin - margin - totalYPadding;
 
         int numberYDivisions = chartHeight / divisionPixelSize;
         int numberXDivisions = chartWidth / divisionPixelSize;
 
         // Draw white background
         g2.setColor(bgColor);
-        g2.fillRect(margin + totalXPadding, margin, chartWidth, chartHeight);
+        g2.fillRect(margin + totalXPadding, topMargin, chartWidth, chartHeight);
         g2.setColor(axisColor);
 
         // Draw the axes
-        g2.drawLine(margin + totalXPadding, getHeight() - margin - totalYPadding, margin + totalXPadding, margin);
+        g2.drawLine(margin + totalXPadding, getHeight() - margin - totalYPadding, margin + totalXPadding, topMargin);
         g2.drawLine(margin + totalXPadding, getHeight() - margin - totalYPadding, getWidth() - margin, getHeight() - margin - totalYPadding);
 
         // Draw grid lines and labels for y-axis
@@ -443,7 +459,7 @@ public class PlotPanel2D extends JPanel {
             int x1 = x0;
             if (!dataSeriesList.isEmpty()) {
                 g2.setColor(gridColor);
-                g2.drawLine(x0, getHeight() - margin - totalYPadding - 1 - pointWidth, x1, margin);
+                g2.drawLine(x0, getHeight() - margin - totalYPadding - 1 - pointWidth, x1, topMargin);
                 g2.setColor(textColor);
                 String xLabel = String.format("%.2f", (minX + offsetX + (i * divisionPixelSize) / scaleX));
                 int labelWidth = metrics.stringWidth(xLabel);
@@ -452,7 +468,7 @@ public class PlotPanel2D extends JPanel {
             g2.drawLine(x0, y0, x1, y1);
         }
 
-        g2.setClip(margin + totalXPadding, margin, chartWidth, chartHeight);
+        g2.setClip(margin + totalXPadding, topMargin, chartWidth, chartHeight);
 
         // Draw points for each data series
         for (DataSeries series : dataSeriesList) {
@@ -473,7 +489,7 @@ public class PlotPanel2D extends JPanel {
                 
                 for (Point2D point : series.getPoints()) {
                     double x = (point.getX() - minX - offsetX) * scaleX + margin + totalXPadding;
-                    double y = (maxY - point.getY() + offsetY) * scaleY + margin;
+                    double y = (maxY - point.getY() + offsetY) * scaleY + topMargin;
                     
                     if (firstPoint) {
                         path.moveTo(x, y);
@@ -491,7 +507,7 @@ public class PlotPanel2D extends JPanel {
                     int nodeSize = series.getNodeSize();
                     for (Point2D point : series.getPoints()) {
                         double x = (point.getX() - minX - offsetX) * scaleX + margin + totalXPadding;
-                        double y = (maxY - point.getY() + offsetY) * scaleY + margin;
+                        double y = (maxY - point.getY() + offsetY) * scaleY + topMargin;
                         if (isOnDiagram((int)x, (int)y)) {
                             g2.fillOval((int)(x - nodeSize / 2.0), (int)(y - nodeSize / 2.0), nodeSize, nodeSize);
                         }
@@ -505,7 +521,7 @@ public class PlotPanel2D extends JPanel {
                 int nodeSize = series.getNodeSize();
                 for (Point2D point : series.getPoints()) {
                     double x = (point.getX() - minX - offsetX) * scaleX + margin + totalXPadding;
-                    double y = (maxY - point.getY() + offsetY) * scaleY + margin;
+                    double y = (maxY - point.getY() + offsetY) * scaleY + topMargin;
                     if (isOnDiagram((int)x, (int)y)) {
                         g2.fillOval((int)(x - nodeSize / 2.0), (int)(y - nodeSize / 2.0), nodeSize, nodeSize);
                     }
@@ -525,6 +541,19 @@ public class PlotPanel2D extends JPanel {
     private void drawAxisLabels(Graphics2D g2) {
         // Save original font
         Font originalFont = g2.getFont();
+        
+        // Draw plot title (larger and bolder than axis labels)
+        if (!plotTitle.isEmpty()) {
+            Font titleFont = new Font(originalFont.getName(), Font.BOLD, originalFont.getSize() + 8);
+            g2.setFont(titleFont);
+            g2.setColor(textColor);
+            
+            FontMetrics titleMetrics = g2.getFontMetrics();
+            int titleWidth = titleMetrics.stringWidth(plotTitle);
+            int x = (getWidth() - titleWidth) / 2;
+            int y = titlePadding + 5; // Move title 5 pixels down
+            g2.drawString(plotTitle, x, y);
+        }
         
         // Create larger, bold font for axis labels
         Font axisLabelFont = new Font(originalFont.getName(), Font.BOLD, originalFont.getSize() + 4);
@@ -578,15 +607,19 @@ public class PlotPanel2D extends JPanel {
         Graphics2D g2 = (Graphics2D) getGraphics();
         if (g2 == null) {
             // Fallback to simple calculation if graphics not available
+            int titleSpace = plotTitle.isEmpty() ? 0 : titlePadding; 
+            int topMargin = margin + titleSpace;
             int totalXPadding = labelPadding + (yAxisLabel.isEmpty() ? 0 : axisLabelPadding);
             int totalYPadding = labelPadding + (xAxisLabel.isEmpty() ? 0 : axisLabelPadding);
-            return x >= margin + totalXPadding && x <= getWidth() - margin && y >= margin && y <= getHeight() - margin - totalYPadding;
+            return x >= margin + totalXPadding && x <= getWidth() - margin && y >= topMargin && y <= getHeight() - margin - totalYPadding;
         }
         
         int[] padding = calculateTotalPadding(g2);
         int totalXPadding = padding[0];
         int totalYPadding = padding[1];
-        return x >= margin + totalXPadding && x <= getWidth() - margin && y >= margin && y <= getHeight() - margin - totalYPadding;
+        int titleSpace = plotTitle.isEmpty() ? 0 : titlePadding; 
+        int topMargin = margin + titleSpace;
+        return x >= margin + totalXPadding && x <= getWidth() - margin && y >= topMargin && y <= getHeight() - margin - totalYPadding;
     }
 
     private void drawLegend(Graphics2D g, int padding) {
@@ -597,7 +630,9 @@ public class PlotPanel2D extends JPanel {
         labelWidth += 40;
 
         int legendX = getWidth() - padding - labelWidth;
-        int legendY = padding;
+        // If there's a title, move legend down to avoid overlapping
+        int titleOffset = plotTitle.isEmpty() ? 0 : 30;
+        int legendY = padding + titleOffset;
         int legendHeight = 10 + dataSeriesList.size() * 20;
         g.setColor(bgColor);
         g.fillRect(legendX, legendY, labelWidth, legendHeight);
@@ -665,6 +700,7 @@ public class PlotPanel2D extends JPanel {
         int yAxisSpace = yAxisLabel.isEmpty() ? maxYLabelWidth : axisLabelPadding;
         int xAxisSpace = xAxisLabel.isEmpty() ? maxXLabelHeight : axisLabelPadding;
         
+        // Don't include title space in padding calculation as title is positioned independently
         int totalXPadding = (labelPadding - leftPadding) + yAxisSpace;
         int totalYPadding = labelPadding + xAxisSpace;
         

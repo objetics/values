@@ -143,7 +143,7 @@ public class AssemblySizeInvarianceTest {
         
         frame.add(tabbedPane, BorderLayout.CENTER);
         
-        frame.setSize(1200, 800);
+        frame.setSize(1000, 500);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         
@@ -205,21 +205,27 @@ public class AssemblySizeInvarianceTest {
                     // Set data to plots
                     assemblyUniformPlot.setDataSeries(assemblyUniformSeries);
                     assemblyUniformPlot.setAxisLabels("Sample Size", "Assembly (A)");
+                    assemblyUniformPlot.setPlotTitle("Assembly - Uniform Distribution");
                     
                     generalAssemblyUniformPlot.setDataSeries(generalAssemblyUniformSeries);
                     generalAssemblyUniformPlot.setAxisLabels("Sample Size", "General Assembly (AG)");
+                    generalAssemblyUniformPlot.setPlotTitle("General Assembly - Uniform Distribution");
                     
                     assemblyZipfPlot.setDataSeries(assemblyZipfSeries);
                     assemblyZipfPlot.setAxisLabels("Sample Size", "Assembly (A)");
+                    assemblyZipfPlot.setPlotTitle("Assembly - Zipf Distribution");
                     
                     generalAssemblyZipfPlot.setDataSeries(generalAssemblyZipfSeries);
                     generalAssemblyZipfPlot.setAxisLabels("Sample Size", "General Assembly (AG)");
+                    generalAssemblyZipfPlot.setPlotTitle("General Assembly - Zipf Distribution");
                     
                     assemblyMixPlot.setDataSeries(assemblyMixSeries);
                     assemblyMixPlot.setAxisLabels("Sample Size", "Assembly (A)");
+                    assemblyMixPlot.setPlotTitle("Assembly - Mixture Distribution");
                     
                     generalAssemblyMixPlot.setDataSeries(generalAssemblyMixSeries);
                     generalAssemblyMixPlot.setAxisLabels("Sample Size", "General Assembly (AG)");
+                    generalAssemblyMixPlot.setPlotTitle("General Assembly - Mixture Distribution");
                     
                     // Hide progress bar
                     progressBar.setVisible(false);

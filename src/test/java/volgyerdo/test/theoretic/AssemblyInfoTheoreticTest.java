@@ -121,7 +121,7 @@ public class AssemblyInfoTheoreticTest {
         
         frame.add(tabbedPane, BorderLayout.CENTER);
         
-        frame.setSize(1200, 800);
+        frame.setSize(1000, 500);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         
@@ -177,15 +177,19 @@ public class AssemblyInfoTheoreticTest {
                     // Set data to plots
                     assemblyBinomialPlot.setDataSeries(assemblyBinomialSeries);
                     assemblyBinomialPlot.setAxisLabels("Entropy (H)", "Assembly (A)");
+                    assemblyBinomialPlot.setPlotTitle("Assembly - Bernoulli Distribution");
                     
                     infoBasedAssemblyBinomialPlot.setDataSeries(infoBasedAssemblyBinomialSeries);
                     infoBasedAssemblyBinomialPlot.setAxisLabels("Entropy (H)", "Information-based Assembly (IBA)");
+                    infoBasedAssemblyBinomialPlot.setPlotTitle("Information-based Assembly - Bernoulli Distribution");
                     
                     assemblyDirichletPlot.setDataSeries(assemblyDirichletSeries);
                     assemblyDirichletPlot.setAxisLabels("Entropy (H)", "Assembly (A)");
+                    assemblyDirichletPlot.setPlotTitle("Assembly - Dirichlet Distribution");
                     
                     infoBasedAssemblyDirichletPlot.setDataSeries(infoBasedAssemblyDirichletSeries);
                     infoBasedAssemblyDirichletPlot.setAxisLabels("Entropy (H)", "Information-based Assembly (IBA)");
+                    infoBasedAssemblyDirichletPlot.setPlotTitle("Information-based Assembly - Dirichlet Distribution");
                     
                     // Hide progress bar
                     progressBar.setVisible(false);
