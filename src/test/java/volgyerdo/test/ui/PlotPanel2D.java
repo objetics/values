@@ -19,13 +19,30 @@ public class PlotPanel2D extends JPanel {
 
     // Zoom mode enumeration
     public enum ZoomMode {
-        BOTH("Both Axes"),
-        X_ONLY("X-Axis Only"),
-        Y_ONLY("Y-Axis Only");
+        BOTH("Both"),
+        X_ONLY("X-Axis"),
+        Y_ONLY("Y-Axis");
         
         private final String displayName;
         
         ZoomMode(String displayName) {
+            this.displayName = displayName;
+        }
+        
+        @Override
+        public String toString() {
+            return displayName;
+        }
+    }
+    
+    // Scale type enumeration
+    public enum ScaleType {
+        LINEAR("Linear"),
+        LOGARITHMIC("Log");
+        
+        private final String displayName;
+        
+        ScaleType(String displayName) {
             this.displayName = displayName;
         }
         
@@ -67,6 +84,10 @@ public class PlotPanel2D extends JPanel {
     private ZoomMode currentZoomMode = ZoomMode.BOTH;
     private JComboBox<ZoomMode> zoomModeCombo;
     
+    // Scale type selection
+    private ScaleType yScaleType = ScaleType.LINEAR;
+    private JComboBox<ScaleType> yScaleCombo;
+    
     // Legend visibility control
     private boolean legendVisible = true;
 
@@ -102,8 +123,19 @@ public class PlotPanel2D extends JPanel {
             currentZoomMode = (ZoomMode) zoomModeCombo.getSelectedItem();
         });
         
-        JButton zoomInButton = new JButton("Zoom In");
-        JButton zoomOutButton = new JButton("Zoom Out");
+        // Create scale type combo box for Y-axis only
+        yScaleCombo = new JComboBox<>(ScaleType.values());
+        yScaleCombo.setSelectedItem(ScaleType.LINEAR);
+        yScaleCombo.setBackground(Color.WHITE);
+        yScaleCombo.setToolTipText("Select Y-axis scale type");
+        yScaleCombo.addActionListener(e -> {
+            yScaleType = (ScaleType) yScaleCombo.getSelectedItem();
+            resetParameters();
+            repaint();
+        });
+        
+        JButton zoomInButton = new JButton("+");
+        JButton zoomOutButton = new JButton("-");
         JButton resetButton = new JButton("Reset");
 
         // Make buttons white background
@@ -127,6 +159,9 @@ public class PlotPanel2D extends JPanel {
             resetView();
         });
 
+        buttonPanel.add(new JLabel("Y:"));
+        buttonPanel.add(yScaleCombo);
+        buttonPanel.add(new JLabel("Zoom:"));
         buttonPanel.add(zoomModeCombo);
         buttonPanel.add(zoomInButton);
         buttonPanel.add(zoomOutButton);
@@ -296,10 +331,31 @@ public class PlotPanel2D extends JPanel {
         offsetX = 0;
         offsetY = 0;
 
-        minX = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D::getX).min().orElse(0);
-        maxX = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D::getX).max().orElse(0);
-        minY = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D::getY).min().orElse(0);
-        maxY = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D::getY).max().orElse(0);
+        // Get original data bounds
+        double originalMinX = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D::getX).min().orElse(0);
+        double originalMaxX = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D::getX).max().orElse(0);
+        double originalMinY = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D::getY).min().orElse(0);
+        double originalMaxY = dataSeriesList.stream().flatMap(ds -> ds.getPoints().stream()).mapToDouble(Point2D::getY).max().orElse(0);
+
+        // Apply transformations based on scale type
+        // X-axis is always linear, only Y-axis can be logarithmic
+        minX = originalMinX;
+        maxX = originalMaxX;
+        
+        if (yScaleType == ScaleType.LOGARITHMIC) {
+            // For logarithmic scale, ensure we only work with positive values
+            if (originalMinY <= 0) {
+                originalMinY = 0.1; // Use a small positive value if we have non-positive values
+            }
+            if (originalMaxY <= 0) {
+                originalMaxY = 10.0; // Default range for logarithmic scale
+            }
+            minY = transformYValue(originalMinY);
+            maxY = transformYValue(originalMaxY);
+        } else {
+            minY = originalMinY;
+            maxY = originalMaxY;
+        }
 
         double xRange = (maxX - minX);
         double yRange = (maxY - minY);
@@ -446,21 +502,30 @@ public class PlotPanel2D extends JPanel {
         g2.drawLine(margin + totalXPadding, getHeight() - margin - totalYPadding, getWidth() - margin, getHeight() - margin - totalYPadding);
 
         // Draw grid lines and labels for y-axis
-        for (int i = 0; i <= numberYDivisions; i++) {
-            int x0 = margin + totalXPadding;
-            int x1 = pointWidth + margin + totalXPadding;
-            int y0 = getHeight() - (i * divisionPixelSize + margin + totalYPadding);
-            int y1 = y0;
-            if (!dataSeriesList.isEmpty()) {
-                g2.setColor(gridColor);
-                g2.drawLine(margin + totalXPadding + 1 + pointWidth, y0, getWidth() - margin, y1);
-                g2.setColor(textColor);
-                String yLabel = String.format("%.2f",
-                        (minY + (maxY - minY) + offsetY - chartHeight / scaleY + (i * divisionPixelSize) / scaleY));
-                int labelWidth = metrics.stringWidth(yLabel);
-                g2.drawString(yLabel, x0 - labelWidth - 5, y0 + (metrics.getHeight() / 2) - 3);
+        if (yScaleType == ScaleType.LOGARITHMIC) {
+            // For logarithmic scale, draw lines at powers of 10
+            drawLogarithmicYGrid(g2, margin, totalXPadding, totalYPadding, topMargin, chartHeight, metrics);
+        } else {
+            // Original linear scale drawing
+            for (int i = 0; i <= numberYDivisions; i++) {
+                int x0 = margin + totalXPadding;
+                int x1 = pointWidth + margin + totalXPadding;
+                int y0 = getHeight() - (i * divisionPixelSize + margin + totalYPadding);
+                int y1 = y0;
+                if (!dataSeriesList.isEmpty()) {
+                    g2.setColor(gridColor);
+                    g2.drawLine(margin + totalXPadding + 1 + pointWidth, y0, getWidth() - margin, y1);
+                    g2.setColor(textColor);
+                    
+                    // Calculate the transformed Y value for this grid line
+                    double transformedYValue = minY + (maxY - minY) + offsetY - chartHeight / scaleY + (i * divisionPixelSize) / scaleY;
+                    String yLabel = String.format("%.2f", transformedYValue);
+                    
+                    int labelWidth = metrics.stringWidth(yLabel);
+                    g2.drawString(yLabel, x0 - labelWidth - 5, y0 + (metrics.getHeight() / 2) - 3);
+                }
+                g2.drawLine(x0, y0, x1, y1);
             }
-            g2.drawLine(x0, y0, x1, y1);
         }
 
         // Draw grid lines and labels for x-axis
@@ -491,7 +556,10 @@ public class PlotPanel2D extends JPanel {
                 // Only draw label if not skipping alternates, or if this is an even index
                 boolean shouldDrawLabel = !skipAlternateLabels || (i % 2 == 0);
                 if (shouldDrawLabel) {
-                    String xLabel = String.format("%.2f", (minX + offsetX + (i * divisionPixelSize) / scaleX));
+                    // Calculate the X value for this grid line (always linear)
+                    double xValue = minX + offsetX + (i * divisionPixelSize) / scaleX;
+                    String xLabel = String.format("%.2f", xValue);
+                    
                     int labelWidth = metrics.stringWidth(xLabel);
                     g2.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3);
                 }
@@ -519,8 +587,17 @@ public class PlotPanel2D extends JPanel {
                 boolean firstPoint = true;
                 
                 for (Point2D point : series.getPoints()) {
-                    double x = (point.getX() - minX - offsetX) * scaleX + margin + totalXPadding;
-                    double y = (maxY - point.getY() + offsetY) * scaleY + topMargin;
+                    // X-axis is always linear, only Y-axis can be logarithmic
+                    double transformedX = point.getX();
+                    double transformedY = yScaleType == ScaleType.LOGARITHMIC ? transformYValue(point.getY()) : point.getY();
+                    
+                    // Skip points that cannot be transformed (e.g., non-positive values in log scale for Y)
+                    if (Double.isInfinite(transformedY) || Double.isNaN(transformedY)) {
+                        continue;
+                    }
+                    
+                    double x = (transformedX - minX - offsetX) * scaleX + margin + totalXPadding;
+                    double y = (maxY - transformedY + offsetY) * scaleY + topMargin;
                     
                     if (firstPoint) {
                         path.moveTo(x, y);
@@ -537,8 +614,17 @@ public class PlotPanel2D extends JPanel {
                 if (series.hasBullets()) {
                     int nodeSize = series.getNodeSize();
                     for (Point2D point : series.getPoints()) {
-                        double x = (point.getX() - minX - offsetX) * scaleX + margin + totalXPadding;
-                        double y = (maxY - point.getY() + offsetY) * scaleY + topMargin;
+                        // X-axis is always linear, only Y-axis can be logarithmic
+                        double transformedX = point.getX();
+                        double transformedY = yScaleType == ScaleType.LOGARITHMIC ? transformYValue(point.getY()) : point.getY();
+                        
+                        // Skip points that cannot be transformed
+                        if (Double.isInfinite(transformedY) || Double.isNaN(transformedY)) {
+                            continue;
+                        }
+                        
+                        double x = (transformedX - minX - offsetX) * scaleX + margin + totalXPadding;
+                        double y = (maxY - transformedY + offsetY) * scaleY + topMargin;
                         if (isOnDiagram((int)x, (int)y)) {
                             g2.fillOval((int)(x - nodeSize / 2.0), (int)(y - nodeSize / 2.0), nodeSize, nodeSize);
                         }
@@ -551,8 +637,17 @@ public class PlotPanel2D extends JPanel {
                 g2.setColor(series.getColor());
                 int nodeSize = series.getNodeSize();
                 for (Point2D point : series.getPoints()) {
-                    double x = (point.getX() - minX - offsetX) * scaleX + margin + totalXPadding;
-                    double y = (maxY - point.getY() + offsetY) * scaleY + topMargin;
+                    // X-axis is always linear, only Y-axis can be logarithmic
+                    double transformedX = point.getX();
+                    double transformedY = yScaleType == ScaleType.LOGARITHMIC ? transformYValue(point.getY()) : point.getY();
+                    
+                    // Skip points that cannot be transformed
+                    if (Double.isInfinite(transformedY) || Double.isNaN(transformedY)) {
+                        continue;
+                    }
+                    
+                    double x = (transformedX - minX - offsetX) * scaleX + margin + totalXPadding;
+                    double y = (maxY - transformedY + offsetY) * scaleY + topMargin;
                     if (isOnDiagram((int)x, (int)y)) {
                         g2.fillOval((int)(x - nodeSize / 2.0), (int)(y - nodeSize / 2.0), nodeSize, nodeSize);
                     }
@@ -681,6 +776,143 @@ public class PlotPanel2D extends JPanel {
             legendEntryY += 20;
         }
     }
+    
+    private void drawLogarithmicYGrid(Graphics2D g2, int margin, int totalXPadding, int totalYPadding, int topMargin, int chartHeight, FontMetrics metrics) {
+        if (dataSeriesList.isEmpty()) {
+            return;
+        }
+        
+        // Calculate the range of powers of 10 to display
+        double originalMinY = inverseTransformYValue(minY + offsetY);
+        double originalMaxY = inverseTransformYValue(maxY + offsetY);
+        
+        // Find the range of exponents to cover
+        int minExponent = (int) Math.floor(Math.log10(Math.max(0.1, originalMinY)));
+        int maxExponent = (int) Math.ceil(Math.log10(Math.max(1.0, originalMaxY)));
+        
+        // Calculate required spacing for labels (2 times text height)
+        int textHeight = metrics.getHeight();
+        int minLabelSpacing = textHeight * 2;
+        
+        // Draw grid lines at powers of 10 and intermediate lines
+        for (int exp = minExponent; exp <= maxExponent; exp++) {
+            // Draw main power of 10 line (1E0, 1E1, 1E2, etc.) - always show labels
+            double powerOf10 = Math.pow(10, exp);
+            String mainLabel = "1E" + exp; // Always show main labels
+            drawLogarithmicGridLine(g2, powerOf10, margin, totalXPadding, totalYPadding, topMargin, chartHeight, metrics, true, mainLabel);
+            
+            // Draw intermediate lines (2E, 3E, ..., 9E for each decade) - spacing-dependent labels
+            for (int multiplier = 2; multiplier <= 9; multiplier++) {
+                double intermediateValue = multiplier * powerOf10;
+                
+                // Only draw if it's within our range and not too close to the next main line
+                if (intermediateValue < Math.pow(10, maxExponent + 1)) {
+                    String intermediateLabel = shouldShowLabel(intermediateValue, minExponent, maxExponent, topMargin, chartHeight, minLabelSpacing) ? 
+                                               multiplier + "E" + exp : null;
+                    drawLogarithmicGridLine(g2, intermediateValue, margin, totalXPadding, totalYPadding, topMargin, chartHeight, metrics, false, intermediateLabel);
+                }
+            }
+        }
+    }
+    
+    private boolean shouldShowLabel(double value, int minExponent, int maxExponent, int topMargin, int chartHeight, int minSpacing) {
+        double transformedValue = transformYValue(value);
+        double y = (maxY - transformedValue + offsetY) * scaleY + topMargin;
+        
+        // Get all grid line positions to check spacing
+        List<Double> allPositions = new ArrayList<>();
+        
+        // Add all main power of 10 positions
+        for (int exp = minExponent; exp <= maxExponent; exp++) {
+            double powerOf10 = Math.pow(10, exp);
+            double transformed = transformYValue(powerOf10);
+            double pos = (maxY - transformed + offsetY) * scaleY + topMargin;
+            allPositions.add(pos);
+        }
+        
+        // Add all intermediate positions
+        for (int exp = minExponent; exp <= maxExponent; exp++) {
+            for (int multiplier = 2; multiplier <= 9; multiplier++) {
+                double intermediateValue = multiplier * Math.pow(10, exp);
+                if (intermediateValue < Math.pow(10, maxExponent + 1)) {
+                    double transformed = transformYValue(intermediateValue);
+                    double pos = (maxY - transformed + offsetY) * scaleY + topMargin;
+                    allPositions.add(pos);
+                }
+            }
+        }
+        
+        // Check if current position has enough space from all other positions
+        for (double otherPos : allPositions) {
+            if (Math.abs(y - otherPos) > 0.1 && Math.abs(y - otherPos) < minSpacing) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    private void drawLogarithmicGridLine(Graphics2D g2, double value, int margin, int totalXPadding, int totalYPadding, int topMargin, int chartHeight, FontMetrics metrics, boolean isMainLine, String label) {
+        double transformedValue = transformYValue(value);
+        
+        // Calculate Y position using the same formula as data points
+        double y = (maxY - transformedValue + offsetY) * scaleY + topMargin;
+        int y0 = (int) y;
+        
+        // Only draw if within visible area
+        if (y0 >= topMargin && y0 <= topMargin + chartHeight) {
+            int x0 = margin + totalXPadding;
+            int x1 = pointWidth + margin + totalXPadding;
+            
+            if (isMainLine) {
+                // Draw main grid line (darker)
+                g2.setColor(gridColor);
+                g2.drawLine(margin + totalXPadding + 1 + pointWidth, y0, getWidth() - margin, y0);
+                
+                // Draw tick mark
+                g2.setColor(axisColor);
+                g2.drawLine(x0, y0, x1, y0);
+                
+                // Draw label
+                if (label != null) {
+                    g2.setColor(textColor);
+                    int labelWidth = metrics.stringWidth(label);
+                    g2.drawString(label, x0 - labelWidth - 5, y0 + (metrics.getHeight() / 2) - 3);
+                }
+            } else {
+                // Draw intermediate grid line (lighter gray)
+                Color lightGridColor = new Color(230, 230, 230, 150);
+                g2.setColor(lightGridColor);
+                g2.drawLine(margin + totalXPadding + 1 + pointWidth, y0, getWidth() - margin, y0);
+                
+                // Draw smaller tick mark
+                g2.setColor(new Color(180, 180, 180));
+                g2.drawLine(x0, y0, x0 + pointWidth/2, y0);
+                
+                // Draw intermediate label if provided
+                if (label != null) {
+                    g2.setColor(new Color(120, 120, 120)); // Darker gray for intermediate labels
+                    int labelWidth = metrics.stringWidth(label);
+                    g2.drawString(label, x0 - labelWidth - 5, y0 + (metrics.getHeight() / 2) - 3);
+                }
+            }
+        }
+    }
+    
+    // Coordinate transformation helper methods for Y-axis only
+    private double transformYValue(double y) {
+        if (yScaleType == ScaleType.LOGARITHMIC) {
+            return y <= 0 ? Double.NEGATIVE_INFINITY : Math.log10(y);
+        }
+        return y;
+    }
+    
+    private double inverseTransformYValue(double transformedY) {
+        if (yScaleType == ScaleType.LOGARITHMIC) {
+            return Math.pow(10, transformedY);
+        }
+        return transformedY;
+    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -708,13 +940,39 @@ public class PlotPanel2D extends JPanel {
         }
         
         int maxWidth = 0;
-        int estimatedDivisions = Math.max(1, (getHeight() - 2 * margin) / divisionPixelSize);
         
-        for (int i = 0; i <= estimatedDivisions; i++) {
-            double yValue = minY + offsetY + (i * divisionPixelSize) / scaleY;
-            String yLabel = String.format("%.2f", yValue);
-            int width = metrics.stringWidth(yLabel);
-            maxWidth = Math.max(maxWidth, width);
+        if (yScaleType == ScaleType.LOGARITHMIC) {
+            // For logarithmic scale, calculate width based on E notation
+            double originalMinY = inverseTransformYValue(minY + offsetY);
+            double originalMaxY = inverseTransformYValue(maxY + offsetY);
+            
+            int minExponent = (int) Math.floor(Math.log10(Math.max(0.1, originalMinY)));
+            int maxExponent = (int) Math.ceil(Math.log10(Math.max(1.0, originalMaxY)));
+            
+            
+            for (int exp = minExponent; exp <= maxExponent; exp++) {
+                // Main power of 10 labels (now 1E format)
+                String yLabel = "1E" + exp;
+                int width = metrics.stringWidth(yLabel);
+                maxWidth = Math.max(maxWidth, width);
+                
+                // Intermediate labels - check a few examples for width calculation
+                for (int multiplier = 2; multiplier <= 9; multiplier++) {
+                    String intermediateLabel = multiplier + "E" + exp;
+                    int intermediateWidth = metrics.stringWidth(intermediateLabel);
+                    maxWidth = Math.max(maxWidth, intermediateWidth);
+                }
+            }
+        } else {
+            // Original linear scale calculation
+            int estimatedDivisions = Math.max(1, (getHeight() - 2 * margin) / divisionPixelSize);
+            
+            for (int i = 0; i <= estimatedDivisions; i++) {
+                double transformedYValue = minY + offsetY + (i * divisionPixelSize) / scaleY;
+                String yLabel = String.format("%.2f", transformedYValue);
+                int width = metrics.stringWidth(yLabel);
+                maxWidth = Math.max(maxWidth, width);
+            }
         }
         
         return maxWidth + 10; // Add some padding
