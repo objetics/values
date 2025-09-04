@@ -165,8 +165,8 @@ public class AssemblyScalingTest {
                     for (Point2D.Double point : pointsAG_uniform) {
                         generalAssemblyUniformPoints.add(new Point2D.Double(point.x, point.y));
                     }
-                    assemblyUniformSeries.add(new DataSeries("Assembly vs N", assemblyUniformPoints, Color.BLUE, true, true));
-                    generalAssemblyUniformSeries.add(new DataSeries("General Assembly vs N", generalAssemblyUniformPoints, Color.RED, true, true));
+                    assemblyUniformSeries.add(new DataSeries("Assembly vs N", assemblyUniformPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyUniformSeries.add(new DataSeries("General Assembly vs N", generalAssemblyUniformPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Growing results
                     List<Point2D> assemblyGrowingPoints = new ArrayList<>();
@@ -177,8 +177,8 @@ public class AssemblyScalingTest {
                     for (Point2D.Double point : pointsAG_growing) {
                         generalAssemblyGrowingPoints.add(new Point2D.Double(point.x, point.y));
                     }
-                    assemblyGrowingSeries.add(new DataSeries("Assembly vs N", assemblyGrowingPoints, Color.BLUE, true, true));
-                    generalAssemblyGrowingSeries.add(new DataSeries("General Assembly vs N", generalAssemblyGrowingPoints, Color.RED, true, true));
+                    assemblyGrowingSeries.add(new DataSeries("Assembly vs N", assemblyGrowingPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyGrowingSeries.add(new DataSeries("General Assembly vs N", generalAssemblyGrowingPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Zipf results
                     List<Point2D> assemblyZipfPoints = new ArrayList<>();
@@ -189,8 +189,8 @@ public class AssemblyScalingTest {
                     for (Point2D.Double point : pointsAG_zipf) {
                         generalAssemblyZipfPoints.add(new Point2D.Double(point.x, point.y));
                     }
-                    assemblyZipfSeries.add(new DataSeries("Assembly vs N", assemblyZipfPoints, Color.BLUE, true, true));
-                    generalAssemblyZipfSeries.add(new DataSeries("General Assembly vs N", generalAssemblyZipfPoints, Color.RED, true, true));
+                    assemblyZipfSeries.add(new DataSeries("Assembly vs N", assemblyZipfPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyZipfSeries.add(new DataSeries("General Assembly vs N", generalAssemblyZipfPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Set data to plots
                     assemblyUniformPlot.setDataSeries(assemblyUniformSeries);

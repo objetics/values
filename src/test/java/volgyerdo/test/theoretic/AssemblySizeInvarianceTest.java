@@ -175,8 +175,8 @@ public class AssemblySizeInvarianceTest {
                     for (Point2D.Double point : pointsAG_uniform) {
                         generalAssemblyUniformPoints.add(new Point2D.Double(point.x, point.y));
                     }
-                    assemblyUniformSeries.add(new DataSeries("Assembly vs N", assemblyUniformPoints, Color.BLUE, true, true));
-                    generalAssemblyUniformSeries.add(new DataSeries("General Assembly vs N", generalAssemblyUniformPoints, Color.RED, true, true));
+                    assemblyUniformSeries.add(new DataSeries("Assembly vs N", assemblyUniformPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyUniformSeries.add(new DataSeries("General Assembly vs N", generalAssemblyUniformPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Zipf results
                     List<Point2D> assemblyZipfPoints = new ArrayList<>();
@@ -187,8 +187,8 @@ public class AssemblySizeInvarianceTest {
                     for (Point2D.Double point : pointsAG_zipf) {
                         generalAssemblyZipfPoints.add(new Point2D.Double(point.x, point.y));
                     }
-                    assemblyZipfSeries.add(new DataSeries("Assembly vs N", assemblyZipfPoints, Color.BLUE, true, true));
-                    generalAssemblyZipfSeries.add(new DataSeries("General Assembly vs N", generalAssemblyZipfPoints, Color.RED, true, true));
+                    assemblyZipfSeries.add(new DataSeries("Assembly vs N", assemblyZipfPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyZipfSeries.add(new DataSeries("General Assembly vs N", generalAssemblyZipfPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Mix results
                     List<Point2D> assemblyMixPoints = new ArrayList<>();
@@ -199,8 +199,8 @@ public class AssemblySizeInvarianceTest {
                     for (Point2D.Double point : pointsAG_mix) {
                         generalAssemblyMixPoints.add(new Point2D.Double(point.x, point.y));
                     }
-                    assemblyMixSeries.add(new DataSeries("Assembly vs N", assemblyMixPoints, Color.BLUE, true, true));
-                    generalAssemblyMixSeries.add(new DataSeries("General Assembly vs N", generalAssemblyMixPoints, Color.RED, true, true));
+                    assemblyMixSeries.add(new DataSeries("Assembly vs N", assemblyMixPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyMixSeries.add(new DataSeries("General Assembly vs N", generalAssemblyMixPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Set data to plots
                     assemblyUniformPlot.setDataSeries(assemblyUniformSeries);

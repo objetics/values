@@ -149,8 +149,8 @@ public class AssemblyWeightingContrastTest  {
                     for (Point2D.Double point : pointsAG_rareMass) {
                         generalAssemblyRareMassPoints.add(new Point2D.Double(point.x, point.y));
                     }
-                    assemblyRareMassSeries.add(new DataSeries("Assembly vs Rare Mass", assemblyRareMassPoints, Color.BLUE, true, true));
-                    generalAssemblyRareMassSeries.add(new DataSeries("General Assembly vs Rare Mass", generalAssemblyRareMassPoints, Color.RED, true, true));
+                    assemblyRareMassSeries.add(new DataSeries("Assembly vs Rare Mass", assemblyRareMassPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyRareMassSeries.add(new DataSeries("General Assembly vs Rare Mass", generalAssemblyRareMassPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Rare Multiplicity results
                     List<Point2D> assemblyRareMultiplicityPoints = new ArrayList<>();
@@ -161,8 +161,8 @@ public class AssemblyWeightingContrastTest  {
                     for (Point2D.Double point : pointsAG_rareMultiplicity) {
                         generalAssemblyRareMultiplicityPoints.add(new Point2D.Double(point.x, point.y));
                     }
-                    assemblyRareMultiplicitySeries.add(new DataSeries("Assembly vs Rare Types", assemblyRareMultiplicityPoints, Color.BLUE, true, true));
-                    generalAssemblyRareMultiplicitySeries.add(new DataSeries("General Assembly vs Rare Types", generalAssemblyRareMultiplicityPoints, Color.RED, true, true));
+                    assemblyRareMultiplicitySeries.add(new DataSeries("Assembly vs Rare Types", assemblyRareMultiplicityPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyRareMultiplicitySeries.add(new DataSeries("General Assembly vs Rare Types", generalAssemblyRareMultiplicityPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Set data to plots
                     assemblyRareMassPlot.setDataSeries(assemblyRareMassSeries);

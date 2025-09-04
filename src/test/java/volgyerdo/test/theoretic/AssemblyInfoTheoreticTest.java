@@ -159,8 +159,8 @@ public class AssemblyInfoTheoreticTest {
                         Point2D point = infoBasedAssemblyBinomialPoints.get(i);
                         System.out.printf("[%d] H=%.6f, AG=%.6f%n", i, point.getX(), point.getY());
                     }
-                    assemblyBinomialSeries.add(new DataSeries("Assembly vs Entropy", assemblyBinomialPoints, Color.BLUE, true, false));
-                    infoBasedAssemblyBinomialSeries.add(new DataSeries("Information-based Assembly vs Entropy", infoBasedAssemblyBinomialPoints, Color.RED, true, false));
+                    assemblyBinomialSeries.add(new DataSeries("Assembly vs Entropy", assemblyBinomialPoints, Color.BLACK, true, false, 3, 6));
+                    infoBasedAssemblyBinomialSeries.add(new DataSeries("Information-based Assembly vs Entropy", infoBasedAssemblyBinomialPoints, Color.BLACK, true, false, 3, 6));
                     
                     // Dirichlet results
                     List<Point2D> assemblyDirichletPoints = new ArrayList<>();
@@ -171,8 +171,8 @@ public class AssemblyInfoTheoreticTest {
                     for (Point2D.Double point : pointsAG_dirichlet) {
                         infoBasedAssemblyDirichletPoints.add(new Point2D.Double(point.x, point.y));
                     }
-                    assemblyDirichletSeries.add(new DataSeries("Assembly vs Entropy", assemblyDirichletPoints, Color.BLUE, true, true));
-                    infoBasedAssemblyDirichletSeries.add(new DataSeries("Information-based Assembly vs Entropy", infoBasedAssemblyDirichletPoints, Color.RED, true, true));
+                    assemblyDirichletSeries.add(new DataSeries("Assembly vs Entropy", assemblyDirichletPoints, Color.BLACK, true, true, 3, 6));
+                    infoBasedAssemblyDirichletSeries.add(new DataSeries("Information-based Assembly vs Entropy", infoBasedAssemblyDirichletPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Set data to plots
                     assemblyBinomialPlot.setDataSeries(assemblyBinomialSeries);
