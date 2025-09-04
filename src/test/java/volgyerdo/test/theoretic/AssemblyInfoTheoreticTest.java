@@ -86,12 +86,16 @@ public class AssemblyInfoTheoreticTest {
         // Create plot panels
         PlotPanel2D assemblyBinomialPlot = new PlotPanel2D();
         assemblyBinomialPlot.setBackground(Color.WHITE);
+        assemblyBinomialPlot.setLegendVisible(false);
         PlotPanel2D infoBasedAssemblyBinomialPlot = new PlotPanel2D();
         infoBasedAssemblyBinomialPlot.setBackground(Color.WHITE);
+        infoBasedAssemblyBinomialPlot.setLegendVisible(false);
         PlotPanel2D assemblyDirichletPlot = new PlotPanel2D();
         assemblyDirichletPlot.setBackground(Color.WHITE);
+        assemblyDirichletPlot.setLegendVisible(false);
         PlotPanel2D infoBasedAssemblyDirichletPlot = new PlotPanel2D();
         infoBasedAssemblyDirichletPlot.setBackground(Color.WHITE);
+        infoBasedAssemblyDirichletPlot.setLegendVisible(false);
         
         // Create panels for side-by-side display
         JPanel binomialPanel = new JPanel(new GridLayout(1, 2));
@@ -160,7 +164,7 @@ public class AssemblyInfoTheoreticTest {
                         System.out.printf("[%d] H=%.6f, AG=%.6f%n", i, point.getX(), point.getY());
                     }
                     assemblyBinomialSeries.add(new DataSeries("Assembly vs Entropy", assemblyBinomialPoints, Color.BLACK, true, false, 3, 6));
-                    infoBasedAssemblyBinomialSeries.add(new DataSeries("Information-based Assembly vs Entropy", infoBasedAssemblyBinomialPoints, Color.BLACK, true, false, 3, 6));
+                    infoBasedAssemblyBinomialSeries.add(new DataSeries("IBA vs Entropy", infoBasedAssemblyBinomialPoints, Color.BLACK, true, false, 3, 6));
                     
                     // Dirichlet results
                     List<Point2D> assemblyDirichletPoints = new ArrayList<>();
@@ -172,7 +176,7 @@ public class AssemblyInfoTheoreticTest {
                         infoBasedAssemblyDirichletPoints.add(new Point2D.Double(point.x, point.y));
                     }
                     assemblyDirichletSeries.add(new DataSeries("Assembly vs Entropy", assemblyDirichletPoints, Color.BLACK, true, true, 3, 6));
-                    infoBasedAssemblyDirichletSeries.add(new DataSeries("Information-based Assembly vs Entropy", infoBasedAssemblyDirichletPoints, Color.BLACK, true, true, 3, 6));
+                    infoBasedAssemblyDirichletSeries.add(new DataSeries("IBA vs Entropy", infoBasedAssemblyDirichletPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Set data to plots
                     assemblyBinomialPlot.setDataSeries(assemblyBinomialSeries);
@@ -181,7 +185,7 @@ public class AssemblyInfoTheoreticTest {
                     
                     infoBasedAssemblyBinomialPlot.setDataSeries(infoBasedAssemblyBinomialSeries);
                     infoBasedAssemblyBinomialPlot.setAxisLabels("Entropy (H)", "Information-based Assembly (IBA)");
-                    infoBasedAssemblyBinomialPlot.setPlotTitle("Information-based Assembly - Bernoulli Distribution");
+                    infoBasedAssemblyBinomialPlot.setPlotTitle("IBA - Bernoulli Distribution");
                     
                     assemblyDirichletPlot.setDataSeries(assemblyDirichletSeries);
                     assemblyDirichletPlot.setAxisLabels("Entropy (H)", "Assembly (A)");
@@ -189,7 +193,7 @@ public class AssemblyInfoTheoreticTest {
                     
                     infoBasedAssemblyDirichletPlot.setDataSeries(infoBasedAssemblyDirichletSeries);
                     infoBasedAssemblyDirichletPlot.setAxisLabels("Entropy (H)", "Information-based Assembly (IBA)");
-                    infoBasedAssemblyDirichletPlot.setPlotTitle("Information-based Assembly - Dirichlet Distribution");
+                    infoBasedAssemblyDirichletPlot.setPlotTitle("IBA - Dirichlet Distribution");
                     
                     // Hide progress bar
                     progressBar.setVisible(false);

@@ -84,12 +84,16 @@ public class AssemblyWeightingContrastTest  {
         // Create plot panels
         PlotPanel2D assemblyRareMassPlot = new PlotPanel2D();
         assemblyRareMassPlot.setBackground(Color.WHITE);
+        assemblyRareMassPlot.setLegendVisible(false);
         PlotPanel2D generalAssemblyRareMassPlot = new PlotPanel2D();
         generalAssemblyRareMassPlot.setBackground(Color.WHITE);
+        generalAssemblyRareMassPlot.setLegendVisible(false);
         PlotPanel2D assemblyRareMultiplicityPlot = new PlotPanel2D();
         assemblyRareMultiplicityPlot.setBackground(Color.WHITE);
+        assemblyRareMultiplicityPlot.setLegendVisible(false);
         PlotPanel2D generalAssemblyRareMultiplicityPlot = new PlotPanel2D();
         generalAssemblyRareMultiplicityPlot.setBackground(Color.WHITE);
+        generalAssemblyRareMultiplicityPlot.setLegendVisible(false);
         
         // Create panels for side-by-side display
         JPanel rareMassPanel = new JPanel(new GridLayout(1, 2));
@@ -150,7 +154,7 @@ public class AssemblyWeightingContrastTest  {
                         generalAssemblyRareMassPoints.add(new Point2D.Double(point.x, point.y));
                     }
                     assemblyRareMassSeries.add(new DataSeries("Assembly vs Rare Mass", assemblyRareMassPoints, Color.BLACK, true, true, 3, 6));
-                    generalAssemblyRareMassSeries.add(new DataSeries("General Assembly vs Rare Mass", generalAssemblyRareMassPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyRareMassSeries.add(new DataSeries("IBA vs Rare Mass", generalAssemblyRareMassPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Rare Multiplicity results
                     List<Point2D> assemblyRareMultiplicityPoints = new ArrayList<>();
@@ -162,7 +166,7 @@ public class AssemblyWeightingContrastTest  {
                         generalAssemblyRareMultiplicityPoints.add(new Point2D.Double(point.x, point.y));
                     }
                     assemblyRareMultiplicitySeries.add(new DataSeries("Assembly vs Rare Types", assemblyRareMultiplicityPoints, Color.BLACK, true, true, 3, 6));
-                    generalAssemblyRareMultiplicitySeries.add(new DataSeries("General Assembly vs Rare Types", generalAssemblyRareMultiplicityPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyRareMultiplicitySeries.add(new DataSeries("IBA vs Rare Types", generalAssemblyRareMultiplicityPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Set data to plots
                     assemblyRareMassPlot.setDataSeries(assemblyRareMassSeries);
@@ -170,16 +174,16 @@ public class AssemblyWeightingContrastTest  {
                     assemblyRareMassPlot.setPlotTitle("Assembly - Rare Mass Contrast");
                     
                     generalAssemblyRareMassPlot.setDataSeries(generalAssemblyRareMassSeries);
-                    generalAssemblyRareMassPlot.setAxisLabels("Rare Mass", "General Assembly (AG)");
-                    generalAssemblyRareMassPlot.setPlotTitle("General Assembly - Rare Mass Contrast");
+                    generalAssemblyRareMassPlot.setAxisLabels("Rare Mass", "Information-based Assembly (IBA)");
+                    generalAssemblyRareMassPlot.setPlotTitle("IBA - Rare Mass Contrast");
                     
                     assemblyRareMultiplicityPlot.setDataSeries(assemblyRareMultiplicitySeries);
                     assemblyRareMultiplicityPlot.setAxisLabels("Rare Types", "Assembly (A)");
                     assemblyRareMultiplicityPlot.setPlotTitle("Assembly - Rare Multiplicity Contrast");
                     
                     generalAssemblyRareMultiplicityPlot.setDataSeries(generalAssemblyRareMultiplicitySeries);
-                    generalAssemblyRareMultiplicityPlot.setAxisLabels("Rare Types", "General Assembly (AG)");
-                    generalAssemblyRareMultiplicityPlot.setPlotTitle("General Assembly - Rare Multiplicity Contrast");
+                    generalAssemblyRareMultiplicityPlot.setAxisLabels("Rare Types", "Information-based Assembly (IBA)");
+                    generalAssemblyRareMultiplicityPlot.setPlotTitle("IBA - Rare Multiplicity Contrast");
                     
                     // Hide progress bar
                     progressBar.setVisible(false);
@@ -198,7 +202,23 @@ public class AssemblyWeightingContrastTest  {
     }
 
     public void runTests() {
+        System.out.println("=== ASSEMBLY WEIGHTING CONTRAST TEST KEZDETE ===");
+        System.out.println("Paraméterek:");
+        System.out.println("  N (mintaméret): " + N);
+        System.out.println("  CORE_K (gyakori ábécé méret): " + CORE_K);
+        System.out.println("  SEED: " + SEED);
+        System.out.println("  RHO_STEPS: " + RHO_STEPS);
+        System.out.println("  RHO_MAX: " + RHO_MAX);
+        System.out.println("  RHO_FIX: " + RHO_FIX);
+        System.out.println("  RARE_M_STEPS: " + Arrays.toString(RARE_M_STEPS));
+        System.out.println();
+        
         // A) Egy ritka típus tömege (rho) nő 0..RHO_MAX
+        System.out.println("=== A) RITKA TÖMEG VARIÁLÁSA ===");
+        System.out.println("Egy ritka típus, változó ritka tömeg (0.." + RHO_MAX + ")");
+        System.out.println("Rho\t\tAssembly (A)\t\tIBA");
+        System.out.println("---\t\t------------\t\t---");
+        
         for (int i = 0; i < RHO_STEPS; i++) {
             double rho = (RHO_MAX * i) / (RHO_STEPS - 1); // 0, ..., RHO_MAX
             List<String> seq = generateMixtureSequence(N, CORE_K, /*rareTypes*/1, rho);
@@ -206,16 +226,127 @@ public class AssemblyWeightingContrastTest  {
             double ag = generalAssembly.value(seq);
             pointsA_rareMass.add(new Point2D.Double(rho, a));
             pointsAG_rareMass.add(new Point2D.Double(rho, ag));
+            
+            System.out.printf("%.4f\t\t%.6f\t\t%.6f\n", rho, a, ag);
         }
+        System.out.println();
 
         // B) Fix ritka tömeg (rho = RHO_FIX), de egyre több ritka típusra osztjuk (M nő)
+        System.out.println("=== B) RITKA TÍPUSOK SZÁMÁNAK VARIÁLÁSA ===");
+        System.out.println("Fix ritka tömeg (" + RHO_FIX + "), változó ritka típusok száma");
+        System.out.println("M\t\tAssembly (A)\t\tIBA");
+        System.out.println("---\t\t------------\t\t---");
+        
         for (int m : RARE_M_STEPS) {
             List<String> seq = generateMixtureSequence(N, CORE_K, /*rareTypes*/m, RHO_FIX);
             double a  = assembly.value(seq);
             double ag = generalAssembly.value(seq);
             pointsA_rareMultiplicity.add(new Point2D.Double(m, a));
             pointsAG_rareMultiplicity.add(new Point2D.Double(m, ag));
+            
+            System.out.printf("%d\t\t%.6f\t\t%.6f\n", m, a, ag);
         }
+        System.out.println();
+        
+        System.out.println("=== TESZT BEFEJEZVE ===");
+        logFinalResults();
+    }
+
+    private void logFinalResults() {
+        System.out.println("=== VÉGSŐ EREDMÉNYEK ÖSSZEFOGLALÓJA ===");
+        System.out.println();
+        
+        // Ritka tömeg variálás eredményeinek elemzése
+        System.out.println("1. RITKA TÖMEG VARIÁLÁS ELEMZÉSE:");
+        if (!pointsA_rareMass.isEmpty()) {
+            Point2D.Double firstRareMass = pointsA_rareMass.get(0);
+            Point2D.Double lastRareMass = pointsA_rareMass.get(pointsA_rareMass.size() - 1);
+            double rareMassChangeA = lastRareMass.y - firstRareMass.y;
+            
+            Point2D.Double firstRareMassIBA = pointsAG_rareMass.get(0);
+            Point2D.Double lastRareMassIBA = pointsAG_rareMass.get(pointsAG_rareMass.size() - 1);
+            double rareMassChangeIBA = lastRareMassIBA.y - firstRareMassIBA.y;
+            
+            System.out.printf("   Ritka tömeg tartomány: %.4f - %.4f\n", firstRareMass.x, lastRareMass.x);
+            System.out.printf("   Assembly változás: %.6f -> %.6f (Δ = %.6f)\n", 
+                             firstRareMass.y, lastRareMass.y, rareMassChangeA);
+            System.out.printf("   IBA változás: %.6f -> %.6f (Δ = %.6f)\n", 
+                             firstRareMassIBA.y, lastRareMassIBA.y, rareMassChangeIBA);
+            System.out.printf("   Assembly/IBA arány kezdetben: %.4f\n", firstRareMass.y / firstRareMassIBA.y);
+            System.out.printf("   Assembly/IBA arány végén: %.4f\n", lastRareMass.y / lastRareMassIBA.y);
+        }
+        System.out.println();
+        
+        // Ritka típusok számának variálása eredményeinek elemzése
+        System.out.println("2. RITKA TÍPUSOK SZÁMÁNAK VARIÁLÁSA ELEMZÉSE:");
+        if (!pointsA_rareMultiplicity.isEmpty()) {
+            Point2D.Double firstRareMultiplicity = pointsA_rareMultiplicity.get(0);
+            Point2D.Double lastRareMultiplicity = pointsA_rareMultiplicity.get(pointsA_rareMultiplicity.size() - 1);
+            double rareMultiplicityChangeA = lastRareMultiplicity.y - firstRareMultiplicity.y;
+            
+            Point2D.Double firstRareMultiplicityIBA = pointsAG_rareMultiplicity.get(0);
+            Point2D.Double lastRareMultiplicityIBA = pointsAG_rareMultiplicity.get(pointsAG_rareMultiplicity.size() - 1);
+            double rareMultiplicityChangeIBA = lastRareMultiplicityIBA.y - firstRareMultiplicityIBA.y;
+            
+            System.out.printf("   Ritka típusok száma tartomány: %.0f - %.0f\n", 
+                             firstRareMultiplicity.x, lastRareMultiplicity.x);
+            System.out.printf("   Assembly változás: %.6f -> %.6f (Δ = %.6f)\n", 
+                             firstRareMultiplicity.y, lastRareMultiplicity.y, rareMultiplicityChangeA);
+            System.out.printf("   IBA változás: %.6f -> %.6f (Δ = %.6f)\n", 
+                             firstRareMultiplicityIBA.y, lastRareMultiplicityIBA.y, rareMultiplicityChangeIBA);
+            System.out.printf("   Assembly/IBA arány kezdetben: %.4f\n", 
+                             firstRareMultiplicity.y / firstRareMultiplicityIBA.y);
+            System.out.printf("   Assembly/IBA arány végén: %.4f\n", 
+                             lastRareMultiplicity.y / lastRareMultiplicityIBA.y);
+        }
+        System.out.println();
+        
+        // Correlációs elemzés
+        analyzeCorrelations();
+    }
+    
+    private void analyzeCorrelations() {
+        System.out.println("3. KORRELÁCIÓ ELEMZÉS:");
+        System.out.println();
+        
+        // Ritka tömeg korreláció
+        if (pointsA_rareMass.size() > 1) {
+            double corrA_rareMass = calculateCorrelation(pointsA_rareMass);
+            double corrIBA_rareMass = calculateCorrelation(pointsAG_rareMass);
+            System.out.printf("   Ritka tömeg vs Assembly korreláció: %.4f\n", corrA_rareMass);
+            System.out.printf("   Ritka tömeg vs IBA korreláció: %.4f\n", corrIBA_rareMass);
+        }
+        
+        // Ritka típusok száma korreláció
+        if (pointsA_rareMultiplicity.size() > 1) {
+            double corrA_rareMultiplicity = calculateCorrelation(pointsA_rareMultiplicity);
+            double corrIBA_rareMultiplicity = calculateCorrelation(pointsAG_rareMultiplicity);
+            System.out.printf("   Ritka típusok száma vs Assembly korreláció: %.4f\n", corrA_rareMultiplicity);
+            System.out.printf("   Ritka típusok száma vs IBA korreláció: %.4f\n", corrIBA_rareMultiplicity);
+        }
+        
+        System.out.println();
+        System.out.println("=== WEIGHTING CONTRAST ELEMZÉS BEFEJEZVE ===");
+    }
+    
+    private double calculateCorrelation(List<Point2D.Double> points) {
+        if (points.size() < 2) return 0.0;
+        
+        double sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0, sumY2 = 0;
+        int n = points.size();
+        
+        for (Point2D.Double point : points) {
+            sumX += point.x;
+            sumY += point.y;
+            sumXY += point.x * point.y;
+            sumX2 += point.x * point.x;
+            sumY2 += point.y * point.y;
+        }
+        
+        double numerator = n * sumXY - sumX * sumY;
+        double denominator = Math.sqrt((n * sumX2 - sumX * sumX) * (n * sumY2 - sumY * sumY));
+        
+        return denominator != 0 ? numerator / denominator : 0.0;
     }
 
     /**

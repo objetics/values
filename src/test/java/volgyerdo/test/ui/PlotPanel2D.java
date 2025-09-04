@@ -66,6 +66,9 @@ public class PlotPanel2D extends JPanel {
     // Zoom mode selection
     private ZoomMode currentZoomMode = ZoomMode.BOTH;
     private JComboBox<ZoomMode> zoomModeCombo;
+    
+    // Legend visibility control
+    private boolean legendVisible = true;
 
     public PlotPanel2D() {
         this.dataSeriesList = new ArrayList<>();
@@ -276,6 +279,15 @@ public class PlotPanel2D extends JPanel {
         repaint();
     }
 
+    public void setLegendVisible(boolean visible) {
+        this.legendVisible = visible;
+        repaint();
+    }
+
+    public boolean isLegendVisible() {
+        return legendVisible;
+    }
+
     private void resetParameters() {
         if (dataSeriesList == null || dataSeriesList.isEmpty()) {
             return;
@@ -452,6 +464,20 @@ public class PlotPanel2D extends JPanel {
         }
 
         // Draw grid lines and labels for x-axis
+        // Check if we need to skip every second label due to space constraints
+        boolean skipAlternateLabels = false;
+        if (numberXDivisions > 1) {
+            // Calculate typical label width and spacing
+            String sampleXLabel = String.format("%.2f", (minX + offsetX));
+            int sampleLabelWidth = metrics.stringWidth(sampleXLabel);
+            int availableSpacePerLabel = divisionPixelSize;
+            int requiredSpacePerLabel = sampleLabelWidth + 5; // 5 pixel gap
+            
+            if (requiredSpacePerLabel > availableSpacePerLabel) {
+                skipAlternateLabels = true;
+            }
+        }
+        
         for (int i = 0; i <= numberXDivisions; i++) {
             int y0 = getHeight() - margin - totalYPadding;
             int y1 = y0 - pointWidth;
@@ -461,9 +487,14 @@ public class PlotPanel2D extends JPanel {
                 g2.setColor(gridColor);
                 g2.drawLine(x0, getHeight() - margin - totalYPadding - 1 - pointWidth, x1, topMargin);
                 g2.setColor(textColor);
-                String xLabel = String.format("%.2f", (minX + offsetX + (i * divisionPixelSize) / scaleX));
-                int labelWidth = metrics.stringWidth(xLabel);
-                g2.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3);
+                
+                // Only draw label if not skipping alternates, or if this is an even index
+                boolean shouldDrawLabel = !skipAlternateLabels || (i % 2 == 0);
+                if (shouldDrawLabel) {
+                    String xLabel = String.format("%.2f", (minX + offsetX + (i * divisionPixelSize) / scaleX));
+                    int labelWidth = metrics.stringWidth(xLabel);
+                    g2.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3);
+                }
             }
             g2.drawLine(x0, y0, x1, y1);
         }
@@ -534,8 +565,10 @@ public class PlotPanel2D extends JPanel {
         // Draw axis labels
         drawAxisLabels(g2);
 
-        // Draw legend
-        drawLegend(g2, margin);
+        // Draw legend only if visible
+        if (legendVisible) {
+            drawLegend(g2, margin);
+        }
     }
 
     private void drawAxisLabels(Graphics2D g2) {

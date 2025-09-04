@@ -92,16 +92,22 @@ public class AssemblySizeInvarianceTest {
         // Create plot panels
         PlotPanel2D assemblyUniformPlot = new PlotPanel2D();
         assemblyUniformPlot.setBackground(Color.WHITE);
+        assemblyUniformPlot.setLegendVisible(false);
         PlotPanel2D generalAssemblyUniformPlot = new PlotPanel2D();
         generalAssemblyUniformPlot.setBackground(Color.WHITE);
+        generalAssemblyUniformPlot.setLegendVisible(false);
         PlotPanel2D assemblyZipfPlot = new PlotPanel2D();
         assemblyZipfPlot.setBackground(Color.WHITE);
+        assemblyZipfPlot.setLegendVisible(false);
         PlotPanel2D generalAssemblyZipfPlot = new PlotPanel2D();
         generalAssemblyZipfPlot.setBackground(Color.WHITE);
+        generalAssemblyZipfPlot.setLegendVisible(false);
         PlotPanel2D assemblyMixPlot = new PlotPanel2D();
         assemblyMixPlot.setBackground(Color.WHITE);
+        assemblyMixPlot.setLegendVisible(false);
         PlotPanel2D generalAssemblyMixPlot = new PlotPanel2D();
         generalAssemblyMixPlot.setBackground(Color.WHITE);
+        generalAssemblyMixPlot.setLegendVisible(false);
         
         // Create panels for side-by-side display
         JPanel uniformPanel = new JPanel(new GridLayout(1, 2));
@@ -176,7 +182,7 @@ public class AssemblySizeInvarianceTest {
                         generalAssemblyUniformPoints.add(new Point2D.Double(point.x, point.y));
                     }
                     assemblyUniformSeries.add(new DataSeries("Assembly vs N", assemblyUniformPoints, Color.BLACK, true, true, 3, 6));
-                    generalAssemblyUniformSeries.add(new DataSeries("General Assembly vs N", generalAssemblyUniformPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyUniformSeries.add(new DataSeries("IBA vs N", generalAssemblyUniformPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Zipf results
                     List<Point2D> assemblyZipfPoints = new ArrayList<>();
@@ -188,7 +194,7 @@ public class AssemblySizeInvarianceTest {
                         generalAssemblyZipfPoints.add(new Point2D.Double(point.x, point.y));
                     }
                     assemblyZipfSeries.add(new DataSeries("Assembly vs N", assemblyZipfPoints, Color.BLACK, true, true, 3, 6));
-                    generalAssemblyZipfSeries.add(new DataSeries("General Assembly vs N", generalAssemblyZipfPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyZipfSeries.add(new DataSeries("IBA vs N", generalAssemblyZipfPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Mix results
                     List<Point2D> assemblyMixPoints = new ArrayList<>();
@@ -200,7 +206,7 @@ public class AssemblySizeInvarianceTest {
                         generalAssemblyMixPoints.add(new Point2D.Double(point.x, point.y));
                     }
                     assemblyMixSeries.add(new DataSeries("Assembly vs N", assemblyMixPoints, Color.BLACK, true, true, 3, 6));
-                    generalAssemblyMixSeries.add(new DataSeries("General Assembly vs N", generalAssemblyMixPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyMixSeries.add(new DataSeries("IBA vs N", generalAssemblyMixPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Set data to plots
                     assemblyUniformPlot.setDataSeries(assemblyUniformSeries);
@@ -208,24 +214,24 @@ public class AssemblySizeInvarianceTest {
                     assemblyUniformPlot.setPlotTitle("Assembly - Uniform Distribution");
                     
                     generalAssemblyUniformPlot.setDataSeries(generalAssemblyUniformSeries);
-                    generalAssemblyUniformPlot.setAxisLabels("Sample Size", "General Assembly (AG)");
-                    generalAssemblyUniformPlot.setPlotTitle("General Assembly - Uniform Distribution");
+                    generalAssemblyUniformPlot.setAxisLabels("Sample Size", "Information-based Assembly (IBA)");
+                    generalAssemblyUniformPlot.setPlotTitle("IBA - Uniform Distribution");
                     
                     assemblyZipfPlot.setDataSeries(assemblyZipfSeries);
                     assemblyZipfPlot.setAxisLabels("Sample Size", "Assembly (A)");
                     assemblyZipfPlot.setPlotTitle("Assembly - Zipf Distribution");
                     
                     generalAssemblyZipfPlot.setDataSeries(generalAssemblyZipfSeries);
-                    generalAssemblyZipfPlot.setAxisLabels("Sample Size", "General Assembly (AG)");
-                    generalAssemblyZipfPlot.setPlotTitle("General Assembly - Zipf Distribution");
+                    generalAssemblyZipfPlot.setAxisLabels("Sample Size", "Information-based Assembly (IBA)");
+                    generalAssemblyZipfPlot.setPlotTitle("IBA - Zipf Distribution");
                     
                     assemblyMixPlot.setDataSeries(assemblyMixSeries);
                     assemblyMixPlot.setAxisLabels("Sample Size", "Assembly (A)");
                     assemblyMixPlot.setPlotTitle("Assembly - Mixture Distribution");
                     
                     generalAssemblyMixPlot.setDataSeries(generalAssemblyMixSeries);
-                    generalAssemblyMixPlot.setAxisLabels("Sample Size", "General Assembly (AG)");
-                    generalAssemblyMixPlot.setPlotTitle("General Assembly - Mixture Distribution");
+                    generalAssemblyMixPlot.setAxisLabels("Sample Size", "Information-based Assembly (IBA)");
+                    generalAssemblyMixPlot.setPlotTitle("IBA - Mixture Distribution");
                     
                     // Hide progress bar
                     progressBar.setVisible(false);
