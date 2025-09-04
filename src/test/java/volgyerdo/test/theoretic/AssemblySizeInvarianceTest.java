@@ -195,11 +195,22 @@ public class AssemblySizeInvarianceTest {
                     
                     // Set data to plots
                     assemblyUniformPlot.setDataSeries(assemblyUniformSeries);
+                    assemblyUniformPlot.setAxisLabels("Sample Size", "Assembly (A)");
+                    
                     generalAssemblyUniformPlot.setDataSeries(generalAssemblyUniformSeries);
+                    generalAssemblyUniformPlot.setAxisLabels("Sample Size", "General Assembly (AG)");
+                    
                     assemblyZipfPlot.setDataSeries(assemblyZipfSeries);
+                    assemblyZipfPlot.setAxisLabels("Sample Size", "Assembly (A)");
+                    
                     generalAssemblyZipfPlot.setDataSeries(generalAssemblyZipfSeries);
+                    generalAssemblyZipfPlot.setAxisLabels("Sample Size", "General Assembly (AG)");
+                    
                     assemblyMixPlot.setDataSeries(assemblyMixSeries);
+                    assemblyMixPlot.setAxisLabels("Sample Size", "Assembly (A)");
+                    
                     generalAssemblyMixPlot.setDataSeries(generalAssemblyMixSeries);
+                    generalAssemblyMixPlot.setAxisLabels("Sample Size", "General Assembly (AG)");
                     
                     // Hide progress bar
                     progressBar.setVisible(false);

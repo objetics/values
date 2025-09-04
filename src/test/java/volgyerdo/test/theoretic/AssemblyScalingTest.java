@@ -185,11 +185,22 @@ public class AssemblyScalingTest {
                     
                     // Set data to plots
                     assemblyUniformPlot.setDataSeries(assemblyUniformSeries);
+                    assemblyUniformPlot.setAxisLabels("Scale Factor", "Assembly (A)");
+                    
                     generalAssemblyUniformPlot.setDataSeries(generalAssemblyUniformSeries);
+                    generalAssemblyUniformPlot.setAxisLabels("Scale Factor", "General Assembly (AG)");
+                    
                     assemblyGrowingPlot.setDataSeries(assemblyGrowingSeries);
+                    assemblyGrowingPlot.setAxisLabels("Scale Factor", "Assembly (A)");
+                    
                     generalAssemblyGrowingPlot.setDataSeries(generalAssemblyGrowingSeries);
+                    generalAssemblyGrowingPlot.setAxisLabels("Scale Factor", "General Assembly (AG)");
+                    
                     assemblyZipfPlot.setDataSeries(assemblyZipfSeries);
+                    assemblyZipfPlot.setAxisLabels("Scale Factor", "Assembly (A)");
+                    
                     generalAssemblyZipfPlot.setDataSeries(generalAssemblyZipfSeries);
+                    generalAssemblyZipfPlot.setAxisLabels("Scale Factor", "General Assembly (AG)");
                     
                     // Hide progress bar
                     progressBar.setVisible(false);

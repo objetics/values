@@ -22,11 +22,12 @@ public class PlotPanel2D extends JPanel {
     private double scaleX;
     private double scaleY;
     private boolean dataSeriesSet = false;
-    private int margin = 50;
+    private int margin = 25;
 
     private double offsetX = 0, offsetY = 0;
     private int panStep = 10;
-    private int labelPadding = 25;
+    private int labelPadding = 10; // Restored original value
+    private int leftPadding = 15; // Reduce left padding by 15 pixels (was 10)
     private int pointWidth = 6;
     private int divisionPixelSize = 50;
 
@@ -37,6 +38,10 @@ public class PlotPanel2D extends JPanel {
     private Color axisColor = Color.BLACK;
     private Color textColor = Color.BLACK;
     private Color gridColor = new Color(200, 200, 200, 200);
+
+    private String xAxisLabel = "";
+    private String yAxisLabel = "";
+    private int axisLabelPadding = 50;
 
     public PlotPanel2D() {
         this.dataSeriesList = new ArrayList<>();
@@ -166,8 +171,10 @@ public class PlotPanel2D extends JPanel {
 
             @Override
             public void mouseMoved(MouseEvent e) {
-                if (e.getX() > margin + labelPadding && e.getX() < getWidth() - margin
-                        && e.getY() > margin && e.getY() < getHeight() - margin - labelPadding) {
+                int totalXPadding = (labelPadding - leftPadding) + (yAxisLabel.isEmpty() ? 0 : axisLabelPadding);
+                int totalYPadding = labelPadding + (xAxisLabel.isEmpty() ? 0 : axisLabelPadding);
+                if (e.getX() > margin + totalXPadding && e.getX() < getWidth() - margin
+                        && e.getY() > margin && e.getY() < getHeight() - margin - totalYPadding) {
                     if (getCursor().getType() != Cursor.HAND_CURSOR) {
                         setCursor(new Cursor(Cursor.HAND_CURSOR));
                     }
@@ -202,6 +209,22 @@ public class PlotPanel2D extends JPanel {
         repaint();
     }
 
+    public void setXAxisLabel(String xAxisLabel) {
+        this.xAxisLabel = xAxisLabel != null ? xAxisLabel : "";
+        repaint();
+    }
+
+    public void setYAxisLabel(String yAxisLabel) {
+        this.yAxisLabel = yAxisLabel != null ? yAxisLabel : "";
+        repaint();
+    }
+
+    public void setAxisLabels(String xAxisLabel, String yAxisLabel) {
+        this.xAxisLabel = xAxisLabel != null ? xAxisLabel : "";
+        this.yAxisLabel = yAxisLabel != null ? yAxisLabel : "";
+        repaint();
+    }
+
     private void resetParameters() {
         if (dataSeriesList == null || dataSeriesList.isEmpty()) {
             return;
@@ -230,8 +253,11 @@ public class PlotPanel2D extends JPanel {
             maxY += 0.5;
         }
 
-        scaleX = ((double) getWidth() - 2 * margin - labelPadding) / xRange;
-        scaleY = ((double) getHeight() - 2 * margin - labelPadding) / yRange;
+        int totalXPadding = (labelPadding - leftPadding) + (yAxisLabel.isEmpty() ? 0 : axisLabelPadding);
+        int totalYPadding = labelPadding + (xAxisLabel.isEmpty() ? 0 : axisLabelPadding);
+
+        scaleX = ((double) getWidth() - 2 * margin - totalXPadding) / xRange;
+        scaleY = ((double) getHeight() - 2 * margin - totalYPadding) / yRange;
 
         zoomOut(getWidth() / 2, getHeight() / 2);
     }
@@ -239,16 +265,20 @@ public class PlotPanel2D extends JPanel {
     private void zoomIn(int mouseX, int mouseY) {
         scaleX *= 1.1;
         scaleY *= 1.1;
-        offsetX += ((getWidth() - 2 * margin - labelPadding) * 0.1 * mouseX / getWidth()) / scaleX;
-        offsetY -= ((getHeight() - 2 * margin - labelPadding) * 0.1 * mouseY / getHeight()) / scaleY;
+        int totalXPadding = (labelPadding - leftPadding) + (yAxisLabel.isEmpty() ? 0 : axisLabelPadding);
+        int totalYPadding = labelPadding + (xAxisLabel.isEmpty() ? 0 : axisLabelPadding);
+        offsetX += ((getWidth() - 2 * margin - totalXPadding) * 0.1 * mouseX / getWidth()) / scaleX;
+        offsetY -= ((getHeight() - 2 * margin - totalYPadding) * 0.1 * mouseY / getHeight()) / scaleY;
         repaint();
     }
 
     private void zoomOut(int mouseX, int mouseY) {
         scaleX /= 1.1;
         scaleY /= 1.1;
-        offsetX -= ((getWidth() - 2 * margin - labelPadding) * 0.1 * mouseX / getWidth()) / scaleX;
-        offsetY += ((getHeight() - 2 * margin - labelPadding) * 0.05 * mouseY / getHeight()) / scaleY;
+        int totalXPadding = (labelPadding - leftPadding) + (yAxisLabel.isEmpty() ? 0 : axisLabelPadding);
+        int totalYPadding = labelPadding + (xAxisLabel.isEmpty() ? 0 : axisLabelPadding);
+        offsetX -= ((getWidth() - 2 * margin - totalXPadding) * 0.1 * mouseX / getWidth()) / scaleX;
+        offsetY += ((getHeight() - 2 * margin - totalYPadding) * 0.05 * mouseY / getHeight()) / scaleY;
         repaint();
     }
 
@@ -285,105 +315,213 @@ public class PlotPanel2D extends JPanel {
 
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+        g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+        g2.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+        g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
 
         if (!dataSeriesSet || dataSeriesList == null || dataSeriesList.isEmpty()) {
             return;
         }
 
-        int chartWidth = getWidth() - 2 * margin - labelPadding;
-        int chartHeight = getHeight() - 2 * margin - labelPadding;
+        // Calculate dynamic padding based on axis values
+        int[] padding = calculateTotalPadding(g2);
+        int totalXPadding = padding[0];
+        int totalYPadding = padding[1];
+        
+        // Get font metrics for label drawing
+        FontMetrics metrics = g2.getFontMetrics();
+
+        int chartWidth = getWidth() - 2 * margin - totalXPadding;
+        int chartHeight = getHeight() - 2 * margin - totalYPadding;
 
         int numberYDivisions = chartHeight / divisionPixelSize;
         int numberXDivisions = chartWidth / divisionPixelSize;
 
         // Draw white background
-        g.setColor(bgColor);
-        g.fillRect(margin + labelPadding, margin, chartWidth, chartHeight);
-        g.setColor(axisColor);
+        g2.setColor(bgColor);
+        g2.fillRect(margin + totalXPadding, margin, chartWidth, chartHeight);
+        g2.setColor(axisColor);
 
         // Draw the axes
-        g.drawLine(margin + labelPadding, getHeight() - margin - labelPadding, margin + labelPadding, margin);
-        g.drawLine(margin + labelPadding, getHeight() - margin - labelPadding, getWidth() - margin, getHeight() - margin - labelPadding);
+        g2.drawLine(margin + totalXPadding, getHeight() - margin - totalYPadding, margin + totalXPadding, margin);
+        g2.drawLine(margin + totalXPadding, getHeight() - margin - totalYPadding, getWidth() - margin, getHeight() - margin - totalYPadding);
 
         // Draw grid lines and labels for y-axis
         for (int i = 0; i <= numberYDivisions; i++) {
-            int x0 = margin + labelPadding;
-            int x1 = pointWidth + margin + labelPadding;
-            int y0 = getHeight() - (i * divisionPixelSize + margin + labelPadding);
+            int x0 = margin + totalXPadding;
+            int x1 = pointWidth + margin + totalXPadding;
+            int y0 = getHeight() - (i * divisionPixelSize + margin + totalYPadding);
             int y1 = y0;
             if (!dataSeriesList.isEmpty()) {
-                g.setColor(gridColor);
-                g.drawLine(margin + labelPadding + 1 + pointWidth, y0, getWidth() - margin, y1);
-                g.setColor(textColor);
+                g2.setColor(gridColor);
+                g2.drawLine(margin + totalXPadding + 1 + pointWidth, y0, getWidth() - margin, y1);
+                g2.setColor(textColor);
                 String yLabel = String.format("%.2f",
                         (minY + (maxY - minY) + offsetY - chartHeight / scaleY + (i * divisionPixelSize) / scaleY));
-                FontMetrics metrics = g.getFontMetrics();
                 int labelWidth = metrics.stringWidth(yLabel);
-                g.drawString(yLabel, x0 - labelWidth - 5, y0 + (metrics.getHeight() / 2) - 3);
+                g2.drawString(yLabel, x0 - labelWidth - 5, y0 + (metrics.getHeight() / 2) - 3);
             }
-            g.drawLine(x0, y0, x1, y1);
+            g2.drawLine(x0, y0, x1, y1);
         }
 
         // Draw grid lines and labels for x-axis
         for (int i = 0; i <= numberXDivisions; i++) {
-            int y0 = getHeight() - margin - labelPadding;
+            int y0 = getHeight() - margin - totalYPadding;
             int y1 = y0 - pointWidth;
-            int x0 = i * divisionPixelSize + margin + labelPadding;
+            int x0 = i * divisionPixelSize + margin + totalXPadding;
             int x1 = x0;
             if (!dataSeriesList.isEmpty()) {
-                g.setColor(gridColor);
-                g.drawLine(x0, getHeight() - margin - labelPadding - 1 - pointWidth, x1, margin);
-                g.setColor(textColor);
+                g2.setColor(gridColor);
+                g2.drawLine(x0, getHeight() - margin - totalYPadding - 1 - pointWidth, x1, margin);
+                g2.setColor(textColor);
                 String xLabel = String.format("%.2f", (minX + offsetX + (i * divisionPixelSize) / scaleX));
-                FontMetrics metrics = g.getFontMetrics();
                 int labelWidth = metrics.stringWidth(xLabel);
-                g.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3);
+                g2.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3);
             }
-            g.drawLine(x0, y0, x1, y1);
+            g2.drawLine(x0, y0, x1, y1);
         }
 
-        g.setClip(margin + labelPadding, margin, chartWidth, chartHeight);
+        g2.setClip(margin + totalXPadding, margin, chartWidth, chartHeight);
 
         // Draw points for each data series
         for (DataSeries series : dataSeriesList) {
             if (series.isConnected()) {
-                Integer lastX = null, lastY = null;
-                g.setColor(series.getColor());
+                g2.setColor(series.getColor());
+                
+                // Set line thickness with smooth stroke
+                BasicStroke stroke = new BasicStroke(
+                    series.getLineThickness(),
+                    BasicStroke.CAP_ROUND,     // Round line caps for smoother appearance
+                    BasicStroke.JOIN_ROUND     // Round line joins for smoother appearance
+                );
+                g2.setStroke(stroke);
+                
+                // Use Path2D for smoother line drawing with floating point coordinates
+                java.awt.geom.Path2D.Double path = new java.awt.geom.Path2D.Double();
+                boolean firstPoint = true;
+                
                 for (Point2D point : series.getPoints()) {
-                    int x = (int) ((point.getX() - minX - offsetX) * scaleX + margin + labelPadding);
-                    int y = (int) ((maxY - point.getY() + offsetY) * scaleY + margin);
-                    if (lastX != null && lastY != null && (isOnDiagram(x, y) || isOnDiagram(lastX, lastY))) {
-                        g.drawLine(lastX, lastY, x, y);
+                    double x = (point.getX() - minX - offsetX) * scaleX + margin + totalXPadding;
+                    double y = (maxY - point.getY() + offsetY) * scaleY + margin;
+                    
+                    if (firstPoint) {
+                        path.moveTo(x, y);
+                        firstPoint = false;
+                    } else {
+                        path.lineTo(x, y);
                     }
-                    if (series.hasBullets()) {
-                        g.fillOval(x - pointWidth / 2, y - pointWidth / 2, pointWidth, pointWidth);
-                    }
-                    lastX = x;
-                    lastY = y;
                 }
+                
+                // Draw the smooth path
+                g2.draw(path);
+                
+                // Draw bullets if needed
+                if (series.hasBullets()) {
+                    int nodeSize = series.getNodeSize();
+                    for (Point2D point : series.getPoints()) {
+                        double x = (point.getX() - minX - offsetX) * scaleX + margin + totalXPadding;
+                        double y = (maxY - point.getY() + offsetY) * scaleY + margin;
+                        if (isOnDiagram((int)x, (int)y)) {
+                            g2.fillOval((int)(x - nodeSize / 2.0), (int)(y - nodeSize / 2.0), nodeSize, nodeSize);
+                        }
+                    }
+                }
+                
+                // Reset stroke to default
+                g2.setStroke(new BasicStroke(1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
             } else {
-                g.setColor(series.getColor());
+                g2.setColor(series.getColor());
+                int nodeSize = series.getNodeSize();
                 for (Point2D point : series.getPoints()) {
-                    int x = (int) ((point.getX() - minX - offsetX) * scaleX + margin + labelPadding);
-                    int y = (int) ((maxY - point.getY() + offsetY) * scaleY + margin);
-                    if (isOnDiagram(x, y)) {
-                        g.fillOval(x - pointWidth / 2, y - pointWidth / 2, pointWidth, pointWidth);
+                    double x = (point.getX() - minX - offsetX) * scaleX + margin + totalXPadding;
+                    double y = (maxY - point.getY() + offsetY) * scaleY + margin;
+                    if (isOnDiagram((int)x, (int)y)) {
+                        g2.fillOval((int)(x - nodeSize / 2.0), (int)(y - nodeSize / 2.0), nodeSize, nodeSize);
                     }
                 }
             }
         }
 
-        g.setClip(null);
+        g2.setClip(null);
+
+        // Draw axis labels
+        drawAxisLabels(g2);
 
         // Draw legend
-        drawLegend(g, margin);
+        drawLegend(g2, margin);
+    }
+
+    private void drawAxisLabels(Graphics2D g2) {
+        // Save original font
+        Font originalFont = g2.getFont();
+        
+        // Create larger, bold font for axis labels
+        Font axisLabelFont = new Font(originalFont.getName(), Font.BOLD, originalFont.getSize() + 4);
+        g2.setFont(axisLabelFont);
+        g2.setColor(textColor);
+        
+        FontMetrics metrics = g2.getFontMetrics();
+        
+        // Draw X-axis label (horizontal, at bottom)
+        if (!xAxisLabel.isEmpty()) {
+            // Use dynamic padding calculation for consistency
+            int[] padding = calculateTotalPadding(g2);
+            int totalXPadding = padding[0];
+            int chartWidth = getWidth() - 2 * margin - totalXPadding;
+            int labelWidth = metrics.stringWidth(xAxisLabel);
+            int x = margin + totalXPadding + (chartWidth - labelWidth) / 2;
+            int y = getHeight() - 45; // Moved closer to bottom (was 70)
+            g2.drawString(xAxisLabel, x, y);
+        }
+        
+        // Draw Y-axis label (vertical, at left)
+        if (!yAxisLabel.isEmpty()) {
+            // Use dynamic padding calculation for consistency
+            int[] padding = calculateTotalPadding(g2);
+            int totalYPadding = padding[1];
+            int chartHeight = getHeight() - 2 * margin - totalYPadding;
+            
+            // Save the current transform
+            java.awt.geom.AffineTransform oldTransform = g2.getTransform();
+            
+            // Calculate position for vertical text
+            int labelWidth = metrics.stringWidth(yAxisLabel);
+            int x = 25; // Reduced padding by another 5 pixels (was 30)
+            int y = margin + (chartHeight + labelWidth) / 2;
+            
+            // Rotate and draw the text
+            g2.translate(x, y);
+            g2.rotate(-Math.PI / 2);
+            g2.drawString(yAxisLabel, 0, 0);
+            
+            // Restore the original transform
+            g2.setTransform(oldTransform);
+        }
+        
+        // Restore original font
+        g2.setFont(originalFont);
     }
 
     private boolean isOnDiagram(int x, int y) {
-        return x >= margin + labelPadding && x <= getWidth() - margin && y >= margin && y <= getHeight() - margin - labelPadding;
+        // Use Graphics2D to get consistent padding calculation
+        Graphics2D g2 = (Graphics2D) getGraphics();
+        if (g2 == null) {
+            // Fallback to simple calculation if graphics not available
+            int totalXPadding = labelPadding + (yAxisLabel.isEmpty() ? 0 : axisLabelPadding);
+            int totalYPadding = labelPadding + (xAxisLabel.isEmpty() ? 0 : axisLabelPadding);
+            return x >= margin + totalXPadding && x <= getWidth() - margin && y >= margin && y <= getHeight() - margin - totalYPadding;
+        }
+        
+        int[] padding = calculateTotalPadding(g2);
+        int totalXPadding = padding[0];
+        int totalYPadding = padding[1];
+        return x >= margin + totalXPadding && x <= getWidth() - margin && y >= margin && y <= getHeight() - margin - totalYPadding;
     }
 
-    private void drawLegend(Graphics g, int padding) {
+    private void drawLegend(Graphics2D g, int padding) {
         int labelWidth = 0;
         for (DataSeries series : dataSeriesList) {
             labelWidth = (int) Math.max(labelWidth, g.getFontMetrics().getStringBounds(series.getName(), g).getWidth());
@@ -426,5 +564,42 @@ public class PlotPanel2D extends JPanel {
             );
             scatterPlotPanel.setDataSeries(dataSeriesList);
         });
+    }
+
+    private int calculateMaxYLabelWidth(FontMetrics metrics) {
+        if (!dataSeriesSet || dataSeriesList == null || dataSeriesList.isEmpty()) {
+            return 0;
+        }
+        
+        int maxWidth = 0;
+        int estimatedDivisions = Math.max(1, (getHeight() - 2 * margin) / divisionPixelSize);
+        
+        for (int i = 0; i <= estimatedDivisions; i++) {
+            double yValue = minY + offsetY + (i * divisionPixelSize) / scaleY;
+            String yLabel = String.format("%.2f", yValue);
+            int width = metrics.stringWidth(yLabel);
+            maxWidth = Math.max(maxWidth, width);
+        }
+        
+        return maxWidth + 10; // Add some padding
+    }
+    
+    private int calculateMaxXLabelHeight(FontMetrics metrics) {
+        return metrics.getHeight() + 5; // Height plus some padding
+    }
+    
+    private int[] calculateTotalPadding(Graphics2D g2) {
+        FontMetrics metrics = g2.getFontMetrics();
+        int maxYLabelWidth = calculateMaxYLabelWidth(metrics);
+        int maxXLabelHeight = calculateMaxXLabelHeight(metrics);
+        
+        // If axis labels are set, use axisLabelPadding, otherwise use dynamic padding
+        int yAxisSpace = yAxisLabel.isEmpty() ? maxYLabelWidth : axisLabelPadding;
+        int xAxisSpace = xAxisLabel.isEmpty() ? maxXLabelHeight : axisLabelPadding;
+        
+        int totalXPadding = (labelPadding - leftPadding) + yAxisSpace;
+        int totalYPadding = labelPadding + xAxisSpace;
+        
+        return new int[]{totalXPadding, totalYPadding};
     }
 }

@@ -15,7 +15,7 @@ import javax.swing.*;
 import volgyerdo.test.ui.DataSeries;
 import volgyerdo.test.ui.PlotPanel2D;
 import volgyerdo.value.logic.method.assembly.AssemblyMeasure;
-import volgyerdo.value.logic.method.assembly.GeneralAssembly;
+import volgyerdo.value.logic.method.assembly.InfoBasedAssembly;
 
 public class AssemblyInfoTheoreticTest {
 
@@ -41,7 +41,7 @@ public class AssemblyInfoTheoreticTest {
 
     // Mérők
     private final AssemblyMeasure assembly = new AssemblyMeasure();
-    private final GeneralAssembly generalAssembly = new GeneralAssembly();
+    private final InfoBasedAssembly infoBasedAssembly = new InfoBasedAssembly();
 
     private final Random rng = new Random(SEED);
 
@@ -82,9 +82,9 @@ public class AssemblyInfoTheoreticTest {
         
         // Create plot panels
         PlotPanel2D assemblyBinomialPlot = new PlotPanel2D();
-        PlotPanel2D generalAssemblyBinomialPlot = new PlotPanel2D();
+        PlotPanel2D infoBasedAssemblyBinomialPlot = new PlotPanel2D();
         PlotPanel2D assemblyDirichletPlot = new PlotPanel2D();
-        PlotPanel2D generalAssemblyDirichletPlot = new PlotPanel2D();
+        PlotPanel2D infoBasedAssemblyDirichletPlot = new PlotPanel2D();
         
         // Create panels for side-by-side display
         JPanel binomialPanel = new JPanel(new GridLayout(1, 2));
@@ -94,7 +94,7 @@ public class AssemblyInfoTheoreticTest {
         leftBinomial.add(assemblyBinomialPlot, BorderLayout.CENTER);
         JPanel rightBinomial = new JPanel(new BorderLayout());
         rightBinomial.setBorder(BorderFactory.createTitledBorder("General Assembly"));
-        rightBinomial.add(generalAssemblyBinomialPlot, BorderLayout.CENTER);
+        rightBinomial.add(infoBasedAssemblyBinomialPlot, BorderLayout.CENTER);
         binomialPanel.add(leftBinomial);
         binomialPanel.add(rightBinomial);
         
@@ -105,7 +105,7 @@ public class AssemblyInfoTheoreticTest {
         leftDirichlet.add(assemblyDirichletPlot, BorderLayout.CENTER);
         JPanel rightDirichlet = new JPanel(new BorderLayout());
         rightDirichlet.setBorder(BorderFactory.createTitledBorder("General Assembly"));
-        rightDirichlet.add(generalAssemblyDirichletPlot, BorderLayout.CENTER);
+        rightDirichlet.add(infoBasedAssemblyDirichletPlot, BorderLayout.CENTER);
         dirichletPanel.add(leftDirichlet);
         dirichletPanel.add(rightDirichlet);
         
@@ -131,47 +131,54 @@ public class AssemblyInfoTheoreticTest {
                 try {
                     // Create data series for plots
                     List<DataSeries> assemblyBinomialSeries = new ArrayList<>();
-                    List<DataSeries> generalAssemblyBinomialSeries = new ArrayList<>();
+                    List<DataSeries> infoBasedAssemblyBinomialSeries = new ArrayList<>();
                     List<DataSeries> assemblyDirichletSeries = new ArrayList<>();
-                    List<DataSeries> generalAssemblyDirichletSeries = new ArrayList<>();
+                    List<DataSeries> infoBasedAssemblyDirichletSeries = new ArrayList<>();
                     
                     // Bernoulli results
                     List<Point2D> assemblyBinomialPoints = new ArrayList<>();
-                    List<Point2D> generalAssemblyBinomialPoints = new ArrayList<>();
+                    List<Point2D> infoBasedAssemblyBinomialPoints = new ArrayList<>();
 
                     for (Point2D.Double point : pointsA_binomial) {
                         assemblyBinomialPoints.add(new Point2D.Double(point.x, point.y));
                     }
                     for (Point2D.Double point : pointsAG_binomial) {
-                        generalAssemblyBinomialPoints.add(new Point2D.Double(point.x, point.y));
+                        infoBasedAssemblyBinomialPoints.add(new Point2D.Double(point.x, point.y));
                     }
                     
-                    // Print generalAssemblyBinomialPoints values
-                    System.out.println("\ngeneralAssemblyBinomialPoints értékei:");
-                    for (int i = 0; i < generalAssemblyBinomialPoints.size(); i++) {
-                        Point2D point = generalAssemblyBinomialPoints.get(i);
+                    // Print infoBasedAssemblyBinomialPoints values
+                    System.out.println("\ninfoBasedAssemblyBinomialPoints értékei:");
+                    for (int i = 0; i < infoBasedAssemblyBinomialPoints.size(); i++) {
+                        Point2D point = infoBasedAssemblyBinomialPoints.get(i);
                         System.out.printf("[%d] H=%.6f, AG=%.6f%n", i, point.getX(), point.getY());
                     }
-                    assemblyBinomialSeries.add(new DataSeries("Assembly vs Entropy", assemblyBinomialPoints, Color.BLUE, true, true));
-                    generalAssemblyBinomialSeries.add(new DataSeries("General Assembly vs Entropy", generalAssemblyBinomialPoints, Color.RED, true, true));
+                    assemblyBinomialSeries.add(new DataSeries("Assembly vs Entropy", assemblyBinomialPoints, Color.BLUE, true, false));
+                    infoBasedAssemblyBinomialSeries.add(new DataSeries("Information-based Assembly vs Entropy", infoBasedAssemblyBinomialPoints, Color.RED, true, false));
                     
                     // Dirichlet results
                     List<Point2D> assemblyDirichletPoints = new ArrayList<>();
-                    List<Point2D> generalAssemblyDirichletPoints = new ArrayList<>();
+                    List<Point2D> infoBasedAssemblyDirichletPoints = new ArrayList<>();
                     for (Point2D.Double point : pointsA_dirichlet) {
                         assemblyDirichletPoints.add(new Point2D.Double(point.x, point.y));
                     }
                     for (Point2D.Double point : pointsAG_dirichlet) {
-                        generalAssemblyDirichletPoints.add(new Point2D.Double(point.x, point.y));
+                        infoBasedAssemblyDirichletPoints.add(new Point2D.Double(point.x, point.y));
                     }
                     assemblyDirichletSeries.add(new DataSeries("Assembly vs Entropy", assemblyDirichletPoints, Color.BLUE, true, true));
-                    generalAssemblyDirichletSeries.add(new DataSeries("General Assembly vs Entropy", generalAssemblyDirichletPoints, Color.RED, true, true));
+                    infoBasedAssemblyDirichletSeries.add(new DataSeries("Information-based Assembly vs Entropy", infoBasedAssemblyDirichletPoints, Color.RED, true, true));
                     
                     // Set data to plots
                     assemblyBinomialPlot.setDataSeries(assemblyBinomialSeries);
-                    generalAssemblyBinomialPlot.setDataSeries(generalAssemblyBinomialSeries);
+                    //assemblyBinomialPlot.setAxisLabels("Entropy (H)", "Assembly (A)");
+                    
+                    infoBasedAssemblyBinomialPlot.setDataSeries(infoBasedAssemblyBinomialSeries);
+                    infoBasedAssemblyBinomialPlot.setAxisLabels("Entropy (H)", "Information-based Assembly (IBA)");
+                    
                     assemblyDirichletPlot.setDataSeries(assemblyDirichletSeries);
-                    generalAssemblyDirichletPlot.setDataSeries(generalAssemblyDirichletSeries);
+                    assemblyDirichletPlot.setAxisLabels("Entropy (H)", "Assembly (A)");
+                    
+                    infoBasedAssemblyDirichletPlot.setDataSeries(infoBasedAssemblyDirichletSeries);
+                    infoBasedAssemblyDirichletPlot.setAxisLabels("Entropy (H)", "Information-based Assembly (IBA)");
                     
                     // Hide progress bar
                     progressBar.setVisible(false);
@@ -203,7 +210,7 @@ public class AssemblyInfoTheoreticTest {
 
             double a  = assembly.value(seq);
 
-            double ag = generalAssembly.value(seq);
+            double ag = infoBasedAssembly.value(seq);
 
             System.out.println("Bernoulli: H=" + H + " - A=" + a + " - AG=" + ag);
 
@@ -221,7 +228,7 @@ public class AssemblyInfoTheoreticTest {
             double H = entropyFromCounts(counts(seq));
 
             double a  = assembly.value(seq);
-            double ag = generalAssembly.value(seq);
+            double ag = infoBasedAssembly.value(seq);
 
             System.out.println("Dirichlet: H=" + H + " - A=" + a + " - AG=" + ag);
 

@@ -19,17 +19,25 @@ public class DataSeries {
     private Color color;
     private boolean connected;
     private boolean bullets;
+    private int lineThickness;
+    private int nodeSize;
 
     public DataSeries(String name, List<Point2D> points, Color color) {
-        this(name, points, color, false, true);
+        this(name, points, color, false, true, 1, 6);
     }
 
     public DataSeries(String name, List<Point2D> points, Color color, boolean connected, boolean bullets) {
+        this(name, points, color, connected, bullets, 1, 6);
+    }
+
+    public DataSeries(String name, List<Point2D> points, Color color, boolean connected, boolean bullets, int lineThickness, int nodeSize) {
         this.name = name;
         this.points = points;
         this.color = color;
         this.connected = connected;
         this.bullets = connected ? bullets : true;
+        this.lineThickness = lineThickness;
+        this.nodeSize = nodeSize;
     }
 
     public String getName() {
@@ -54,6 +62,14 @@ public class DataSeries {
 
     public boolean hasBullets() {
         return bullets;
+    }
+
+    public int getLineThickness() {
+        return lineThickness;
+    }
+
+    public int getNodeSize() {
+        return nodeSize;
     }
 
     
