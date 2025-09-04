@@ -712,15 +712,21 @@ public class PlotPanel2D extends JPanel {
             // Save the current transform
             java.awt.geom.AffineTransform oldTransform = g2.getTransform();
             
+            // Create the display label with log scale indicator if needed
+            String displayLabel = yAxisLabel;
+            if (yScaleType == ScaleType.LOGARITHMIC) {
+                displayLabel = yAxisLabel + " [log scale]";
+            }
+            
             // Calculate position for vertical text
-            int labelWidth = metrics.stringWidth(yAxisLabel);
+            int labelWidth = metrics.stringWidth(displayLabel);
             int x = 25; // Reduced padding by another 5 pixels (was 30)
             int y = margin + (chartHeight + labelWidth) / 2;
             
             // Rotate and draw the text
             g2.translate(x, y);
             g2.rotate(-Math.PI / 2);
-            g2.drawString(yAxisLabel, 0, 0);
+            g2.drawString(displayLabel, 0, 0);
             
             // Restore the original transform
             g2.setTransform(oldTransform);
@@ -875,7 +881,7 @@ public class PlotPanel2D extends JPanel {
                 
                 // Draw label
                 if (label != null) {
-                    g2.setColor(textColor);
+                    g2.setColor(Color.BLACK); // Always black for log scale labels
                     int labelWidth = metrics.stringWidth(label);
                     g2.drawString(label, x0 - labelWidth - 5, y0 + (metrics.getHeight() / 2) - 3);
                 }
@@ -891,7 +897,7 @@ public class PlotPanel2D extends JPanel {
                 
                 // Draw intermediate label if provided
                 if (label != null) {
-                    g2.setColor(new Color(120, 120, 120)); // Darker gray for intermediate labels
+                    g2.setColor(Color.BLACK); // Always black for log scale labels
                     int labelWidth = metrics.stringWidth(label);
                     g2.drawString(label, x0 - labelWidth - 5, y0 + (metrics.getHeight() / 2) - 3);
                 }
