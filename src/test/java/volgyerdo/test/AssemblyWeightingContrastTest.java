@@ -10,10 +10,10 @@ import java.awt.geom.Point2D;
 import java.awt.*;
 import javax.swing.*;
 
+import volgyerdo.test.ui.DataSeries;
+import volgyerdo.test.ui.PlotPanel2D;
 import volgyerdo.value.logic.method.assembly.AssemblyMeasure;
 import volgyerdo.value.logic.method.assembly.GeneralAssembly;
-import volgyerdo.value.ui.PlotPanel2D;
-import volgyerdo.value.ui.DataSeries;
 
 public class AssemblyWeightingContrastTest  {
 

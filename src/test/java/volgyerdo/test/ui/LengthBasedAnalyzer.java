@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package volgyerdo.value.ui;
+package volgyerdo.test.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -381,7 +381,7 @@ public class LengthBasedAnalyzer extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        plot = new volgyerdo.value.ui.PlotPanel2D();
+        plot = new volgyerdo.test.ui.PlotPanel2D();
         west = new javax.swing.JPanel();
         tabs = new javax.swing.JTabbedPane();
         settingsPanel = new javax.swing.JPanel();
@@ -591,7 +591,7 @@ public class LengthBasedAnalyzer extends javax.swing.JPanel {
     private javax.swing.JLabel filler;
     private javax.swing.JSpinner maxLength;
     private javax.swing.JLabel maxLengthLabel;
-    private volgyerdo.value.ui.PlotPanel2D plot;
+    private volgyerdo.test.ui.PlotPanel2D plot;
     private javax.swing.JProgressBar progress;
     private javax.swing.JLabel repetitivenessLabel;
     private javax.swing.JSlider repetitivenessSlider;

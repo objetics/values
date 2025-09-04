@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package volgyerdo.value.ui;
+package volgyerdo.test.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -142,8 +142,8 @@ public class AssemblyComparison extends javax.swing.JFrame {
 
         progress = new javax.swing.JProgressBar();
         tabs = new javax.swing.JTabbedPane();
-        plotFixPhi = new volgyerdo.value.ui.PlotPanel2D();
-        PlotChangingPhi = new volgyerdo.value.ui.PlotPanel2D();
+        plotFixPhi = new volgyerdo.test.ui.PlotPanel2D();
+        PlotChangingPhi = new volgyerdo.test.ui.PlotPanel2D();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -200,8 +200,8 @@ public class AssemblyComparison extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private volgyerdo.value.ui.PlotPanel2D PlotChangingPhi;
-    private volgyerdo.value.ui.PlotPanel2D plotFixPhi;
+    private volgyerdo.test.ui.PlotPanel2D PlotChangingPhi;
+    private volgyerdo.test.ui.PlotPanel2D plotFixPhi;
     private javax.swing.JProgressBar progress;
     private javax.swing.JTabbedPane tabs;
     // End of variables declaration//GEN-END:variables
