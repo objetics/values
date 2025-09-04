@@ -44,8 +44,12 @@ public class RLEInfo implements Information {
 
     @Override
     public double value(byte[] input) {
-        if (input == null || input.length <= 1) {
+        if (input == null || input.length < 1) {
             return 0;
+        }
+
+        if( input.length == 1 ) {
+            return 1;
         }
         
         double rleInfo = calculateRleInfo(input);
@@ -59,9 +63,6 @@ public class RLEInfo implements Information {
     }
 
     private static double calculateRleInfo(byte[] input) {
-        if (input == null || input.length <= 1) {
-            return 0;
-        }
         
         byte[] rle = InfoUtils.performRleEncoding(input);
         Set<Byte> set = new HashSet<>();
@@ -74,8 +75,12 @@ public class RLEInfo implements Information {
 
     @Override
     public double value(Collection<?> values) {
-        if (values == null || values.size() <= 1) {
+        if (values == null || values.size() < 1) {
             return 0;
+        }
+
+        if( values.size() == 1 ) {
+            return 1;
         }
         
         Object[] input = values.toArray();
@@ -90,9 +95,6 @@ public class RLEInfo implements Information {
     }
 
     private static double calculateRleInfo(Object[] input) {
-        if (input == null || input.length <= 1) {
-            return 0;
-        }
         
         List<Object> rle = InfoUtils.performRleEncoding(input);
         Set<Object> set = new HashSet<>(rle);

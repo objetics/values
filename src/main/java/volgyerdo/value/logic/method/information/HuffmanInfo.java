@@ -14,6 +14,8 @@ import java.util.PriorityQueue;
 import java.util.HashMap;
 import volgyerdo.value.structure.Information;
 import volgyerdo.value.structure.BaseValue;
+import volgyerdo.value.logic.method.util.InfoNormalizer;
+import volgyerdo.value.logic.method.util.InfoUtils;
 import java.util.Map;
 
 @BaseValue(
@@ -43,6 +45,22 @@ public class HuffmanInfo implements Information {
         if (values == null || values.length < 1) {
             return 0;
         }
+        
+        if (values.length == 1) {
+            return 1;
+        }
+        
+        double huffmanInfo = calculateHuffmanInfo(values);
+        
+        // Calculate min and max Huffman info for normalization
+        double minHuffmanInfo = calculateHuffmanInfo(new byte[values.length]); // All zeros
+        double maxHuffmanInfo = calculateHuffmanInfo(InfoUtils.generateRandomByteArray(values)); // Random sequence
+        
+        // Normalize the Huffman information between MinInfo and MaxInfo
+        return InfoNormalizer.normalizeInfo(huffmanInfo, minHuffmanInfo, maxHuffmanInfo, values);
+    }
+    
+    private double calculateHuffmanInfo(byte[] values) {
         ByteNode root = buildHuffmanTree(values);
         Map<Byte, Integer> codeTable = new HashMap<>();
         buildCodeTable(codeTable, root, new StringBuilder());
@@ -115,10 +133,27 @@ public class HuffmanInfo implements Information {
     
     @Override
     public double value(Collection<?> values) {
-        if (values == null || values.size() <= 1) {
+        if (values == null || values.size() < 1) {
             return 0;
         }
-        Node root = buildHuffmanTree(values);
+        
+        if (values.size() == 1) {
+            return 1;
+        }
+        
+        Object[] input = values.toArray();
+        double huffmanInfo = calculateHuffmanInfo(input);
+        
+        // Calculate min and max Huffman info for normalization
+        double minHuffmanInfo = calculateHuffmanInfo(new Object[values.size()]); // All nulls
+        double maxHuffmanInfo = calculateHuffmanInfo(InfoUtils.generateRandomObjectArray(values)); // Random sequence
+        
+        // Normalize the Huffman information between MinInfo and MaxInfo
+        return InfoNormalizer.normalizeInfo(huffmanInfo, minHuffmanInfo, maxHuffmanInfo, values);
+    }
+    
+    private double calculateHuffmanInfo(Object[] values) {
+        Node root = buildHuffmanTree(java.util.Arrays.asList(values));
         Map<Object, Integer> codeTable = new HashMap<>();
         buildCodeTable(codeTable, root, new StringBuilder());
         long info = 0;

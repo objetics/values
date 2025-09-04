@@ -42,16 +42,24 @@ public class GZIPInfo implements Information {
     
     @Override
     public double value(String values) {
-        if (values == null || values.length() <= 1) {
+        if (values == null || values.length() < 1) {
             return 0;
+        }
+
+        if( values.length() == 1 ) {
+            return 1;
         }
         return value(values.getBytes());
     }
 
     @Override
     public double value(byte[] values) {
-        if (values == null || values.length <= 1) {
+        if (values == null || values.length < 1) {
             return 0;
+        }
+
+        if( values.length == 1 ) {
+            return 1;
         }
         double gzipInfo = ArrayUtils.toGZIP(values).length * 8;
         double minGzipInfo = ArrayUtils.toGZIP(new byte[values.length]).length * 8;
@@ -62,8 +70,12 @@ public class GZIPInfo implements Information {
 
     @Override
     public double value(Collection<?> input) {
-        if (input == null || input.size() <= 1) {
+        if (input == null || input.size() < 1) {
             return 0;
+        }
+
+        if( input.size() == 1 ) {
+            return 1;
         }
         byte[] values = ObjectUtils.serialize(input);
         double gzipInfo = ArrayUtils.toGZIP(values).length * 8;

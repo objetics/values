@@ -34,6 +34,7 @@ import volgyerdo.value.structure.BaseValue;
 public class RLEShannonInfo implements Information {
 
     private final ShannonInfo shannon = new ShannonInfo();
+    private final MaxInfo maxInfo = new MaxInfo();
 
     @Override
     public String name() {
@@ -74,7 +75,7 @@ public class RLEShannonInfo implements Information {
             }
         }
 
-        return shannon.value(rle);
+        return Math.min(shannon.value(rle), maxInfo.value(input));
     }
     
 
@@ -114,6 +115,6 @@ public class RLEShannonInfo implements Information {
             }
         }
 
-        return shannon.value(rle);
+        return Math.min(shannon.value(rle), maxInfo.value(values));
     }
 }

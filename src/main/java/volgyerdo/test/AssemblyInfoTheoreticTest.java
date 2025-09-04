@@ -138,11 +138,19 @@ public class AssemblyInfoTheoreticTest {
                     // Bernoulli results
                     List<Point2D> assemblyBinomialPoints = new ArrayList<>();
                     List<Point2D> generalAssemblyBinomialPoints = new ArrayList<>();
+
                     for (Point2D.Double point : pointsA_binomial) {
                         assemblyBinomialPoints.add(new Point2D.Double(point.x, point.y));
                     }
                     for (Point2D.Double point : pointsAG_binomial) {
                         generalAssemblyBinomialPoints.add(new Point2D.Double(point.x, point.y));
+                    }
+                    
+                    // Print generalAssemblyBinomialPoints values
+                    System.out.println("\ngeneralAssemblyBinomialPoints értékei:");
+                    for (int i = 0; i < generalAssemblyBinomialPoints.size(); i++) {
+                        Point2D point = generalAssemblyBinomialPoints.get(i);
+                        System.out.printf("[%d] H=%.6f, AG=%.6f%n", i, point.getX(), point.getY());
                     }
                     assemblyBinomialSeries.add(new DataSeries("Assembly vs Entropy", assemblyBinomialPoints, Color.BLUE, true, true));
                     generalAssemblyBinomialSeries.add(new DataSeries("General Assembly vs Entropy", generalAssemblyBinomialPoints, Color.RED, true, true));
@@ -194,6 +202,7 @@ public class AssemblyInfoTheoreticTest {
             double H = entropyFromCounts(counts(seq)); // empirikus entrópia (bit/szimbólum)
 
             double a  = assembly.value(seq);
+
             double ag = generalAssembly.value(seq);
 
             System.out.println("Bernoulli: H=" + H + " - A=" + a + " - AG=" + ag);
