@@ -24,6 +24,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+
+import volgyerdo.commons.diagram.DataSeries;
 import volgyerdo.value.logic.ValueLogic;
 import volgyerdo.value.structure.Value;
 
@@ -381,7 +383,7 @@ public class LengthBasedAnalyzer extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        plot = new volgyerdo.test.ui.PlotPanel2D();
+        plot = new volgyerdo.commons.diagram.PlotPanel2D();
         west = new javax.swing.JPanel();
         tabs = new javax.swing.JTabbedPane();
         settingsPanel = new javax.swing.JPanel();
@@ -591,7 +593,7 @@ public class LengthBasedAnalyzer extends javax.swing.JPanel {
     private javax.swing.JLabel filler;
     private javax.swing.JSpinner maxLength;
     private javax.swing.JLabel maxLengthLabel;
-    private volgyerdo.test.ui.PlotPanel2D plot;
+    private volgyerdo.commons.diagram.PlotPanel2D plot;
     private javax.swing.JProgressBar progress;
     private javax.swing.JLabel repetitivenessLabel;
     private javax.swing.JSlider repetitivenessSlider;

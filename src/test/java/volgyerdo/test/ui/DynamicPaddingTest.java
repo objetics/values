@@ -5,6 +5,9 @@ import java.awt.geom.Point2D;
 import java.util.List;
 import javax.swing.*;
 
+import volgyerdo.commons.diagram.DataSeries;
+import volgyerdo.commons.diagram.PlotPanel2D;
+
 public class DynamicPaddingTest {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

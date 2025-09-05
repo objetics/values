@@ -12,8 +12,8 @@ import java.awt.geom.Point2D;
 import java.awt.*;
 import javax.swing.*;
 
-import volgyerdo.test.ui.DataSeries;
-import volgyerdo.test.ui.PlotPanel2D;
+import volgyerdo.commons.diagram.DataSeries;
+import volgyerdo.commons.diagram.PlotPanel2D;
 import volgyerdo.value.logic.method.assembly.AssemblyMeasure;
 import volgyerdo.value.logic.method.assembly.InfoBasedAssembly;
 
@@ -239,6 +239,13 @@ public class AssemblyInfoTheoreticTest {
         for (double alpha : ALPHAS) {
             double[] probs = sampleDirichlet(equalAlpha(alpha, K), rng);
             List<String> seq = sampleDiscrete(N, makeAlphabet(K), probs, rng);
+
+            System.out.println("Dirichlet");
+            for(String s : seq) {
+                System.out.print(s + " ");
+            }
+            System.out.println();
+            System.out.println();
 
             double H = entropyFromCounts(counts(seq));
 

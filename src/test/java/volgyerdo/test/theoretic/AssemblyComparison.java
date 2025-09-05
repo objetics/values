@@ -17,8 +17,8 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
-import volgyerdo.test.ui.DataSeries;
-import volgyerdo.test.ui.PlotPanel2D;
+import volgyerdo.commons.diagram.DataSeries;
+import volgyerdo.commons.diagram.PlotPanel2D;
 
 /**
  *
@@ -243,10 +243,10 @@ public class AssemblyComparison extends javax.swing.JFrame {
 
         progress = new javax.swing.JProgressBar();
         tabs = new javax.swing.JTabbedPane();
-        plotFixPhi = new volgyerdo.test.ui.PlotPanel2D();
-        plotFixPhi2 = new volgyerdo.test.ui.PlotPanel2D();
-        PlotChangingPhi = new volgyerdo.test.ui.PlotPanel2D();
-        PlotChangingPhi2 = new volgyerdo.test.ui.PlotPanel2D();
+        plotFixPhi = new volgyerdo.commons.diagram.PlotPanel2D();
+        plotFixPhi2 = new volgyerdo.commons.diagram.PlotPanel2D();
+        PlotChangingPhi = new volgyerdo.commons.diagram.PlotPanel2D();
+        PlotChangingPhi2 = new volgyerdo.commons.diagram.PlotPanel2D();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -312,10 +312,10 @@ public class AssemblyComparison extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private volgyerdo.test.ui.PlotPanel2D PlotChangingPhi;
-    private volgyerdo.test.ui.PlotPanel2D PlotChangingPhi2;
-    private volgyerdo.test.ui.PlotPanel2D plotFixPhi;
-    private volgyerdo.test.ui.PlotPanel2D plotFixPhi2;
+    private volgyerdo.commons.diagram.PlotPanel2D PlotChangingPhi;
+    private volgyerdo.commons.diagram.PlotPanel2D PlotChangingPhi2;
+    private volgyerdo.commons.diagram.PlotPanel2D plotFixPhi;
+    private volgyerdo.commons.diagram.PlotPanel2D plotFixPhi2;
     private javax.swing.JProgressBar progress;
     private javax.swing.JTabbedPane tabs;
     // End of variables declaration//GEN-END:variables

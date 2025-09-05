@@ -20,6 +20,8 @@ import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+
+import volgyerdo.commons.diagram.DataSeries;
 import volgyerdo.value.logic.ValueLogic;
 import volgyerdo.value.structure.Value;
 
@@ -270,7 +272,7 @@ public class SetBasedAnalyzer extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        plot = new volgyerdo.test.ui.PlotPanel2D();
+        plot = new volgyerdo.commons.diagram.PlotPanel2D();
         west = new javax.swing.JPanel();
         tabs = new javax.swing.JTabbedPane();
         settingsPanel = new javax.swing.JPanel();
@@ -394,7 +396,7 @@ public class SetBasedAnalyzer extends javax.swing.JPanel {
     private javax.swing.JLabel filler;
     private javax.swing.JSpinner length;
     private javax.swing.JLabel maxLengthLabel;
-    private volgyerdo.test.ui.PlotPanel2D plot;
+    private volgyerdo.commons.diagram.PlotPanel2D plot;
     private javax.swing.JProgressBar progress;
     private javax.swing.JLabel randomnessLabel;
     private javax.swing.JSlider randomnessSlider;

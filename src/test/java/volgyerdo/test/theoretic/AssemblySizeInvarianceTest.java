@@ -11,8 +11,8 @@ import java.util.stream.IntStream;
 import java.awt.*;
 import javax.swing.*;
 
-import volgyerdo.test.ui.DataSeries;
-import volgyerdo.test.ui.PlotPanel2D;
+import volgyerdo.commons.diagram.DataSeries;
+import volgyerdo.commons.diagram.PlotPanel2D;
 import volgyerdo.value.logic.method.assembly.AssemblyMeasure;
 import volgyerdo.value.logic.method.assembly.GeneralAssembly;
 

@@ -1,6 +1,10 @@
 package volgyerdo.test.ui;
 
 import javax.swing.*;
+
+import volgyerdo.commons.diagram.DataSeries;
+import volgyerdo.commons.diagram.PlotPanel2D;
+
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.List;

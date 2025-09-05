@@ -10,8 +10,8 @@ import java.awt.geom.Point2D;
 import java.awt.*;
 import javax.swing.*;
 
-import volgyerdo.test.ui.DataSeries;
-import volgyerdo.test.ui.PlotPanel2D;
+import volgyerdo.commons.diagram.DataSeries;
+import volgyerdo.commons.diagram.PlotPanel2D;
 import volgyerdo.value.logic.method.assembly.AssemblyMeasure;
 import volgyerdo.value.logic.method.assembly.GeneralAssembly;
 
@@ -208,11 +208,11 @@ public class AssemblyScalingTest {
                     generalAssemblyUniformPlot.setPlotTitle("IBA - Uniform Distribution");
                     
                     assemblyGrowingPlot.setDataSeries(assemblyGrowingSeries);
-                    assemblyGrowingPlot.setAxisLabels("Scale Factor", "Assembly (A)");
+                    assemblyGrowingPlot.setAxisLabels("Alphabet size", "Assembly (A)");
                     assemblyGrowingPlot.setPlotTitle("Assembly - Growing Alphabet");
                     
                     generalAssemblyGrowingPlot.setDataSeries(generalAssemblyGrowingSeries);
-                    generalAssemblyGrowingPlot.setAxisLabels("Scale Factor", "Information-based Assembly (IBA)");
+                    generalAssemblyGrowingPlot.setAxisLabels("Alphabet size", "Information-based Assembly (IBA)");
                     generalAssemblyGrowingPlot.setPlotTitle("IBA - Growing Alphabet");
                     
                     assemblyZipfPlot.setDataSeries(assemblyZipfSeries);
@@ -275,11 +275,11 @@ public class AssemblyScalingTest {
             // 2) Growing ABC: K ~ N^(1/3), de minimum 4
             int growingK = Math.max(4, (int)Math.floor(Math.cbrt(N)));
             System.out.println("2. Növekvő ábécé (K = " + growingK + ")");
-            List<String> seqGrowing = generateUniformSequence(N, growingK);
+            List<String> seqGrowing = generateUniformSequence(1000, growingK);
             double assemblyGrowing = assembly.value(seqGrowing);
             double generalAssemblyGrowing = generalAssembly.value(seqGrowing);
-            addPoint(pointsA_growing, N, assemblyGrowing);
-            addPoint(pointsAG_growing, N, generalAssemblyGrowing);
+            addPoint(pointsA_growing, growingK, assemblyGrowing);
+            addPoint(pointsAG_growing, growingK, generalAssemblyGrowing);
             System.out.printf("   Assembly (A): %.6f\n", assemblyGrowing);
             System.out.printf("   IBA: %.6f\n", generalAssemblyGrowing);
 
