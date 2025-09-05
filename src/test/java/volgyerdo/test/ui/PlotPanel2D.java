@@ -323,6 +323,19 @@ public class PlotPanel2D extends JPanel {
         return legendVisible;
     }
 
+    public void setYScaleType(ScaleType scaleType) {
+        this.yScaleType = scaleType;
+        if (yScaleCombo != null) {
+            yScaleCombo.setSelectedItem(scaleType);
+        }
+        resetParameters();
+        repaint();
+    }
+
+    public ScaleType getYScaleType() {
+        return yScaleType;
+    }
+
     private void resetParameters() {
         if (dataSeriesList == null || dataSeriesList.isEmpty()) {
             return;
@@ -430,7 +443,7 @@ public class PlotPanel2D extends JPanel {
         repaint();
     }
 
-    private void resetView() {
+    public void resetView() {
         offsetX = 0;
         offsetY = 0;
         resetParameters();
