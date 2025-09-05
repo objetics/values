@@ -59,6 +59,8 @@ public class AssemblyComparison extends javax.swing.JFrame {
             printData(dataSeriesList, "Fix phi:");
             SwingUtilities.invokeLater(() -> {
                 plotFixPhi.setDataSeries(dataSeriesList);
+                plotFixPhi.setAxisLabels("Iteration", "Assembly");
+                plotFixPhi.setPlotTitle("Assembly with Fixed Phi");
             });
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,6 +77,8 @@ public class AssemblyComparison extends javax.swing.JFrame {
             printData(dataSeriesList, "Changing phi:");
             SwingUtilities.invokeLater(() -> {
                 PlotChangingPhi.setDataSeries(dataSeriesList);
+                PlotChangingPhi.setAxisLabels("Iteration", "Assembly");
+                PlotChangingPhi.setPlotTitle("Assembly with Changing Phi");
             });
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,6 +95,8 @@ public class AssemblyComparison extends javax.swing.JFrame {
             printData(dataSeriesList, "Fix phi:");
             SwingUtilities.invokeLater(() -> {
                 plotFixPhi2.setDataSeries(dataSeriesList);
+                plotFixPhi2.setAxisLabels("Iteration", "IBA (Information-based Assembly)");
+                plotFixPhi2.setPlotTitle("IBA with Fixed Phi");
             });
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,6 +113,8 @@ public class AssemblyComparison extends javax.swing.JFrame {
             printData(dataSeriesList, "Changing phi:");
             SwingUtilities.invokeLater(() -> {
                 PlotChangingPhi2.setDataSeries(dataSeriesList);
+                PlotChangingPhi2.setAxisLabels("Iteration", "IBA (Information-based Assembly)");
+                PlotChangingPhi2.setPlotTitle("IBA with Changing Phi");
             });
         } catch (Exception e) {
             e.printStackTrace();

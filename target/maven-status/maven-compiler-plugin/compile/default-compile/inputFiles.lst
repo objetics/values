@@ -13,6 +13,7 @@
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/structure/Value.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/logic/method/util/InfoNormalizer.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/logic/method/assembly/InfoBasedAssembly.java
+/media/PROJECTS/Github/values/src/main/java/volgyerdo/value/logic/method/assembly/AssemblyMeasure1.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/logic/method/information/RLEInfo.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/structure/Information.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/logic/method/util/InfoUtils.java
