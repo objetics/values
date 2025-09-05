@@ -182,7 +182,7 @@ public class AssemblySizeInvarianceTest {
                         generalAssemblyUniformPoints.add(new Point2D.Double(point.x, point.y));
                     }
                     assemblyUniformSeries.add(new DataSeries("Assembly vs N", assemblyUniformPoints, Color.BLACK, true, true, 3, 6));
-                    generalAssemblyUniformSeries.add(new DataSeries("IBA vs N", generalAssemblyUniformPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyUniformSeries.add(new DataSeries("A[I_GZIP_] vs N", generalAssemblyUniformPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Zipf results
                     List<Point2D> assemblyZipfPoints = new ArrayList<>();
@@ -194,7 +194,7 @@ public class AssemblySizeInvarianceTest {
                         generalAssemblyZipfPoints.add(new Point2D.Double(point.x, point.y));
                     }
                     assemblyZipfSeries.add(new DataSeries("Assembly vs N", assemblyZipfPoints, Color.BLACK, true, true, 3, 6));
-                    generalAssemblyZipfSeries.add(new DataSeries("IBA vs N", generalAssemblyZipfPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyZipfSeries.add(new DataSeries("A[I_GZIP_] vs N", generalAssemblyZipfPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Mix results
                     List<Point2D> assemblyMixPoints = new ArrayList<>();
@@ -206,7 +206,7 @@ public class AssemblySizeInvarianceTest {
                         generalAssemblyMixPoints.add(new Point2D.Double(point.x, point.y));
                     }
                     assemblyMixSeries.add(new DataSeries("Assembly vs N", assemblyMixPoints, Color.BLACK, true, true, 3, 6));
-                    generalAssemblyMixSeries.add(new DataSeries("IBA vs N", generalAssemblyMixPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyMixSeries.add(new DataSeries("A[I_GZIP_] vs N", generalAssemblyMixPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Set data to plots
                     assemblyUniformPlot.setDataSeries(assemblyUniformSeries);
@@ -214,24 +214,24 @@ public class AssemblySizeInvarianceTest {
                     assemblyUniformPlot.setPlotTitle("Assembly - Uniform Distribution");
                     
                     generalAssemblyUniformPlot.setDataSeries(generalAssemblyUniformSeries);
-                    generalAssemblyUniformPlot.setAxisLabels("Sample Size", "Information-based Assembly (IBA)");
-                    generalAssemblyUniformPlot.setPlotTitle("IBA - Uniform Distribution");
+                    generalAssemblyUniformPlot.setAxisLabels("Sample Size", "A[I_GZIP_]");
+                    generalAssemblyUniformPlot.setPlotTitle("A[I_GZIP_] - Uniform Distribution");
                     
                     assemblyZipfPlot.setDataSeries(assemblyZipfSeries);
                     assemblyZipfPlot.setAxisLabels("Sample Size", "Assembly (A)");
                     assemblyZipfPlot.setPlotTitle("Assembly - Zipf Distribution");
                     
                     generalAssemblyZipfPlot.setDataSeries(generalAssemblyZipfSeries);
-                    generalAssemblyZipfPlot.setAxisLabels("Sample Size", "Information-based Assembly (IBA)");
-                    generalAssemblyZipfPlot.setPlotTitle("IBA - Zipf Distribution");
+                    generalAssemblyZipfPlot.setAxisLabels("Sample Size", "A[I_GZIP_]");
+                    generalAssemblyZipfPlot.setPlotTitle("A[I_GZIP_] - Zipf Distribution");
                     
                     assemblyMixPlot.setDataSeries(assemblyMixSeries);
                     assemblyMixPlot.setAxisLabels("Sample Size", "Assembly (A)");
                     assemblyMixPlot.setPlotTitle("Assembly - Mixture Distribution");
                     
                     generalAssemblyMixPlot.setDataSeries(generalAssemblyMixSeries);
-                    generalAssemblyMixPlot.setAxisLabels("Sample Size", "Information-based Assembly (IBA)");
-                    generalAssemblyMixPlot.setPlotTitle("IBA - Mixture Distribution");
+                    generalAssemblyMixPlot.setAxisLabels("Sample Size", "A[I_GZIP_]");
+                    generalAssemblyMixPlot.setPlotTitle("A[I_GZIP_] - Mixture Distribution");
                     
                     // Hide progress bar
                     progressBar.setVisible(false);

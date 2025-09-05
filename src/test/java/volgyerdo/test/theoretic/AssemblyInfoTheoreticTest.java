@@ -164,7 +164,7 @@ public class AssemblyInfoTheoreticTest {
                         System.out.printf("[%d] H=%.6f, AG=%.6f%n", i, point.getX(), point.getY());
                     }
                     assemblyBinomialSeries.add(new DataSeries("Assembly vs Entropy", assemblyBinomialPoints, Color.BLACK, true, false, 3, 6));
-                    infoBasedAssemblyBinomialSeries.add(new DataSeries("IBA vs Entropy", infoBasedAssemblyBinomialPoints, Color.BLACK, true, false, 3, 6));
+                    infoBasedAssemblyBinomialSeries.add(new DataSeries("A[I_GZIP_] vs Entropy", infoBasedAssemblyBinomialPoints, Color.BLACK, true, false, 3, 6));
                     
                     // Dirichlet results
                     List<Point2D> assemblyDirichletPoints = new ArrayList<>();
@@ -176,7 +176,7 @@ public class AssemblyInfoTheoreticTest {
                         infoBasedAssemblyDirichletPoints.add(new Point2D.Double(point.x, point.y));
                     }
                     assemblyDirichletSeries.add(new DataSeries("Assembly vs Entropy", assemblyDirichletPoints, Color.BLACK, true, true, 3, 6));
-                    infoBasedAssemblyDirichletSeries.add(new DataSeries("IBA vs Entropy", infoBasedAssemblyDirichletPoints, Color.BLACK, true, true, 3, 6));
+                    infoBasedAssemblyDirichletSeries.add(new DataSeries("A[I_GZIP_] vs Entropy", infoBasedAssemblyDirichletPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Set data to plots
                     assemblyBinomialPlot.setDataSeries(assemblyBinomialSeries);
@@ -185,7 +185,7 @@ public class AssemblyInfoTheoreticTest {
                     
                     infoBasedAssemblyBinomialPlot.setDataSeries(infoBasedAssemblyBinomialSeries);
                     infoBasedAssemblyBinomialPlot.setAxisLabels("Entropy (H)", "Information-based Assembly (IBA)");
-                    infoBasedAssemblyBinomialPlot.setPlotTitle("IBA - Bernoulli Distribution");
+                    infoBasedAssemblyBinomialPlot.setPlotTitle("A[I_GZIP_] - Bernoulli Distribution");
                     
                     assemblyDirichletPlot.setDataSeries(assemblyDirichletSeries);
                     assemblyDirichletPlot.setAxisLabels("Entropy (H)", "Assembly (A)");
@@ -193,7 +193,7 @@ public class AssemblyInfoTheoreticTest {
                     
                     infoBasedAssemblyDirichletPlot.setDataSeries(infoBasedAssemblyDirichletSeries);
                     infoBasedAssemblyDirichletPlot.setAxisLabels("Entropy (H)", "Information-based Assembly (IBA)");
-                    infoBasedAssemblyDirichletPlot.setPlotTitle("IBA - Dirichlet Distribution");
+                    infoBasedAssemblyDirichletPlot.setPlotTitle("A[I_GZIP_] - Dirichlet Distribution");
                     
                     // Hide progress bar
                     progressBar.setVisible(false);

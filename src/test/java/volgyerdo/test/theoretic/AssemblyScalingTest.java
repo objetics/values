@@ -172,7 +172,7 @@ public class AssemblyScalingTest {
                         generalAssemblyUniformPoints.add(new Point2D.Double(point.x, point.y));
                     }
                     assemblyUniformSeries.add(new DataSeries("Assembly vs N", assemblyUniformPoints, Color.BLACK, true, true, 3, 6));
-                    generalAssemblyUniformSeries.add(new DataSeries("IBA vs N", generalAssemblyUniformPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyUniformSeries.add(new DataSeries("A[I_GZIP_] vs N", generalAssemblyUniformPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Growing results
                     List<Point2D> assemblyGrowingPoints = new ArrayList<>();
@@ -184,7 +184,7 @@ public class AssemblyScalingTest {
                         generalAssemblyGrowingPoints.add(new Point2D.Double(point.x, point.y));
                     }
                     assemblyGrowingSeries.add(new DataSeries("Assembly vs N", assemblyGrowingPoints, Color.BLACK, true, true, 3, 6));
-                    generalAssemblyGrowingSeries.add(new DataSeries("IBA vs N", generalAssemblyGrowingPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyGrowingSeries.add(new DataSeries("A[I_GZIP_] vs N", generalAssemblyGrowingPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Zipf results
                     List<Point2D> assemblyZipfPoints = new ArrayList<>();
@@ -196,7 +196,7 @@ public class AssemblyScalingTest {
                         generalAssemblyZipfPoints.add(new Point2D.Double(point.x, point.y));
                     }
                     assemblyZipfSeries.add(new DataSeries("Assembly vs N", assemblyZipfPoints, Color.BLACK, true, true, 3, 6));
-                    generalAssemblyZipfSeries.add(new DataSeries("IBA vs N", generalAssemblyZipfPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyZipfSeries.add(new DataSeries("A[I_GZIP_] vs N", generalAssemblyZipfPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Set data to plots
                     assemblyUniformPlot.setDataSeries(assemblyUniformSeries);
@@ -205,15 +205,15 @@ public class AssemblyScalingTest {
                     
                     generalAssemblyUniformPlot.setDataSeries(generalAssemblyUniformSeries);
                     generalAssemblyUniformPlot.setAxisLabels("Scale Factor", "Information-based Assembly (IBA)");
-                    generalAssemblyUniformPlot.setPlotTitle("IBA - Uniform Distribution");
+                    generalAssemblyUniformPlot.setPlotTitle("A[I_GZIP_] - Uniform Distribution");
                     
                     assemblyGrowingPlot.setDataSeries(assemblyGrowingSeries);
-                    assemblyGrowingPlot.setAxisLabels("Alphabet size", "Assembly (A)");
+                    assemblyGrowingPlot.setAxisLabels("Scale Factor", "Assembly (A)");
                     assemblyGrowingPlot.setPlotTitle("Assembly - Growing Alphabet");
                     
                     generalAssemblyGrowingPlot.setDataSeries(generalAssemblyGrowingSeries);
-                    generalAssemblyGrowingPlot.setAxisLabels("Alphabet size", "Information-based Assembly (IBA)");
-                    generalAssemblyGrowingPlot.setPlotTitle("IBA - Growing Alphabet");
+                    generalAssemblyGrowingPlot.setAxisLabels("Scale Factor", "Information-based Assembly (IBA)");
+                    generalAssemblyGrowingPlot.setPlotTitle("A[I_GZIP_] - Growing Alphabet");
                     
                     assemblyZipfPlot.setDataSeries(assemblyZipfSeries);
                     assemblyZipfPlot.setAxisLabels("Scale Factor", "Assembly (A)");
@@ -221,7 +221,7 @@ public class AssemblyScalingTest {
                     
                     generalAssemblyZipfPlot.setDataSeries(generalAssemblyZipfSeries);
                     generalAssemblyZipfPlot.setAxisLabels("Scale Factor", "Information-based Assembly (IBA)");
-                    generalAssemblyZipfPlot.setPlotTitle("IBA - Zipf Distribution");
+                    generalAssemblyZipfPlot.setPlotTitle("A[I_GZIP_] - Zipf Distribution");
                     
                     // Hide progress bar
                     progressBar.setVisible(false);
@@ -278,8 +278,8 @@ public class AssemblyScalingTest {
             List<String> seqGrowing = generateUniformSequence(1000, growingK);
             double assemblyGrowing = assembly.value(seqGrowing);
             double generalAssemblyGrowing = generalAssembly.value(seqGrowing);
-            addPoint(pointsA_growing, growingK, assemblyGrowing);
-            addPoint(pointsAG_growing, growingK, generalAssemblyGrowing);
+            addPoint(pointsA_growing, N, assemblyGrowing);
+            addPoint(pointsAG_growing, N, generalAssemblyGrowing);
             System.out.printf("   Assembly (A): %.6f\n", assemblyGrowing);
             System.out.printf("   IBA: %.6f\n", generalAssemblyGrowing);
 

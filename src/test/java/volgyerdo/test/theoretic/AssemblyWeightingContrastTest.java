@@ -154,7 +154,7 @@ public class AssemblyWeightingContrastTest  {
                         generalAssemblyRareMassPoints.add(new Point2D.Double(point.x, point.y));
                     }
                     assemblyRareMassSeries.add(new DataSeries("Assembly vs Rare Mass", assemblyRareMassPoints, Color.BLACK, true, true, 3, 6));
-                    generalAssemblyRareMassSeries.add(new DataSeries("IBA vs Rare Mass", generalAssemblyRareMassPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyRareMassSeries.add(new DataSeries("A[I_GZIP_] vs Rare Mass", generalAssemblyRareMassPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Rare Multiplicity results
                     List<Point2D> assemblyRareMultiplicityPoints = new ArrayList<>();
@@ -166,7 +166,7 @@ public class AssemblyWeightingContrastTest  {
                         generalAssemblyRareMultiplicityPoints.add(new Point2D.Double(point.x, point.y));
                     }
                     assemblyRareMultiplicitySeries.add(new DataSeries("Assembly vs Rare Types", assemblyRareMultiplicityPoints, Color.BLACK, true, true, 3, 6));
-                    generalAssemblyRareMultiplicitySeries.add(new DataSeries("IBA vs Rare Types", generalAssemblyRareMultiplicityPoints, Color.BLACK, true, true, 3, 6));
+                    generalAssemblyRareMultiplicitySeries.add(new DataSeries("A[I_GZIP_] vs Rare Types", generalAssemblyRareMultiplicityPoints, Color.BLACK, true, true, 3, 6));
                     
                     // Set data to plots
                     assemblyRareMassPlot.setDataSeries(assemblyRareMassSeries);
@@ -174,16 +174,16 @@ public class AssemblyWeightingContrastTest  {
                     assemblyRareMassPlot.setPlotTitle("Assembly - Rare Mass Contrast");
                     
                     generalAssemblyRareMassPlot.setDataSeries(generalAssemblyRareMassSeries);
-                    generalAssemblyRareMassPlot.setAxisLabels("Rare Mass", "Information-based Assembly (IBA)");
-                    generalAssemblyRareMassPlot.setPlotTitle("IBA - Rare Mass Contrast");
+                    generalAssemblyRareMassPlot.setAxisLabels("Rare Mass", "A[I_GZIP_]");
+                    generalAssemblyRareMassPlot.setPlotTitle("A[I_GZIP_] - Rare Mass Contrast");
                     
                     assemblyRareMultiplicityPlot.setDataSeries(assemblyRareMultiplicitySeries);
                     assemblyRareMultiplicityPlot.setAxisLabels("Rare Types", "Assembly (A)");
                     assemblyRareMultiplicityPlot.setPlotTitle("Assembly - Rare Multiplicity Contrast");
                     
                     generalAssemblyRareMultiplicityPlot.setDataSeries(generalAssemblyRareMultiplicitySeries);
-                    generalAssemblyRareMultiplicityPlot.setAxisLabels("Rare Types", "Information-based Assembly (IBA)");
-                    generalAssemblyRareMultiplicityPlot.setPlotTitle("IBA - Rare Multiplicity Contrast");
+                    generalAssemblyRareMultiplicityPlot.setAxisLabels("Rare Types", "A[I_GZIP_]");
+                    generalAssemblyRareMultiplicityPlot.setPlotTitle("A[I_GZIP_] - Rare Multiplicity Contrast");
                     
                     // Hide progress bar
                     progressBar.setVisible(false);
