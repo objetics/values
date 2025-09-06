@@ -95,8 +95,8 @@ public class AssemblyComparison extends javax.swing.JFrame {
             printData(dataSeriesList, "Fix phi:");
             SwingUtilities.invokeLater(() -> {
                 plotFixPhi2.setDataSeries(dataSeriesList);
-                plotFixPhi2.setAxisLabels("Iteration", "A[I_GZIP_]");
-                plotFixPhi2.setPlotTitle("A[I_GZIP_] with Fixed Phi");
+                plotFixPhi2.setAxisLabels("Iteration", "A[a]");
+                plotFixPhi2.setPlotTitle("A[a] with Fixed Phi");
             });
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,8 +113,8 @@ public class AssemblyComparison extends javax.swing.JFrame {
             printData(dataSeriesList, "Changing phi:");
             SwingUtilities.invokeLater(() -> {
                 PlotChangingPhi2.setDataSeries(dataSeriesList);
-                PlotChangingPhi2.setAxisLabels("Iteration", "A[I_GZIP_]");
-                PlotChangingPhi2.setPlotTitle("A[I_GZIP_] with Changing Phi");
+                PlotChangingPhi2.setAxisLabels("Iteration", "A[a]");
+                PlotChangingPhi2.setPlotTitle("A[a] with Changing Phi");
             });
         } catch (Exception e) {
             e.printStackTrace();

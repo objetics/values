@@ -20,6 +20,7 @@ volgyerdo/value/structure/Entropy.class
 volgyerdo/value/logic/method/information/RLEInfo.class
 volgyerdo/value/logic/method/information/SCMInfo.class
 volgyerdo/value/logic/method/entropy/ShannonEntropy.class
+volgyerdo/value/logic/method/assembly/InfoBasedAssembly.class
 volgyerdo/value/logic/ValueLogic.class
 volgyerdo/value/logic/method/information/SSMInfo.class
 volgyerdo/value/logic/method/information/RLEShannonInfo.class

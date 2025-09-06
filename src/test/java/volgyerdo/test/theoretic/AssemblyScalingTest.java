@@ -204,7 +204,7 @@ public class AssemblyScalingTest {
                     assemblyUniformPlot.setPlotTitle("Assembly - Uniform Distribution");
                     
                     generalAssemblyUniformPlot.setDataSeries(generalAssemblyUniformSeries);
-                    generalAssemblyUniformPlot.setAxisLabels("Scale Factor", "Information-based Assembly (IBA)");
+                    generalAssemblyUniformPlot.setAxisLabels("Scale Factor", "A[I_GZIP_]");
                     generalAssemblyUniformPlot.setPlotTitle("A[I_GZIP_] - Uniform Distribution");
                     
                     assemblyGrowingPlot.setDataSeries(assemblyGrowingSeries);
@@ -212,7 +212,7 @@ public class AssemblyScalingTest {
                     assemblyGrowingPlot.setPlotTitle("Assembly - Growing Alphabet");
                     
                     generalAssemblyGrowingPlot.setDataSeries(generalAssemblyGrowingSeries);
-                    generalAssemblyGrowingPlot.setAxisLabels("Scale Factor", "Information-based Assembly (IBA)");
+                    generalAssemblyGrowingPlot.setAxisLabels("Scale Factor", "A[I_GZIP_]");
                     generalAssemblyGrowingPlot.setPlotTitle("A[I_GZIP_] - Growing Alphabet");
                     
                     assemblyZipfPlot.setDataSeries(assemblyZipfSeries);
@@ -220,7 +220,7 @@ public class AssemblyScalingTest {
                     assemblyZipfPlot.setPlotTitle("Assembly - Zipf Distribution");
                     
                     generalAssemblyZipfPlot.setDataSeries(generalAssemblyZipfSeries);
-                    generalAssemblyZipfPlot.setAxisLabels("Scale Factor", "Information-based Assembly (IBA)");
+                    generalAssemblyZipfPlot.setAxisLabels("Scale Factor", "A[I_GZIP_]");
                     generalAssemblyZipfPlot.setPlotTitle("A[I_GZIP_] - Zipf Distribution");
                     
                     // Hide progress bar
