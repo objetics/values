@@ -10,6 +10,7 @@ volgyerdo/value/logic/method/information/MinInfo.class
 volgyerdo/value/logic/method/information/HuffmanInfo.class
 volgyerdo/value/logic/method/information/MaxInfo.class
 volgyerdo/value/logic/method/assembly/AssemblyIndexApprox$ByteArrayWrapper.class
+volgyerdo/value/logic/method/entropy/CollisionEntropy.class
 volgyerdo/value/logic/method/information/HuffmanInfo$Node.class
 volgyerdo/value/logic/method/information/ShannonInfo.class
 volgyerdo/value/structure/Assembly.class
