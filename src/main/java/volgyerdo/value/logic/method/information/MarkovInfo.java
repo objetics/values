@@ -32,7 +32,7 @@ import volgyerdo.value.structure.Information;
              "3. For each state, count transitions to different next states;\n" +
              "4. Calculate transition probabilities for each state;\n" +
              "5. Apply Shannon information formula to transition probabilities",
-    article = "https://objetics.com/2025/08/29/finite-pattern-entropy-information"
+    article = "https://objetics.com/finite-pattern-entropy-information"
 )
 public class MarkovInfo implements Information {
 
