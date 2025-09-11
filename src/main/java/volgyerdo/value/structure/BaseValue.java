@@ -69,4 +69,13 @@ public @interface BaseValue {
      */
     String algorithm() default "";
     
+    /**
+     * URL hivatkozás a módszerrel kapcsolatos cikkre vagy dokumentációra.
+     * Opcionális mező, amely tartalmazhat egy URL-t, ahol további információk
+     * találhatók az algoritmusról vagy a módszerről.
+     * 
+     * @return a cikkre mutató URL
+     */
+    String article() default "";
+    
 }

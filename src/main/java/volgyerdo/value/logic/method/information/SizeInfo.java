@@ -25,7 +25,8 @@ import volgyerdo.value.structure.BaseValue;
                   "or information content patterns.",
     algorithm = "1. Convert input data to byte array representation;\n" +
              "2. Multiply the byte array length by 8 to get total bits;\n" +
-             "3. Return the bit length as the size information"
+             "3. Return the bit length as the size information",
+    article = "https://en.wikipedia.org/wiki/Information_theory"
 )
 public class SizeInfo implements Information {
 

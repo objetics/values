@@ -16,7 +16,6 @@
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/logic/method/util/InfoNormalizer.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/logic/method/assembly/InfoBasedAssembly.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/logic/method/information/RLEInfo.java
-/media/PROJECTS/Github/values/src/main/java/volgyerdo/value/logic/method/information/LZ77Info.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/structure/Information.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/logic/method/util/InfoUtils.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/logic/method/information/RLEShannonInfo.java
