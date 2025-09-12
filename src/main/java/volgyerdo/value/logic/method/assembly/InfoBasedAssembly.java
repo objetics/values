@@ -57,7 +57,7 @@ public class InfoBasedAssembly implements Assembly {
         }
 
         if(values.size()==1) {
-            return info.value(values.iterator().next());
+            return 0.0;
         }
 
         // Számoljuk meg az egyedi objektumokat és a példányszámukat

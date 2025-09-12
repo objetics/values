@@ -11,6 +11,7 @@ import java.util.Map;
 import volgyerdo.commons.math.fast.FastLog;
 import volgyerdo.value.structure.Assembly;
 import volgyerdo.value.structure.BaseValue;
+import volgyerdo.value.structure.Value;
 
 /**
  *
@@ -33,7 +34,15 @@ import volgyerdo.value.structure.BaseValue;
 )
 public class AssemblyMeasure implements Assembly {
 
-    private AssemblyIndex ai = new AssemblyIndex();
+    private final Value index;
+
+    public AssemblyMeasure(Value index) {
+        this.index = index;
+    }
+
+    public AssemblyMeasure() {
+        this.index = new AssemblyIndex();
+    }
 
     @Override
     public String name() {
@@ -60,7 +69,7 @@ public class AssemblyMeasure implements Assembly {
         for (Map.Entry<Object, Integer> entry : counts.entrySet()) {
             Object o = entry.getKey();
             int ni = entry.getValue();
-            double aiVal = ai.value(o);
+            double aiVal = index.value(o);
             // e^(ai - log(NT)) == e^ai / NT
             sum += Math.exp(aiVal - logNT) * (ni - 1);
         }
@@ -69,7 +78,7 @@ public class AssemblyMeasure implements Assembly {
 
     @Override
     public double value(byte[] values) {
-        return ai.value(values);
+        return 0.0;
     }
 
 }

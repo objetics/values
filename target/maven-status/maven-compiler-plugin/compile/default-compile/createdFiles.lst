@@ -1,4 +1,5 @@
 volgyerdo/value/logic/method/entropy/MaxEntropy.class
+volgyerdo/value/logic/method/assembly/AssemblyIndexHeuristic.class
 volgyerdo/value/logic/method/util/InfoNormalizer.class
 volgyerdo/value/logic/method/assembly/AssemblyMeasure.class
 volgyerdo/value/logic/ValueLogic$ValueAnnotationPair.class
@@ -8,6 +9,8 @@ volgyerdo/value/logic/method/information/MarkovInfo.class
 volgyerdo/value/logic/method/information/HuffmanInfo$ByteNode.class
 volgyerdo/value/logic/method/information/MinInfo.class
 volgyerdo/value/logic/method/information/HuffmanInfo.class
+volgyerdo/value/logic/method/assembly/AssemblyIndex$IntListKey.class
+volgyerdo/value/logic/method/assembly/AssemblyIndex$SearchCtx.class
 volgyerdo/value/logic/method/information/MaxInfo.class
 volgyerdo/value/logic/method/entropy/CollisionEntropy.class
 volgyerdo/value/logic/method/information/HuffmanInfo$Node.class
@@ -15,6 +18,7 @@ volgyerdo/value/logic/method/entropy/MinEntropy.class
 volgyerdo/value/logic/method/information/ShannonInfo.class
 volgyerdo/value/structure/Assembly.class
 volgyerdo/value/logic/method/information/GZIPInfo.class
+volgyerdo/value/logic/method/assembly/AssemblyIndexHeuristic$Rule.class
 volgyerdo/value/structure/BaseValue.class
 volgyerdo/value/structure/Entropy.class
 volgyerdo/value/logic/method/information/RLEInfo.class
