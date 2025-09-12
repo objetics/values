@@ -6,35 +6,18 @@ choose License Headers in Project Properties.
  */
 package volgyerdo.value.logic.method.assembly;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import volgyerdo.value.structure.Assembly;
 import volgyerdo.value.structure.BaseValue;
 
-/**
- *
- * @author Volgyerdo Nonprofit Kft.
- */
-@BaseValue(
-    id = 1,
-    category = "assembly",
-    acronym = "AI",
-    name = "Assembly Index",
-    description = "Calculates the minimum number of construction steps needed to build a sequence " +
-                  "from scratch, where previously constructed subsequences can be reused. Uses " +
-                  "dynamic programming with rolling hash optimization to find the optimal assembly " +
-                  "strategy. Measures the structural complexity and redundancy in data sequences.",
-    algorithm = "1. Initialize assembly steps count for each position;\n" +
-             "2. For each position, check all possible substring constructions;\n" +
-             "3. Use dynamic programming to find minimum steps to reach each position;\n" +
-             "4. If substring was built before, reuse it (no additional cost);\n" +
-             "5. Otherwise, add construction cost and mark substring as available;\n" +
-             "6. Return minimum steps needed to build entire sequence"
-)
+@BaseValue(id = 1, category = "assembly", acronym = "AI", name = "Assembly Index", description = "Exact Conin-style assembly index via IDA* over buildable substrings. "
+        + "State = set of built substrings; move = concatenate two built substrings to form a longer substring of T. "
+        + "Uses admissible lower bounds (doubling and glue bounds) for pruning.", algorithm = "1) Enumerate distinct substrings of T and assign IDs.\n"
+                +
+                "2) For each substring z and each cut, if z = x+y, add rule (x,y)->z.\n" +
+                "3) Initial state: all length-1 substrings present in T.\n" +
+                "4) IDA*: depth-first search with limit, using h = max(doubling bound, glue bound).\n" +
+                "5) First time target is reached -> exact minimal steps.")
 public class AssemblyIndex implements Assembly {
 
     @Override
@@ -42,148 +25,313 @@ public class AssemblyIndex implements Assembly {
         return "Assembly index";
     }
 
-    /**
-     * Számolja egy byte[] tömb assembly indexét (összeállítási indexét). Az
-     * assembly index azt mutatja, hogy a tömb legkisebb lépésszámmal hogyan
-     * állítható össze, ha bármely korábban elkészített rész újra
-     * felhasználható.
-     *
-     * @param arr bemeneti byte tömb
-     * @return a tömb assembly indexe (minimális lépésszám)
-     */
+    // ===== Public API =====
+
     @Override
     public double value(byte[] arr) {
-        int n = arr.length;
-        if (n <= 1) {
-            // Ha a tömb hossza 0 vagy 1, nem szükséges lépés (alap építőkocka ingyen van).
+        if (arr == null || arr.length == 0)
             return 0;
-        }
-        // dp[i] = minimális lépésszám az első i elem (arr[0..i-1]) összeállításához
-        int[] dp = new int[n + 1];
-        Arrays.fill(dp, Integer.MAX_VALUE / 2);
-        dp[0] = 0;
-        dp[1] = 0; // az első byte építőkocka lépés nélkül elérhető
-
-        // Előfeldolgozás: gördülő hash-ek kiszámítása két modullal (ütközés csökkentése)
-        int base = 257;
-        long mod1 = 1000000007L, mod2 = 1000000009L;
-        long[] hash1 = new long[n + 1], hash2 = new long[n + 1];
-        long[] pow1 = new long[n + 1], pow2 = new long[n + 1];
-        pow1[0] = 1;
-        pow2[0] = 1;
-        for (int i = 0; i < n; i++) {
-            int val = (arr[i] & 0xFF);
-            hash1[i + 1] = (hash1[i] * base + val) % mod1;
-            hash2[i + 1] = (hash2[i] * base + val) % mod2;
-            pow1[i + 1] = (pow1[i] * base) % mod1;
-            pow2[i + 1] = (pow2[i] * base) % mod2;
-        }
-
-        for (int j = 1; j < n; j++) {
-            // 1) Új byte hozzáadása a (j-1)-hosszú prefixhez
-            dp[j + 1] = Math.min(dp[j + 1], dp[j] + 1);
-
-            // 2) Korábbi rész újrahasználata: keressük az arr[j..j+L-1] rész maximális L hosszát,
-            //    ami már előfordul arr[0..j-1]-ben.
-            int lo = 1, hi = n - j, best = 0;
-            while (lo <= hi) {
-                int mid = (lo + hi) / 2;
-                // Hash kiszámolása az arr[j..j+mid-1] részre
-                long subHash1 = (hash1[j + mid] - hash1[j] * pow1[mid] % mod1 + mod1) % mod1;
-                long subHash2 = (hash2[j + mid] - hash2[j] * pow2[mid] % mod2 + mod2) % mod2;
-                boolean found = false;
-                // Ellenőrizze, hogy ez a részhol szerepel-e a prefixben
-                for (int k = 0; k + mid <= j; k++) {
-                    long preHash1 = (hash1[k + mid] - hash1[k] * pow1[mid] % mod1 + mod1) % mod1;
-                    long preHash2 = (hash2[k + mid] - hash2[k] * pow2[mid] % mod2 + mod2) % mod2;
-                    if (subHash1 == preHash1 && subHash2 == preHash2) {
-                        // Talált egyező hash, ellenőrizzük ténylegesen is a byte-okat
-                        boolean match = true;
-                        for (int x = 0; x < mid; x++) {
-                            if (arr[j + x] != arr[k + x]) {
-                                match = false;
-                                break;
-                            }
-                        }
-                        if (match) {
-                            found = true;
-                            break;
-                        }
-                    }
-                }
-                if (found) {
-                    // Ha megtaláltuk, megnöveljük az alsó határt
-                    best = mid;
-                    lo = mid + 1;
-                } else {
-                    hi = mid - 1;
-                }
-            }
-            // Ha van ismételhető hossz (best > 0), akkor 1..best hosszúságban is összefűzhetünk
-            for (int L = 1; L <= best; L++) {
-                int i = j + L;
-                dp[i] = Math.min(dp[i], dp[j] + 1);
-            }
-        }
-        return dp[n];
+        List<Integer> seq = new ArrayList<>(arr.length);
+        for (byte b : arr)
+            seq.add(b & 0xFF);
+        return solveExact(seq);
     }
 
-    /**
-     * Számolja egy tetszőleges Collection assembly indexét. Az egyes elemek
-     * "alapelemként" szerepelnek. A cél: minimális lépésszám, ahol lépésenként
-     * bármely már létrehozott részt újrahasználhatsz.
-     *
-     * @param collection
-     * @return assembly index (minimális lépésszám)
-     */
     @Override
     public double value(Collection<?> collection) {
-        List<Object> list = new ArrayList<>(collection);
-        int n = list.size();
-        if (n <= 1) {
+        if (collection == null || collection.isEmpty())
             return 0;
+        Map<Object, Integer> dict = new LinkedHashMap<>();
+        List<Integer> seq = new ArrayList<>(collection.size());
+        int next = 0;
+        for (Object e : collection) {
+            dict.putIfAbsent(e, next);
+            seq.add(dict.get(e));
+            if (dict.get(e) == next)
+                next++;
         }
-        int[] dp = new int[n + 1];
-        Arrays.fill(dp, Integer.MAX_VALUE / 2);
-        dp[0] = 0;
-        dp[1] = 0; // első elem "adott"
+        return solveExact(seq);
+    }
 
-        // Minden részlista hash-ét eltároljuk: Map<Integer, List<Integer>>: hash -> startindexek listája
-        Map<Integer, List<Integer>> prefixMap = new HashMap<>();
+    // ===== Core solver =====
+
+    private static final int FOUND = -1;
+    private int solutionDepth = -1; // <-- ÚJ: ide írjuk a pontos g-t
+
+    private double solveExact(List<Integer> baseSeq) {
+        final int n = baseSeq.size();
+        // --- 1) All distinct substrings by content
+        Map<IntListKey, Integer> idByContent = new HashMap<>();
+        List<IntListKey> contentById = new ArrayList<>();
+        // positions for glue-bound coverage
+        Map<Integer, List<int[]>> occById = new HashMap<>(); // id -> list of [start,end] (inclusive)
 
         for (int i = 0; i < n; i++) {
-            // Új elem hozzáadása
-            dp[i + 1] = Math.min(dp[i + 1], dp[i] + 1);
+            int[] cur = new int[0];
+            for (int j = i; j < n; j++) {
+                cur = Arrays.copyOf(cur, cur.length + 1);
+                cur[cur.length - 1] = baseSeq.get(j);
+                IntListKey key = new IntListKey(cur);
+                Integer id = idByContent.get(key);
+                if (id == null) {
+                    id = contentById.size();
+                    idByContent.put(key, id);
+                    contentById.add(key);
+                }
+                occById.computeIfAbsent(id, k -> new ArrayList<>()).add(new int[] { i, j });
+            }
+        }
 
-            // Prefix hash frissítése (a 0...i közti prefixek)
-            for (int len = 1; len <= i; len++) {
-                List<Object> sub = list.subList(i, i + len > n ? n : i + len);
-                if (sub.size() < len) {
+        IntListKey targetKey = new IntListKey(toIntArray(baseSeq));
+        Integer targetId = idByContent.get(targetKey);
+        if (targetId == null)
+            return 0; // should not happen
+
+        final int M = contentById.size();
+        int[] lenById = new int[M];
+        for (int id = 0; id < M; id++)
+            lenById[id] = contentById.get(id).data.length;
+        final int targetLen = lenById[targetId];
+
+        // --- 2) Rules: for each z and cut, z = x + y
+        // store rules by z to help action generation when both x and y are ready
+        List<int[]> rules = new ArrayList<>(); // (x,y,z)
+        List<List<int[]>> producersOfZ = new ArrayList<>(M);
+        for (int z = 0; z < M; z++)
+            producersOfZ.add(new ArrayList<>());
+        for (int z = 0; z < M; z++) {
+            int L = lenById[z];
+            if (L < 2)
+                continue;
+            int[] cz = contentById.get(z).data;
+            for (int cut = 1; cut < L; cut++) {
+                IntListKey leftK = new IntListKey(Arrays.copyOfRange(cz, 0, cut));
+                IntListKey rightK = new IntListKey(Arrays.copyOfRange(cz, cut, L));
+                Integer x = idByContent.get(leftK);
+                Integer y = idByContent.get(rightK);
+                if (x != null && y != null) {
+                    int[] r = new int[] { x, y, z };
+                    rules.add(r);
+                    producersOfZ.get(z).add(r);
+                }
+            }
+        }
+
+        // --- 3) Initial state: all length-1 substrings present in T
+        BitSet start = new BitSet(M);
+        {
+            boolean[] seen = new boolean[1 << 16]; // enough for small alphabets; fallback below if needed
+            for (int v : new LinkedHashSet<>(baseSeq)) {
+                IntListKey k = new IntListKey(new int[] { v });
+                Integer id = idByContent.get(k);
+                if (id != null)
+                    start.set(id);
+            }
+        }
+        if (start.get(targetId))
+            return 0;
+
+        // Precompute mask of length-1 ids for quick maxLenReady
+        List<Integer> len1Ids = new ArrayList<>();
+        for (int id = 0; id < M; id++)
+            if (lenById[id] == 1)
+                len1Ids.add(id);
+
+        solutionDepth = -1; // <-- reset
+        int bound = heuristic(start, baseSeq, targetId, targetLen, contentById, occById, lenById);
+        SearchCtx ctx = new SearchCtx(producersOfZ, lenById, targetId, targetLen,
+                baseSeq, contentById, occById);
+
+        while (true) {
+            int t = dfsIDA(start, 0, bound, ctx);
+            if (t == FOUND) {
+                return solutionDepth; // <-- A PONTOS g
+            }
+            if (t == Integer.MAX_VALUE)
+                break;
+            bound = t; // emeljük a küszöböt
+        }
+        return Math.max(0, targetLen - 1);
+    }
+
+    // Megjegyzés: elhagytam a seenLayer-t: IDA*-ban a bound és a h miatt jó a
+    // pruning, nem kell set.
+    private int dfsIDA(BitSet state, int g, int bound, SearchCtx ctx) {
+        int h = heuristic(state, ctx.baseSeq, ctx.targetId, ctx.targetLen, ctx.contentById, ctx.occById, ctx.lenById);
+        int f = g + h;
+        if (f > bound)
+            return f;
+        if (state.get(ctx.targetId)) {
+            solutionDepth = g; // <-- itt tároljuk el a VALÓDI mélységet
+            return FOUND;
+        }
+
+        // Jelöltek előállítása (mint korábban)
+        List<Integer> candZ = new ArrayList<>();
+        for (int z = 0; z < ctx.lenById.length; z++) {
+            if (state.get(z))
+                continue;
+            boolean ok = false;
+            for (int[] r : ctx.producersOfZ.get(z)) {
+                if (state.get(r[0]) && state.get(r[1])) {
+                    ok = true;
                     break;
                 }
-                int hash = sub.hashCode();
-                List<Integer> indices = prefixMap.get(hash);
-                if (indices != null) {
-                    // Végigpróbáljuk, hogy a prefixben valóban van-e egyező részlista
-                    for (int idx : indices) {
-                        if (list.subList(idx, idx + len).equals(sub)) {
-                            // Megtaláltuk: az i+len-ig tartó prefix DP-je is frissíthető
-                            dp[i + len] = Math.min(dp[i + len], dp[i] + 1);
-                            // Minden hosszra csak egyszer frissítünk, elég megtalálni az első egyezést
-                            break;
-                        }
+            }
+            if (ok)
+                candZ.add(z);
+        }
+        if (candZ.isEmpty())
+            return Integer.MAX_VALUE;
+
+        // Rendezés: hossz szerint, majd „coverage gain”
+        candZ.sort((z1, z2) -> {
+            int c = Integer.compare(ctx.lenById[z2], ctx.lenById[z1]);
+            if (c != 0)
+                return c;
+            int g1 = coverageGain(state, z1, ctx);
+            int g2 = coverageGain(state, z2, ctx);
+            return Integer.compare(g2, g1);
+        });
+
+        int minNext = Integer.MAX_VALUE;
+        for (int z : candZ) {
+            BitSet ns = (BitSet) state.clone();
+            ns.set(z);
+            int t = dfsIDA(ns, g + 1, bound, ctx);
+            if (t == FOUND)
+                return FOUND;
+            if (t < minNext)
+                minNext = t;
+        }
+        return minNext;
+    }
+
+    // ===== Heuristics =====
+
+    /** Admisszibilis h = max(doubling bound, glue bound). */
+    private int heuristic(BitSet state,
+            List<Integer> baseSeq,
+            int targetId, int targetLen,
+            List<IntListKey> contentById,
+            Map<Integer, List<int[]>> occById,
+            int[] lenById) {
+
+        // 1) doubling bound (length growth)
+        int maxLenReady = 1;
+        for (int id = state.nextSetBit(0); id >= 0; id = state.nextSetBit(id + 1)) {
+            if (lenById[id] > maxLenReady)
+                maxLenReady = lenById[id];
+            if (id == targetId)
+                return 0;
+        }
+        int hLen = ceilLog2(divUp(targetLen, maxLenReady));
+
+        // 2) glue bound (ready coverage of target, greedy maximal blocks)
+        // fedjük le a célt max. hosszú READY blokkokkal; b = blokkok száma
+        int b = 0;
+        int i = 0, n = baseSeq.size();
+        while (i < n) {
+            int best = 0; // best block length starting at i
+            // végigmegyünk az összes kész substringen, és megnézzük, mekkora blokk
+            // illeszthető ide
+            for (int id = state.nextSetBit(0); id >= 0; id = state.nextSetBit(id + 1)) {
+                for (int[] occ : occById.getOrDefault(id, Collections.emptyList())) {
+                    if (occ[0] == i) {
+                        int L = occ[1] - occ[0] + 1;
+                        if (L > best)
+                            best = L;
                     }
                 }
             }
-
-            // Minden lehetséges részlistát, ami véget ér i-nél, felvesszük a prefixMap-be
-            for (int start = 0; start <= i; start++) {
-                List<Object> sub = list.subList(start, i + 1);
-                int hash = sub.hashCode();
-                prefixMap.computeIfAbsent(hash, k -> new ArrayList<>()).add(start);
+            if (best == 0) {
+                // ha semmi kész nem illik ide, legalább 1 hosszú terminált rakunk
+                best = 1;
             }
+            b++;
+            i += best;
         }
-        return dp[n];
+        int hGlue = Math.max(0, b - 1);
+
+        return Math.max(hLen, hGlue);
     }
 
+    /** Heurisztikus másodlagos rendezési szempont: mekkora „hézagot” töm be a z. */
+    private int coverageGain(BitSet state, int z, SearchCtx ctx) {
+        int gain = 0;
+        for (int[] occ : ctx.occById.getOrDefault(z, Collections.emptyList())) {
+            // balról greedy: ha a kezdő pozíción még nincs hosszú kész blokk, értékesebb
+            gain += ctx.lenById[z];
+        }
+        return gain;
+    }
+
+    // ===== Utilities =====
+
+    private static int ceilLog2(int x) {
+        if (x <= 1)
+            return 0;
+        int p = 0, v = 1;
+        while (v < x) {
+            v <<= 1;
+            p++;
+        }
+        return p;
+    }
+
+    private static int divUp(int a, int b) {
+        return (a + b - 1) / b;
+    }
+
+    private static int[] toIntArray(List<Integer> list) {
+        int[] a = new int[list.size()];
+        for (int i = 0; i < list.size(); i++)
+            a[i] = list.get(i);
+        return a;
+    }
+
+    private static final class SearchCtx {
+        final List<List<int[]>> producersOfZ;
+        final int[] lenById;
+        final int targetId, targetLen;
+        final List<Integer> baseSeq;
+        final List<IntListKey> contentById;
+        final Map<Integer, List<int[]>> occById;
+
+        SearchCtx(List<List<int[]>> producersOfZ, int[] lenById,
+                int targetId, int targetLen,
+                List<Integer> baseSeq, List<IntListKey> contentById,
+                Map<Integer, List<int[]>> occById) {
+            this.producersOfZ = producersOfZ;
+            this.lenById = lenById;
+            this.targetId = targetId;
+            this.targetLen = targetLen;
+            this.baseSeq = baseSeq;
+            this.contentById = contentById;
+            this.occById = occById;
+        }
+    }
+
+    // immutable key over int[]
+    private static final class IntListKey {
+        final int[] data;
+        final int hash;
+
+        IntListKey(int[] arr) {
+            this.data = arr;
+            this.hash = Arrays.hashCode(arr);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (!(o instanceof IntListKey))
+                return false;
+            return Arrays.equals(this.data, ((IntListKey) o).data);
+        }
+
+        @Override
+        public int hashCode() {
+            return hash;
+        }
+    }
 }

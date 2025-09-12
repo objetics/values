@@ -33,7 +33,7 @@ import volgyerdo.value.structure.BaseValue;
 )
 public class AssemblyMeasure implements Assembly {
 
-    private AssemblyIndexApprox ai = new AssemblyIndexApprox();
+    private AssemblyIndex ai = new AssemblyIndex();
 
     @Override
     public String name() {

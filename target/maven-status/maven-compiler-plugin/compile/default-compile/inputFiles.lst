@@ -23,6 +23,6 @@
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/logic/method/entropy/MaxEntropy.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/structure/Entropy.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/logic/method/information/ShannonInfo.java
+/media/PROJECTS/Github/values/src/main/java/volgyerdo/value/logic/method/assembly/AssemblyIndexHeuristic.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/logic/method/assembly/GeneralAssembly.java
-/media/PROJECTS/Github/values/src/main/java/volgyerdo/value/logic/method/assembly/AssemblyIndexApprox.java
 /media/PROJECTS/Github/values/src/main/java/volgyerdo/value/logic/method/information/MaxInfo.java

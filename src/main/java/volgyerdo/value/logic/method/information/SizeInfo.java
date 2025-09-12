@@ -100,6 +100,13 @@ public class SizeInfo implements Information {
         return values.length * 16.0;  // Each char is 16 bits in Java
     }
 
+    public double value(String values) {
+        if (values == null) {
+            return 0;
+        }
+        return values.length() * 16.0;  // Each char is 16 bits in Java
+    }
+
     @Override
     public double value(Collection<?> values) {
         if (values == null) {

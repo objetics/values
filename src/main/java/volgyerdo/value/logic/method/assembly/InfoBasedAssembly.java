@@ -56,6 +56,10 @@ public class InfoBasedAssembly implements Assembly {
             return 0.0;
         }
 
+        if(values.size()==1) {
+            return info.value(values.iterator().next());
+        }
+
         // Számoljuk meg az egyedi objektumokat és a példányszámukat
         Map<Object, Integer> counts = new HashMap<>();
         for (Object o : values) {
@@ -73,6 +77,11 @@ public class InfoBasedAssembly implements Assembly {
             sum += info.value(o) * l; 
             N+=l;  
         }
+
+        if(N==0) {
+            return 0.0;
+        }   
+
         return sum / N;
     }
 
