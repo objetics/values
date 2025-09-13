@@ -10,12 +10,14 @@ import java.util.List;
 
 import volgyerdo.value.logic.method.assembly.AssemblyMeasure;
 import volgyerdo.value.logic.method.assembly.InfoBasedAssembly;
-import volgyerdo.value.logic.method.information.GZIPInfo;
 
-public class MolecularAssemblyComparisonTest {
+public class Molecular {
     
-    private static final int DATA_SET_SIZE = 500;
+    private static final int DATA_SET_SIZE = 1000;
     
+    private static AssemblyMeasure assemblyMeasure = new AssemblyMeasure();
+    private static InfoBasedAssembly newAssemblyMeasure = new InfoBasedAssembly();
+
     public static void main(String[] args) {
         String filePath = "src/test/java/volgyerdo/test/molecules-artificial-natural.txt";
         
@@ -79,33 +81,32 @@ public class MolecularAssemblyComparisonTest {
             // Calculate assembly values
             System.out.println("\n=== ASSEMBLY CALCULATIONS ===");
 
-            AssemblyMeasure assemblyMeasure = new AssemblyMeasure(new GZIPInfo());
-            InfoBasedAssembly infoBasedAssembly = new InfoBasedAssembly();
+            
             
             try {
                 // Calculate values for artificial molecules
                 System.out.println("\nCalculating for artificial molecules...");
                 double artificialAssembly = assemblyMeasure.value(artificialMolecules);
-                double artificialInfoBased = infoBasedAssembly.value(artificialMolecules);
+                double artificialInfoBased = newAssemblyMeasure.value(artificialMolecules);
                 
                 // Calculate values for natural molecules
                 System.out.println("Calculating for natural molecules...");
                 double naturalAssembly = assemblyMeasure.value(naturalMolecules);
-                double naturalInfoBased = infoBasedAssembly.value(naturalMolecules);
+                double naturalInfoBased = newAssemblyMeasure.value(naturalMolecules);
                 
                 // Summary of results
                 System.out.println("\n=== RESULTS SUMMARY ===");
                 System.out.println("AssemblyMeasure:");
                 System.out.println("  Artificial molecules: " + String.format("%.6f", artificialAssembly));
                 System.out.println("  Natural molecules:    " + String.format("%.6f", naturalAssembly));
-                System.out.println("  Difference:           " + String.format("%.6f", artificialAssembly - naturalAssembly));
-                System.out.println("  Ratio (Art/Nat):      " + String.format("%.4f", artificialAssembly / naturalAssembly));
+                System.out.println("  Difference:           " + String.format("%.6f", naturalAssembly-artificialAssembly));
+                System.out.println("  Ratio (Nat/Art):      " + String.format("%.4f", naturalAssembly / artificialAssembly));
                 
                 System.out.println("\nInfoBasedAssembly:");
                 System.out.println("  Artificial molecules: " + String.format("%.6f", artificialInfoBased));
                 System.out.println("  Natural molecules:    " + String.format("%.6f", naturalInfoBased));
-                System.out.println("  Difference:           " + String.format("%.6f", artificialInfoBased - naturalInfoBased));
-                System.out.println("  Ratio (Art/Nat):      " + String.format("%.4f", artificialInfoBased / naturalInfoBased));
+                System.out.println("  Difference:           " + String.format("%.6f", naturalInfoBased - artificialInfoBased));
+                System.out.println("  Ratio (Nat/Art):      " + String.format("%.4f", naturalInfoBased / artificialInfoBased));
                 
             } catch (Exception e) {
                 System.err.println("Error calculating assembly values: " + e.getMessage());

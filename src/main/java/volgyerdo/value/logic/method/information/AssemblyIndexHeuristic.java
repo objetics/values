@@ -4,7 +4,7 @@ choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package volgyerdo.value.logic.method.assembly;
+package volgyerdo.value.logic.method.information;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import volgyerdo.value.structure.Assembly;
 import volgyerdo.value.structure.BaseValue;
+import volgyerdo.value.structure.Information;
 
 /**
  *
@@ -42,7 +42,7 @@ import volgyerdo.value.structure.BaseValue;
         "4) Let 'NeededNT' be the set of distinct nonterminals reachable from the top-level sequence.\n" +
         "5) Return |NeededNT| + max(0, k-1)."
 )
-public class AssemblyIndexHeuristic implements Assembly {
+public class AssemblyIndexHeuristic implements Information {
 
     @Override
     public String name() {

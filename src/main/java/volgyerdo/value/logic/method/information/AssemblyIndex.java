@@ -4,11 +4,21 @@ choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package volgyerdo.value.logic.method.assembly;
+package volgyerdo.value.logic.method.information;
 
-import java.util.*;
-import volgyerdo.value.structure.Assembly;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.BitSet;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+
 import volgyerdo.value.structure.BaseValue;
+import volgyerdo.value.structure.Information;
 
 @BaseValue(id = 1, category = "assembly", acronym = "AI", name = "Assembly Index", description = "Exact Conin-style assembly index via IDA* over buildable substrings. "
         + "State = set of built substrings; move = concatenate two built substrings to form a longer substring of T. "
@@ -18,7 +28,7 @@ import volgyerdo.value.structure.BaseValue;
                 "3) Initial state: all length-1 substrings present in T.\n" +
                 "4) IDA*: depth-first search with limit, using h = max(doubling bound, glue bound).\n" +
                 "5) First time target is reached -> exact minimal steps.")
-public class AssemblyIndex implements Assembly {
+public class AssemblyIndex implements Information {
 
     @Override
     public String name() {

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import volgyerdo.commons.math.fast.FastLog;
+import volgyerdo.value.logic.method.information.AssemblyIndex;
 import volgyerdo.value.structure.Assembly;
 import volgyerdo.value.structure.BaseValue;
 import volgyerdo.value.structure.Value;
@@ -73,6 +74,7 @@ public class AssemblyMeasure implements Assembly {
             // e^(ai - log(NT)) == e^ai / NT
             sum += Math.exp(aiVal - logNT) * (ni - 1);
         }
+
         return sum;
     }
 

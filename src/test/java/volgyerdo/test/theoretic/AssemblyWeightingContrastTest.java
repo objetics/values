@@ -1,19 +1,30 @@
 package volgyerdo.test.theoretic;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.awt.geom.Point2D;
-import java.awt.*;
-import javax.swing.*;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
+import javax.swing.UIManager;
 
 import volgyerdo.commons.diagram.DataSeries;
 import volgyerdo.commons.diagram.PlotPanel2D;
 import volgyerdo.value.logic.method.assembly.AssemblyMeasure;
-import volgyerdo.value.logic.method.assembly.GeneralAssembly;
+import volgyerdo.value.logic.method.assembly.InfoBasedAssembly;
+
 
 public class AssemblyWeightingContrastTest  {
 
@@ -39,7 +50,7 @@ public class AssemblyWeightingContrastTest  {
 
     // Mérők
     private final AssemblyMeasure assembly = new AssemblyMeasure();
-    private final GeneralAssembly generalAssembly = new GeneralAssembly();
+    private final InfoBasedAssembly generalAssembly = new InfoBasedAssembly();
 
     private final Random rng = new Random(SEED);
 

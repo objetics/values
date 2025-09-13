@@ -22,7 +22,7 @@ import javax.swing.UIManager;
 import volgyerdo.commons.diagram.DataSeries;
 import volgyerdo.commons.diagram.PlotPanel2D;
 import volgyerdo.commons.diagram.PlotPanel2D.ScaleType;
-import volgyerdo.value.logic.method.assembly.AssemblyIndexHeuristic;
+import volgyerdo.value.logic.method.information.AssemblyIndexHeuristic;
 import volgyerdo.value.logic.method.information.GZIPInfo;
 import volgyerdo.value.structure.Information;
 

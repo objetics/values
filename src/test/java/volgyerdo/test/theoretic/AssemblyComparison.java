@@ -19,6 +19,7 @@ import javax.swing.WindowConstants;
 
 import volgyerdo.commons.diagram.DataSeries;
 import volgyerdo.commons.diagram.PlotPanel2D;
+import volgyerdo.commons.math.fast.FastLog;
 
 /**
  *
@@ -218,19 +219,27 @@ public class AssemblyComparison extends javax.swing.JFrame {
     }
 
     private double iba(double[] a) {
-        double assembly = 0;
+        /*double assembly = 0;
         double total = 0;
         for (int j = 1; j < 102; j++) {
             if (a[j] > 1) {
-                total += Math.log(a[j]);
+                total += 1;
             }
         }
         for (int j = 1; j < 102; j++) {
             if (a[j] > 1) {
-                assembly += j * Math.log(a[j]);
+                assembly += j + Math.log(a[j]);
             }
         }
-        return assembly / total;
+        return assembly / total;*/
+
+        double assembly = 0;
+        for (int j = 1; j < 102; j++) {
+            if (a[j] > 1) {
+                assembly = Math.max(assembly, j * FastLog.log2(a[j]));
+            }
+        }
+        return assembly;
     }
 
     /**
