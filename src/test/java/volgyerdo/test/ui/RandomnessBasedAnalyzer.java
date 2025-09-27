@@ -30,6 +30,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import volgyerdo.commons.diagram.DataSeries;
 import volgyerdo.value.logic.ValueLogic;
 import volgyerdo.value.structure.Value;
+import volgyerdo.value.structure.BaseValue;
 
 /**
  *
@@ -110,6 +111,14 @@ public class RandomnessBasedAnalyzer extends javax.swing.JPanel {
         generate();
     }
 
+    /**
+     * Helper method to get the name from BaseValue annotation
+     */
+    private String getValueName(Value value) {
+        BaseValue annotation = value.getClass().getAnnotation(BaseValue.class);
+        return annotation != null ? annotation.name() : value.getClass().getSimpleName();
+    }
+
     private void generate() {
         int lengthValue = (int) length.getValue();
         String charSet = baseSet.getText();
@@ -139,7 +148,7 @@ public class RandomnessBasedAnalyzer extends javax.swing.JPanel {
             List<Color> colors = generateDistinctColors(selectedValues.size());
             int i = 0;
             for (Value value : selectedValues) {
-                progress.setString("Generate values: " + value.name() + "...");
+                progress.setString("Generate values: " + getValueName(value) + "...");
                 List<Point2D> points = new ArrayList<>();
                 Set<Map.Entry<Double, String>> entrySet = stringList.entrySet();
                 int j = 0;
@@ -151,8 +160,7 @@ public class RandomnessBasedAnalyzer extends javax.swing.JPanel {
                     SwingUtilities.invokeLater(() -> progress.setValue(p));
                 }
                 dataSeriesList.add(
-                        new DataSeries(value.name() + (value.version() == 0 ? ""
-                                : (" " + value.version())), points, colors.get(i++), true, false));
+                        new DataSeries(getValueName(value), points, colors.get(i++), true, false));
             }
             SwingUtilities.invokeLater(() -> {
                 plot.setDataSeries(dataSeriesList);
@@ -224,9 +232,9 @@ public class RandomnessBasedAnalyzer extends javax.swing.JPanel {
                 case 0:
                     return selected.get(rowIndex);
                 case 1:
-                    return values.get(rowIndex).name();
+                    return getValueName(values.get(rowIndex));
                 case 2:
-                    return values.get(rowIndex).version();
+                    return ""; // Remove version column content
             }
             return null;
         }

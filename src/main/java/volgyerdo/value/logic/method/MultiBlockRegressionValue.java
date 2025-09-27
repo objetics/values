@@ -58,11 +58,6 @@ public final class MultiBlockRegressionValue implements Value {
         return DEFAULT_MIN_ESTIMATION_SIZE;
     }
 
-    @Override
-    public int version() {
-        return Math.max(delegate.version(), 1);
-    }
-
     /* ============================= BYTE[] UTAK ============================= */
 
     @Override

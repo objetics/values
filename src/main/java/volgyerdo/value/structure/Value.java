@@ -15,10 +15,6 @@ import volgyerdo.commons.collection.CollectionUtils;
  */
 public interface Value {
 
-    default int version() {
-        return 0;
-    }
-
     default double value(Character[] values) {
         return value(Arrays.asList(values));
     }

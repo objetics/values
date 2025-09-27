@@ -161,34 +161,32 @@ public class ValueLogic {
     }
     
     /**
-     * Creates a list of Value objects from annotated classes.
-     * Now creates new instances each time from the class cache for thread safety.
-     */
-    public static List<Value> values() {
-        List<Value> values = new ArrayList<>();
-        
-        for (Class<?> clazz : VALUE_CLASS_CACHE.values()) {
-            try {
-                Value instance = (Value) clazz.getDeclaredConstructor().newInstance();
-                values.add(instance);
-            } catch (Exception e) {
-                // Ignore classes that can't be instantiated
-            }
-        }
-        
-        values.sort((o1, o2) -> o1.name().compareTo(o2.name()));
-        return values;
-    }
-    
-    /**
      * Returns all BaseValue annotation objects from annotated classes.
      * 
      * @return list of BaseValue annotations
      */
     public static List<BaseValue> getBaseValueAnnotations() {
-        return values().stream()
-                .map(value -> value.getClass().getAnnotation(BaseValue.class))
+        return VALUE_CLASS_CACHE.values().stream()
+                .map(clazz -> clazz.getAnnotation(BaseValue.class))
                 .filter(annotation -> annotation != null)
+                .collect(Collectors.toList());
+    }
+    
+    /**
+     * Returns instances of all Value classes from the cache.
+     * Creates new instances for each call to ensure thread safety.
+     * 
+     * @return list of Value instances
+     */
+    public static List<Value> values() {
+        return VALUE_CLASS_CACHE.values().stream()
+                .map(clazz -> {
+                    try {
+                        return (Value) clazz.getDeclaredConstructor().newInstance();
+                    } catch (Exception e) {
+                        throw new RuntimeException("Failed to instantiate Value class: " + clazz.getName(), e);
+                    }
+                })
                 .collect(Collectors.toList());
     }
     
@@ -199,8 +197,8 @@ public class ValueLogic {
      * @return list of filtered BaseValue annotations
      */
     public static List<BaseValue> getBaseValueAnnotationsByCategory(String category) {
-        return values().stream()
-                .map(value -> value.getClass().getAnnotation(BaseValue.class))
+        return VALUE_CLASS_CACHE.values().stream()
+                .map(clazz -> clazz.getAnnotation(BaseValue.class))
                 .filter(annotation -> annotation != null)
                 .filter(annotation -> category == null || category.equals(annotation.category()))
                 .collect(Collectors.toList());
@@ -213,8 +211,8 @@ public class ValueLogic {
      * @return list of filtered BaseValue annotations
      */
     public static List<BaseValue> getBaseValueAnnotationsByAcronym(String acronym) {
-        return values().stream()
-                .map(value -> value.getClass().getAnnotation(BaseValue.class))
+        return VALUE_CLASS_CACHE.values().stream()
+                .map(clazz -> clazz.getAnnotation(BaseValue.class))
                 .filter(annotation -> annotation != null)
                 .filter(annotation -> acronym == null || acronym.equals(annotation.acronym()))
                 .collect(Collectors.toList());
@@ -227,9 +225,9 @@ public class ValueLogic {
      * @return list of filtered BaseValue annotations
      */
     public static List<BaseValue> getBaseValueAnnotationsByClassName(String className) {
-        return values().stream()
-                .filter(value -> className == null || value.getClass().getSimpleName().equals(className))
-                .map(value -> value.getClass().getAnnotation(BaseValue.class))
+        return VALUE_CLASS_CACHE.values().stream()
+                .filter(clazz -> className == null || clazz.getSimpleName().equals(className))
+                .map(clazz -> clazz.getAnnotation(BaseValue.class))
                 .filter(annotation -> annotation != null)
                 .collect(Collectors.toList());
     }
@@ -243,9 +241,9 @@ public class ValueLogic {
      * @return list of filtered BaseValue annotations
      */
     public static List<BaseValue> getBaseValueAnnotationsFiltered(String category, String acronym, String className) {
-        return values().stream()
-                .filter(value -> className == null || value.getClass().getSimpleName().equals(className))
-                .map(value -> value.getClass().getAnnotation(BaseValue.class))
+        return VALUE_CLASS_CACHE.values().stream()
+                .filter(clazz -> className == null || clazz.getSimpleName().equals(className))
+                .map(clazz -> clazz.getAnnotation(BaseValue.class))
                 .filter(annotation -> annotation != null)
                 .filter(annotation -> category == null || category.equals(annotation.category()))
                 .filter(annotation -> acronym == null || acronym.equals(annotation.acronym()))
@@ -258,10 +256,15 @@ public class ValueLogic {
      * @return list of ValueAnnotationPair objects
      */
     public static List<ValueAnnotationPair> getValueAnnotationPairs() {
-        return values().stream()
-                .map(value -> {
-                    BaseValue annotation = value.getClass().getAnnotation(BaseValue.class);
-                    return new ValueAnnotationPair(value, annotation);
+        return VALUE_CLASS_CACHE.values().stream()
+                .map(clazz -> {
+                    try {
+                        Value value = (Value) clazz.getDeclaredConstructor().newInstance();
+                        BaseValue annotation = clazz.getAnnotation(BaseValue.class);
+                        return new ValueAnnotationPair(value, annotation);
+                    } catch (Exception e) {
+                        throw new RuntimeException("Failed to instantiate Value class: " + clazz.getName(), e);
+                    }
                 })
                 .collect(Collectors.toList());
     }
