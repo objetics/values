@@ -34,11 +34,6 @@ import volgyerdo.value.structure.Entropy;
 public class MaxEntropy implements Entropy {
 
     @Override
-    public String name() {
-        return "Maximum entropy";
-    }
-
-    @Override
     public double value(Collection<?> values) {
         if (values.size() <= 1) {
             return 0;

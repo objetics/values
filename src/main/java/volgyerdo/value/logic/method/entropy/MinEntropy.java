@@ -46,11 +46,6 @@ import volgyerdo.value.structure.Entropy;
 public class MinEntropy implements Entropy {
 
     @Override
-    public String name() {
-        return "Min entropy";
-    }
-
-    @Override
     public double value(boolean[] values) {
         if (values == null || values.length <= 1) {
             return 0;

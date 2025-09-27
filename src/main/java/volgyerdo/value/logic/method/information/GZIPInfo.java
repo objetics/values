@@ -34,11 +34,6 @@ import volgyerdo.value.structure.BaseValue;
              "6. Normalize result between min and max compression ratios"
 )
 public class GZIPInfo implements Information {
-
-    @Override
-    public String name() {
-        return "GZIP information";
-    }
     
     @Override
     public double value(String values) {

@@ -40,14 +40,11 @@ import volgyerdo.value.structure.Information;
         "   storing rules S→A B; stop when no pair occurs ≥ 2 times.\n" +
         "3) Let 'k' be the length of the resulting top-level sequence.\n" +
         "4) Let 'NeededNT' be the set of distinct nonterminals reachable from the top-level sequence.\n" +
-        "5) Return |NeededNT| + max(0, k-1)."
-)
+        "5) Return |NeededNT| + max(0, k-1).",
+        minEstimationSize=1000)
 public class AssemblyIndexHeuristic implements Information {
 
-    @Override
-    public String name() {
-        return "Assembly index (Heuristic)";
-    }
+
 
     @Override
     public double value(byte[] arr) {

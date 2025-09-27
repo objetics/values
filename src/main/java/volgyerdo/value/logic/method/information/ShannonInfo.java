@@ -32,10 +32,6 @@ public class ShannonInfo implements Information {
 
     private final ShannonEntropy shannonEntropy = new ShannonEntropy();
 
-    @Override
-    public String name() {
-        return "Shannon information";
-    }
 
     @Override
     public double value(Object object) {

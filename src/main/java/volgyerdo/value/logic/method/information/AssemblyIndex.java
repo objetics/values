@@ -27,13 +27,8 @@ import volgyerdo.value.structure.Information;
                 "2) For each substring z and each cut, if z = x+y, add rule (x,y)->z.\n" +
                 "3) Initial state: all length-1 substrings present in T.\n" +
                 "4) IDA*: depth-first search with limit, using h = max(doubling bound, glue bound).\n" +
-                "5) First time target is reached -> exact minimal steps.")
+                "5) First time target is reached -> exact minimal steps.", minEstimationSize=100)
 public class AssemblyIndex implements Information {
-
-    @Override
-    public String name() {
-        return "Assembly index";
-    }
 
     // ===== Public API =====
 

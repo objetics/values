@@ -15,8 +15,6 @@ import volgyerdo.commons.collection.CollectionUtils;
  */
 public interface Value {
 
-    String name();
-
     default int version() {
         return 0;
     }

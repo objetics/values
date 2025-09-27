@@ -29,10 +29,6 @@ import volgyerdo.value.structure.BaseValue;
 )
 public class MinInfo implements Information {
 
-    @Override
-    public String name() {
-        return "Minimum information";
-    }
 
     @Override
     public double value(Collection<?> values) {

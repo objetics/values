@@ -44,11 +44,6 @@ public class InfoBasedAssembly implements Assembly {
     public InfoBasedAssembly(Value info) {
         this.info = info;
     }
-    
-    @Override
-    public String name() {
-        return "Information-based Assembly";
-    }
 
     @Override
     public double value(Collection<?> values) {

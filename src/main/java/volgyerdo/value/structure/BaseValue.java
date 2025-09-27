@@ -59,8 +59,14 @@ public @interface BaseValue {
      * @return a módszer leírása
      */
     String description() default "";
-    
-    
+
+    /**
+     * Minimum recommended sample size for estimation.
+     * Default: 10000
+     * @return minimum estimation size
+     */
+    int minEstimationSize() default 10000;
+
     /**
      * The algorithm pseudocode as a textual enumeration.
      * Summary of the main steps of the algorithm in simple, understandable form.
@@ -68,7 +74,7 @@ public @interface BaseValue {
      * @return the algorithm pseudocode
      */
     String algorithm() default "";
-    
+
     /**
      * URL hivatkozás a módszerrel kapcsolatos cikkre vagy dokumentációra.
      * Opcionális mező, amely tartalmazhat egy URL-t, ahol további információk
@@ -77,5 +83,5 @@ public @interface BaseValue {
      * @return a cikkre mutató URL
      */
     String article() default "";
-    
+
 }

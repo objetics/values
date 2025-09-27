@@ -22,7 +22,7 @@ import volgyerdo.value.structure.Value;
     id = 3,
     category = "assembly",
     acronym = "A",
-    name = "Assembly Measure",
+    name = "Assembly",
     description = "Calculates a weighted assembly measure that combines object assembly indices " +
                   "with their frequency in the dataset. Uses exponential weighting to emphasize " +
                   "the contribution of frequent, easily assemblable objects. Provides insight " +
@@ -43,11 +43,6 @@ public class AssemblyMeasure implements Assembly {
 
     public AssemblyMeasure() {
         this.index = new AssemblyIndex();
-    }
-
-    @Override
-    public String name() {
-        return "Assembly";
     }
 
     @Override

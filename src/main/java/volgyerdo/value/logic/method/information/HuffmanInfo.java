@@ -36,11 +36,6 @@ import java.util.Map;
 public class HuffmanInfo implements Information {
 
     @Override
-    public String name() {
-        return "Huffman information";
-    }
-
-    @Override
     public double value(byte[] values) {
         if (values == null || values.length < 1) {
             return 0;

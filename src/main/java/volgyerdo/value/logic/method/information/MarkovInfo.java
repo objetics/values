@@ -38,10 +38,7 @@ public class MarkovInfo implements Information {
 
     private ShannonInfo shannonInfo = new ShannonInfo();
 
-    @Override
-    public String name() {
-        return "Markov process information";
-    }
+
 
     @Override
     public double value(Collection<?> values) {

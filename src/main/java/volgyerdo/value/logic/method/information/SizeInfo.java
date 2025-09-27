@@ -18,7 +18,7 @@ import volgyerdo.value.structure.BaseValue;
     id = 17,
     category = "information",
     acronym = "ISIZE",
-    name = "Size Information",
+    name = "Size",
     description = "Calculates the bit length of input data. Provides the total number of bits " +
                   "required to represent the input in its binary form. This is a fundamental " +
                   "measurement that gives the raw size of data without considering compression " +
@@ -29,11 +29,6 @@ import volgyerdo.value.structure.BaseValue;
     article = "https://en.wikipedia.org/wiki/Information_theory"
 )
 public class SizeInfo implements Information {
-
-    @Override
-    public String name() {
-        return "Size";
-    }
 
     @Override
     public double value(Object object) {

@@ -33,11 +33,6 @@ import volgyerdo.value.structure.Entropy;
              "5. Calculate Collision entropy: -log2(sum of p²)"
 )
 public class CollisionEntropy implements Entropy {
-
-    @Override
-    public String name() {
-        return "Collision entropy";
-    }
     
     @Override
     public double value(boolean[] values) {

@@ -31,10 +31,6 @@ import volgyerdo.value.structure.BaseValue;
 )
 public class MaxInfo implements Information {
 
-    @Override
-    public String name() {
-        return "Maximum information";
-    }
 
     @Override
     public double value(Collection<?> values) {

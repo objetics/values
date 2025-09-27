@@ -33,11 +33,6 @@ import volgyerdo.value.structure.Entropy;
              "5. Return total Shannon entropy value"
 )
 public class ShannonEntropy implements Entropy {
-
-    @Override
-    public String name() {
-        return "Shannon entropy";
-    }
     
     @Override
     public double value(boolean[] values) {

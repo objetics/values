@@ -37,10 +37,6 @@ import volgyerdo.value.structure.BaseValue;
 )
 public class RLEInfo implements Information {
 
-    @Override
-    public String name() {
-        return "RLE information";
-    }
 
     @Override
     public double value(byte[] input) {

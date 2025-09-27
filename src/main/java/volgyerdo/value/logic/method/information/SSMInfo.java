@@ -41,16 +41,6 @@ public class SSMInfo implements Information{
     private ShannonInfo shannonInfo = new ShannonInfo();
     private final ShannonEntropy shannonEntropy = new ShannonEntropy();
 
-    @Override
-    public String name() {
-        return "SSM information";
-    }
-    
-
-//    @Override
-//    public double value(byte[] values) {
-//        return value(CollectionUtils.convertByteArrayToList(values));
-//    }
 
     @Override
     public double value(byte[] values) {

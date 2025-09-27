@@ -36,10 +36,6 @@ public class RLEShannonInfo implements Information {
     private final ShannonInfo shannon = new ShannonInfo();
     private final MaxInfo maxInfo = new MaxInfo();
 
-    @Override
-    public String name() {
-        return "RLE + Shannon information";
-    }
 
     @Override
     public double value(byte[] input) {
