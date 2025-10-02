@@ -7,7 +7,6 @@ package volgyerdo.value.structure;
 
 import java.util.Arrays;
 import java.util.Collection;
-import volgyerdo.commons.collection.CollectionUtils;
 
 /**
  *
@@ -40,10 +39,10 @@ public interface Value {
     }
 
     default double value(String values) {
-        if (values == null) {
+        if (values == null || values.length() < 1) {
             return 0;
         }
-        return value(CollectionUtils.convertStringToCharList(values));
+        return value(values.getBytes());
     }
 
     double value(Collection<?> values);

@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import volgyerdo.commons.diagram.DataSeries;
 import volgyerdo.value.logic.ValueLogic;
+import volgyerdo.value.logic.method.EstimatedValue;
 import volgyerdo.value.structure.Value;
 import volgyerdo.value.structure.BaseValue;
 
@@ -64,7 +65,14 @@ public class RandomnessBasedAnalyzer extends javax.swing.JPanel {
             randomnessSlider.setValue((int)randomnessSpinner.getValue());
         });
 
-        values.setModel(new ValueTableModel(ValueLogic.values()));
+        List<Value> methods = ValueLogic.values();
+        List<Value> extendedMethods = new ArrayList<>(methods);
+
+        for(Value v : methods){
+            extendedMethods.add(new EstimatedValue(v));
+        }
+
+        values.setModel(new ValueTableModel(extendedMethods));
         values.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(50);
         values.getTableHeader().getColumnModel().getColumn(2).setMaxWidth(50);
 
@@ -115,6 +123,13 @@ public class RandomnessBasedAnalyzer extends javax.swing.JPanel {
      * Helper method to get the name from BaseValue annotation
      */
     private String getValueName(Value value) {
+        if(value instanceof EstimatedValue) {
+            return "Est. " + getBaseName(((EstimatedValue)value).getBaseValue());
+        }
+        return getBaseName(value);
+    }
+
+    private String getBaseName(Value value) {
         BaseValue annotation = value.getClass().getAnnotation(BaseValue.class);
         return annotation != null ? annotation.name() : value.getClass().getSimpleName();
     }
@@ -152,6 +167,7 @@ public class RandomnessBasedAnalyzer extends javax.swing.JPanel {
                 List<Point2D> points = new ArrayList<>();
                 Set<Map.Entry<Double, String>> entrySet = stringList.entrySet();
                 int j = 0;
+                int n = 0;
                 for (Iterator<Map.Entry<Double, String>> iterator = entrySet.iterator();iterator.hasNext();) {
                     Map.Entry<Double, String> entry = iterator.next();
                     double val = value.value(entry.getValue());
