@@ -17,24 +17,18 @@ import volgyerdo.value.structure.BaseValue;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-@BaseValue(
-    id = 7,
-    category = "information",
-    acronym = "IGZIP",
-    name = "GZIP Information",
-    description = "Calculates information content using GZIP compression algorithm. Measures the " +
-                  "compressed size of data in bits, representing the minimum information needed " +
-                  "to reconstruct the original data. Effective for identifying patterns, repetitions, " +
-                  "and redundancy in datasets through real-world compression techniques.",
-    algorithm = "1. Convert input data to byte array if needed;\n" +
-             "2. Apply GZIP compression algorithm (LZ77 + Huffman coding);\n" +
-             "3. Calculate compressed size in bits;\n" +
-             "4. Generate random data baseline for normalization;\n" +
-             "5. Generate minimum compression baseline (all zeros);\n" +
-             "6. Normalize result between min and max compression ratios"
-)
+@BaseValue(id = 7, category = "information", acronym = "IGZIP", name = "GZIP Information", description = "Calculates information content using GZIP compression algorithm. Measures the "
+        +
+        "compressed size of data in bits, representing the minimum information needed " +
+        "to reconstruct the original data. Effective for identifying patterns, repetitions, " +
+        "and redundancy in datasets through real-world compression techniques.", algorithm = "1. Convert input data to byte array if needed;\n"
+                +
+                "2. Apply GZIP compression algorithm (LZ77 + Huffman coding);\n" +
+                "3. Calculate compressed size in bits;\n" +
+                "4. Generate random data baseline for normalization;\n" +
+                "5. Generate minimum compression baseline (all zeros);\n" +
+                "6. Normalize result between min and max compression ratios", article = "https://objetics.com/values/docs/gzip-information/")
 public class GZIPInfo implements Information {
-  
 
     @Override
     public double value(byte[] values) {
@@ -42,7 +36,7 @@ public class GZIPInfo implements Information {
             return 0;
         }
 
-        if( values.length == 1 ) {
+        if (values.length == 1) {
             return 1;
         }
         double gzipInfo = ArrayUtils.toGZIP(values).length * 8;
@@ -58,7 +52,7 @@ public class GZIPInfo implements Information {
             return 0;
         }
 
-        if( input.size() == 1 ) {
+        if (input.size() == 1) {
             return 1;
         }
         byte[] values = ObjectUtils.serialize(input);

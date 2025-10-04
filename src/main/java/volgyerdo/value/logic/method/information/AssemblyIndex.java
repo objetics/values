@@ -20,7 +20,7 @@ import java.util.Map;
 import volgyerdo.value.structure.BaseValue;
 import volgyerdo.value.structure.Information;
 
-@BaseValue(id = 1, category = "assembly", acronym = "AI", name = "Assembly Index", description = "Exact Conin-style assembly index via IDA* over buildable substrings. "
+@BaseValue(id = 1, category = "information", acronym = "AI", name = "Assembly Index", description = "Exact Conin-style assembly index via IDA* over buildable substrings. "
         + "State = set of built substrings; move = concatenate two built substrings to form a longer substring of T. "
         + "Uses admissible lower bounds (doubling and glue bounds) for pruning.", algorithm = "1) Enumerate distinct substrings of T and assign IDs.\n"
                 +

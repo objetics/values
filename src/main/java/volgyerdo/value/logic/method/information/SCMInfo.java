@@ -32,7 +32,8 @@ import volgyerdo.value.logic.method.util.InfoUtils;
                 "2. For each size, break data into chunks of that size;\n" +
                 "3. Calculate Shannon information for each composition;\n" +
                 "4. Find composition size that yields minimum Shannon information;\n" +
-                "5. Return the minimum information value found", minEstimationSize = 500)
+                "5. Return the minimum information value found", minEstimationSize = 500,
+                article = "https://objetics.com/values/docs/scm-information/")
 public class SCMInfo implements Information {
 
     private final ShannonInfo shannon = new ShannonInfo();

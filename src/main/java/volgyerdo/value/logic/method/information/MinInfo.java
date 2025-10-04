@@ -25,7 +25,9 @@ import volgyerdo.value.structure.BaseValue;
                   "for homogeneous data and log2(n) for n-element datasets.",
     algorithm = "1. Check if input is null or empty;\n" +
              "2. Return 0 as minimum information represents the theoretical lower bound;\n" +
-             "3. Minimum information is achieved when all elements are identical"
+             "3. Minimum information is achieved when all elements are identical",
+    article = "https://objetics.com/values/docs/minimum-information/"
+
 )
 public class MinInfo implements Information {
 

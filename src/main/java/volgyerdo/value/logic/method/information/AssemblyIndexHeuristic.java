@@ -26,7 +26,7 @@ import volgyerdo.value.structure.Information;
  */
 @BaseValue(
     id= 2,
-    category = "assembly",
+    category = "information",
     acronym = "AIH",
     name = "Assembly Index (Heuristic)",
     description = "Heuristic estimator of the binary Assembly Index (Conin-style). "

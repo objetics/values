@@ -31,7 +31,8 @@ import java.util.Map;
              "2. Create leaf nodes for each symbol with their frequencies;\n" +
              "3. Build Huffman tree by repeatedly merging two lowest frequency nodes;\n" +
              "4. Generate binary codes by traversing tree (left=0, right=1);\n" +
-             "5. Calculate total bits by summing (symbol_frequency * code_length)"
+             "5. Calculate total bits by summing (symbol_frequency * code_length)",
+    article = "https://objetics.com/values/docs/huffman-information/"
 )
 public class HuffmanInfo implements Information {
 

@@ -33,7 +33,8 @@ import volgyerdo.value.structure.BaseValue;
              "2. Count consecutive identical elements (runs);\n" +
              "3. Encode each run as (value, count) pair;\n" +
              "4. Calculate total bits needed for RLE encoding;\n" +
-             "5. Normalize against random and minimum compression baselines"
+             "5. Normalize against random and minimum compression baselines",
+    article = "https://objetics.com/values/docs/rle-information/"
 )
 public class RLEInfo implements Information {
 
