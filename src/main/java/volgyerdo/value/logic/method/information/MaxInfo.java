@@ -28,7 +28,7 @@ import volgyerdo.value.structure.BaseValue;
              "2. Count unique elements in the dataset;\n" +
              "3. Calculate log2(unique_count) as maximum information;\n" +
              "4. Maximum information is achieved when all elements are equally probable",
-    article = "https://api.objectiveethics.com/values/docs/maximum-information/"
+    article = "https://objectiveethics.com/values/docs/maximum-information/"
 )
 public class MaxInfo implements Information {
 

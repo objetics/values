@@ -27,7 +27,7 @@ import volgyerdo.value.logic.method.entropy.ShannonEntropy;
              "2. Compute probability for each element (frequency / total_count);\n" +
              "3. Calculate Shannon entropy: -Σ(p * log2(p));\n" +
              "4. Multiply entropy by dataset length to get total information",
-    article = "https://api.objectiveethics.com/values/docs/shannon-information/"
+    article = "https://objectiveethics.com/values/docs/shannon-information/"
 )
 public class ShannonInfo implements Information {
 

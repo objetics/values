@@ -27,7 +27,7 @@ import volgyerdo.value.structure.BaseValue;
                 "3. Calculate compressed size in bits;\n" +
                 "4. Generate random data baseline for normalization;\n" +
                 "5. Generate minimum compression baseline (all zeros);\n" +
-                "6. Normalize result between min and max compression ratios", article = "https://api.objectiveethics.com/values/docs/gzip-information/")
+                "6. Normalize result between min and max compression ratios", article = "https://objectiveethics.com/values/docs/gzip-information/")
 public class GZIPInfo implements Information {
 
     @Override

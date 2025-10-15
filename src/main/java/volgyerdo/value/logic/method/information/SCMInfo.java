@@ -33,7 +33,7 @@ import volgyerdo.value.logic.method.util.InfoUtils;
                 "3. Calculate Shannon information for each composition;\n" +
                 "4. Find composition size that yields minimum Shannon information;\n" +
                 "5. Return the minimum information value found", minEstimationSize = 500,
-                article = "https://api.objectiveethics.com/values/docs/scm-information/")
+                article = "https://objectiveethics.com/values/docs/scm-information/")
 public class SCMInfo implements Information {
 
     private final ShannonInfo shannon = new ShannonInfo();
