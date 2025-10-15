@@ -26,7 +26,7 @@ import volgyerdo.value.structure.BaseValue;
     algorithm = "1. Check if input is null or empty;\n" +
              "2. Return 0 as minimum information represents the theoretical lower bound;\n" +
              "3. Minimum information is achieved when all elements are identical",
-    article = "https://objetics.com/values/docs/minimum-information/"
+    article = "https://api.objectiveethics.com/values/docs/minimum-information/"
 
 )
 public class MinInfo implements Information {
